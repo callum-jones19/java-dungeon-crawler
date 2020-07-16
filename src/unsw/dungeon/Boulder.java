@@ -8,6 +8,7 @@ public class Boulder extends Entity implements IMoveable {
 
     public void move(int x, int y) {
         // TODO
+        setPos(x, y);
     }
 
 }

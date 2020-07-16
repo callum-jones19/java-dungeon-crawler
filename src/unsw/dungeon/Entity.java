@@ -13,6 +13,7 @@ public class Entity {
     // IntegerProperty is used so that changes to the entities position can be
     // externally observed.
     private IntegerProperty x, y;
+    private CollisionBehaviour collisionBehaviour;
 
     /**
      * Create an entity positioned in square (x,y)
@@ -43,5 +44,17 @@ public class Entity {
     public void setPos(int x, int y) {
         y().set(y);
         x().set(x);
+    }
+
+    public void onCollide(Entity e) {
+        this.collisionBehaviour.onCollide(e);
+    }
+
+    public void setCollisionBehaviour(CollisionBehaviour c) {
+        this.collisionBehaviour = c;
+    }
+
+    public void destroy() {
+        // Cal, help!
     }
 }
