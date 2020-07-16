@@ -39,4 +39,9 @@ public class Entity {
     public int getX() {
         return x().get();
     }
+
+    public void setPos(int x, int y) {
+        y().set(y);
+        x().set(x);
+    }
 }
