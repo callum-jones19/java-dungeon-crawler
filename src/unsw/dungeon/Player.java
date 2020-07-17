@@ -14,6 +14,9 @@ public class Player extends Entity implements IMoveable, IDamagable {
     private Dungeon dungeon;
     private List<Item> inventory;
 
+    private VulnerableCollision vulnerableStrategy;
+    private DamageCollision invincibleStrategy;
+
     /**
      * Create a player positioned in square (x,y)
      * @param x
@@ -21,10 +24,19 @@ public class Player extends Entity implements IMoveable, IDamagable {
      */
     public Player(Dungeon dungeon, int x, int y) {
         super(x, y);
-        super.setCollisionBehaviour(new StopCollision());
+        super.setCollisionBehaviour(vulnerableStrategy);
         
         this.dungeon = dungeon;
         this.inventory = new ArrayList<Item>();
+
+    }
+
+    public void makeInvincible() {
+        setCollisionBehaviour(invincibleStrategy);
+    }
+
+    public void makeVulnerable() {
+        setCollisionBehaviour(vulnerableStrategy);
     }
 
 
@@ -85,7 +97,7 @@ public class Player extends Entity implements IMoveable, IDamagable {
     }
 
     public void die() {
-
+        destroy();
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.List;
  * @author Robert Clifton-Everest
  *
  */
-public class Dungeon {
+public class Dungeon implements DestroyObserver{
 
     private int width, height;
     private List<Entity> entities;
@@ -28,6 +28,14 @@ public class Dungeon {
         this.player = null;
     }
 
+    public void update(DestroySubject sub) {
+        if (sub instanceof Player) {
+            removePlayer((Player) sub);
+        } else if (sub instanceof Entity) {
+            this.entities.remove(sub);
+        }
+    }
+
     public int getWidth() {
         return width;
     }
@@ -36,16 +44,32 @@ public class Dungeon {
         return height;
     }
 
+    public boolean entityExists(Entity e) {
+        return entities.contains(e);
+    }
+
     public Player getPlayer() {
         return player;
     }
 
     public void setPlayer(Player player) {
         this.player = player;
+        player.registerObserver(this);
+    }
+
+    public void removePlayer(Player p) {
+        this.player = null;
+        p.removeObserver(this);
     }
 
     public void addEntity(Entity entity) {
         entities.add(entity);
+        entity.registerObserver(this);
+    }
+
+    public void removeEntity(Entity e) {
+        entities.remove(e);
+        e.removeObserver(this);
     }
 
     public List<Entity> getEntities(int x, int y) {
