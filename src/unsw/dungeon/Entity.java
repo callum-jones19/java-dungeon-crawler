@@ -49,8 +49,17 @@ public abstract class Entity {
         x().set(x);
     }
 
+    public void setPos(int x, int y) {
+        setY(y);
+        setX(x);
+    }
+
     public void onCollide(Entity e) {
         this.collisionBehaviour.onCollide(e);
+    }
+
+    public boolean isEnterable() {
+        return this.collisionBehaviour.isEnterable();
     }
 
     public void setCollisionBehaviour(CollisionBehaviour c) {

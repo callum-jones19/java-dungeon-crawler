@@ -9,6 +9,10 @@ public class TriggerCollision implements CollisionBehaviour {
         this.parent = parent;
     } 
 
+    public boolean isEnterable() {
+        return true;
+    }
+
     public void onCollide(Entity e) {
         if (e instanceof Trigger) {
             parent.trigger();
