@@ -1,5 +1,6 @@
 package unsw.dungeon;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,11 +13,6 @@ public class Player extends Entity implements IMoveable, IDamagable {
 
     private Dungeon dungeon;
     private List<Item> inventory;
-    PlayerState normal;
-    PlayerState attack;
-    PlayerState potion;
-
-    PlayerState state = normal;
 
     /**
      * Create a player positioned in square (x,y)
@@ -26,10 +22,6 @@ public class Player extends Entity implements IMoveable, IDamagable {
     public Player(Dungeon dungeon, int x, int y) {
         super(x, y);
         super.setCollisionBehaviour(new StopCollision());
-        
-        normal = new NormalPlayerState(this);
-        attack = new AttackPlayerState(this);
-        potion = new PotionPlayerState(this);
         
         this.dungeon = dungeon;
         this.inventory = new ArrayList<Item>();
@@ -84,35 +76,14 @@ public class Player extends Entity implements IMoveable, IDamagable {
             move(getX() + 1, getY());
     }
 
-    // This still breaks LOD - fix!
-    public void collide (Entity e) {
-        if (e instanceof Enemy) {
-            state.collide(e);
-        } else {
-            e.onCollide(this);
-        }
-    }
-
     public void pickup(Entity e) {
         if (e instanceof Item) {
             this.inventory.add((Item) e);
         }
     }
 
-    public void setState(PlayerState p) {
-        this.state = p;
-    }
+    public void die() {
 
-    public PlayerState getNormalPlayerState() {
-        return normal;
-    }
-
-    public PlayerState getAttackPlayerState() {
-        return attack;
-    }
-
-    public PlayerState getPotionPlayerState() {
-        return potion;
     }
 
 }
