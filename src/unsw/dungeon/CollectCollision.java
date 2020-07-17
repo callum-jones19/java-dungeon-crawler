@@ -6,8 +6,13 @@ public class CollectCollision implements CollisionBehaviour {
     // Maybe turn this into Item parent, 
     private Entity parent;
 
-    public CollectCollision(Entity e) {
-        this.parent = e;
+    public CollectCollision(Entity parent) {
+        super();
+        this.parent = parent;
+    }
+
+    public void setParent(Entity p) {
+        this.parent = p;
     }
 
     public boolean isEnterable() {

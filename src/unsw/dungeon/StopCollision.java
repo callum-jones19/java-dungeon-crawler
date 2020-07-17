@@ -3,7 +3,7 @@ package unsw.dungeon;
 public class StopCollision implements CollisionBehaviour {
     
 
-    public StopCollision(Entity e) {
+    public StopCollision() {
         super();
     }
 

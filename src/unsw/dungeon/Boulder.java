@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class Boulder extends Entity implements IMoveable {
+public class Boulder extends Entity implements IMoveable, Trigger {
     
     public Boulder(int x, int y) {
         super(x,y);
@@ -8,6 +8,7 @@ public class Boulder extends Entity implements IMoveable {
 
     public void move(int x, int y) {
         // TODO
+        setPos(x, y);
     }
 
 }

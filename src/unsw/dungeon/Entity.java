@@ -13,7 +13,7 @@ public abstract class Entity {
     // IntegerProperty is used so that changes to the entities position can be
     // externally observed.
     private IntegerProperty x, y;
-    private CollisionBehaviour coll;
+    private CollisionBehaviour collisionBehaviour;
 
     /**
      * Create an entity positioned in square (x,y)
@@ -49,20 +49,15 @@ public abstract class Entity {
         x().set(x);
     }
 
-    public void setPos(int x, int y) {
-        setY(y);
-        setX(x);
+    public void onCollide(Entity e) {
+        this.collisionBehaviour.onCollide(e);
     }
 
-    public void onCollide(Entity collider) {
-        coll.onCollide(collider);
-    }
-
-    public boolean isEnterable() {
-        return coll.isEnterable();
+    public void setCollisionBehaviour(CollisionBehaviour c) {
+        this.collisionBehaviour = c;
     }
 
     public void destroy() {
-        // TODO
+        // Cal, help!
     }
 }
