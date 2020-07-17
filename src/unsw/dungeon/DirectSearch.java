@@ -37,6 +37,7 @@ public class DirectSearch implements SearchStyle {
             }
         }
 
+
         return c;
     }
 }

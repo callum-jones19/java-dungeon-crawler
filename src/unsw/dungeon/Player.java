@@ -24,7 +24,11 @@ public class Player extends Entity implements IMoveable, IDamagable {
      */
     public Player(Dungeon dungeon, int x, int y) {
         super(x, y);
-        super.setCollisionBehaviour(vulnerableStrategy);
+        
+        vulnerableStrategy = new VulnerableCollision(this);
+        invincibleStrategy = new DamageCollision();
+        
+        setCollisionBehaviour(vulnerableStrategy);
         
         this.dungeon = dungeon;
         this.inventory = new ArrayList<Item>();

@@ -36,7 +36,7 @@ public class Enemy extends Entity implements IMoveable, IDamagable {
         move(targetLoc.getX(), targetLoc.getY());
     }
 
-    public void move(int x, int y) {        
+    public void move(int x, int y) {
         if (dungeon.tileIsEmpty(x, y)) {
             setPos(x, y);
         } else {
