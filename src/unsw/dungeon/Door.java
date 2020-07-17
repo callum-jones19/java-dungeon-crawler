@@ -1,5 +1,5 @@
 package unsw.dungeon;
 
-public class Door {
+public class Door extends Entity implements Triggerable {
     
 }
