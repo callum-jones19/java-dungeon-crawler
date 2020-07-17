@@ -8,6 +8,10 @@ public class PushCollision implements CollisionBehaviour {
     public PushCollision() {
     }
     
+    public boolean isEnterable() {
+        return false;
+    }
+
     public void onCollide(Entity e) {
         if (e instanceof Player) {
             Player p = (Player) e;

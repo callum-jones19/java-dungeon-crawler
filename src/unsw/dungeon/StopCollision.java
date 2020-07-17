@@ -7,6 +7,10 @@ public class StopCollision implements CollisionBehaviour {
         super();
     }
 
+    public boolean isEnterable() {
+        return false;
+    }
+
     public void onCollide(Entity e) {
         // As of now, do nothing.
         // The collision implementation for stop should refuse to

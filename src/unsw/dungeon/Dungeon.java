@@ -24,7 +24,7 @@ public class Dungeon {
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
-        this.entities = new ArrayList<>();
+        this.entities = new ArrayList<Entity>();
         this.player = null;
     }
 
@@ -46,5 +46,24 @@ public class Dungeon {
 
     public void addEntity(Entity entity) {
         entities.add(entity);
+    }
+
+    public List<Entity> getEntities(int x, int y) {
+        List<Entity> result = new ArrayList<Entity>();
+        for (Entity e : entities) {
+            if (e.getX() == x && e.getY() == y) {
+                result.add(e);
+            }
+        }
+        return result;
+    }
+
+    public boolean tileIsEmpty(int x, int y) {
+        List<Entity> e = getEntities(x, y);
+        if (e == null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
