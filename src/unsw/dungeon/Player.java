@@ -63,12 +63,10 @@ public class Player extends Entity implements IMoveable, IDamagable {
         }
     }
 
-    public void pickup(Item i) {
-        // TODO
-    }
-
     public void moveUp() {
-        move(getX(), getY() + 1);
+        if (getY() > 0) {
+            move(getX(), getY() - 1);
+        }
     }
     
     public void moveDown() {
