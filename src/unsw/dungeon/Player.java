@@ -13,6 +13,14 @@ public class Player extends Entity implements IMoveable, IDamagable {
 
     private Dungeon dungeon;
     private List<Item> inventory;
+    
+    PlayerOrientation upwardsOrientation;
+    PlayerOrientation downwardsOrientation;
+    PlayerOrientation leftOrientation;
+    PlayerOrientation rightOrientation;
+
+    public PlayerOrientation orientation = rightOrientation;
+
 
     /**
      * Create a player positioned in square (x,y)
@@ -23,6 +31,11 @@ public class Player extends Entity implements IMoveable, IDamagable {
         super(x, y);
         super.setCollisionBehaviour(new StopCollision());
         
+        upwardsOrientation = new UpwardsOrientation(this);
+        downwardsOrientation = new DownwardsOrientation(this);
+        leftOrientation = new LeftOrientation(this);
+        rightOrientation = new RightOrientation(this);
+
         this.dungeon = dungeon;
         this.inventory = new ArrayList<Item>();
     }
@@ -58,32 +71,57 @@ public class Player extends Entity implements IMoveable, IDamagable {
     public void moveUp() {
         if (getY() > 0) {
             move(getX(), getY() - 1);
+            setOrientation(upwardsOrientation);
         }
     }
     
     public void moveDown() {
-        if (getY() < dungeon.getHeight() - 1)
+        if (getY() < dungeon.getHeight() - 1) {
             move(getX(), getY() + 1);
+            setOrientation(downwardsOrientation);
+        }
     }
 
     public void moveLeft() {
-        if (getX() > 0)
+        if (getX() > 0) {
             move(getX() - 1, getY());
+            setOrientation(leftOrientation);
+        }
     }
 
     public void moveRight() {
-        if (getX() < dungeon.getWidth() - 1)
+        if (getX() < dungeon.getWidth() - 1) {
             move(getX() + 1, getY());
+            setOrientation(rightOrientation);
+        }
     }
 
     public void pickup(Entity e) {
-        if (e instanceof Item) {
+        if ((e instanceof Item) && (!(e instanceof UniqueItem))) {
             this.inventory.add((Item) e);
+            if (e instanceof PickupActivateItem) e.activate();
+            e.destroy();
+        } else if ((e instanceof Item) && (e instanceof UniqueItem)) {
+            for (Item i: inventory) {
+                if ((i instanceof UniqueItem) && !(i.checkSameItem(e))) {
+                    this.inventory.add((Item) e);
+                    if (e instanceof PickupActivateItem) e.activate();
+                    e.destroy();
+                } 
+            }
         }
     }
 
     public void die() {
 
+    }
+
+    public void setOrientation(PlayerOrientation o) {
+        this.orientation = o;
+    }
+
+    public void scareEnemies() {
+        dungeon.setEnemySearchPattern(new FleeSearch());
     }
 
 }
