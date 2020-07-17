@@ -1,6 +1,5 @@
 package unsw.dungeon;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +8,7 @@ import java.util.List;
  * @author Robert Clifton-Everest
  *
  */
-public class Player extends Entity implements IMoveable {
+public class Player extends Entity implements IMoveable, IDamagable {
 
     private Dungeon dungeon;
     private List<Item> inventory;
@@ -37,21 +36,41 @@ public class Player extends Entity implements IMoveable {
     }
 
 
-    // FIXME
     public void move(int x, int y) {
-        Entity e = dungeon.getEntity(x, y);
-        if (e == null) {
+        // TODO add move check for boundaries?
+        if (dungeon.tileIsEmpty(x, y)) {
             setPos(x, y);
         } else {
-            collide(e);
+            //FIXME
+            List<Entity> colliding = dungeon.getEntities(x,y);
+            Entity top = colliding.get(0);
+            for (Entity e : colliding) {
+                if (colliding.size() == 1) {
+                    top = e;
+                } else {
+                    if (e instanceof Boulder) {
+                        top = e;
+                    }
+                }
+            }
+            /////////////////////////////////////////////
+            if (top.isEnterable()) {
+                setPos(x, y);
+                top.onCollide(this);
+            } else {
+                top.onCollide(this);
+            }
         }
     }
 
-    public void moveUp() {
-        if (getY() > 0)
-            move(getX(), getY() - 1);
+    public void pickup(Item i) {
+        // TODO
     }
 
+    public void moveUp() {
+        move(getX(), getY() + 1);
+    }
+    
     public void moveDown() {
         if (getY() < dungeon.getHeight() - 1)
             move(getX(), getY() + 1);
@@ -97,4 +116,5 @@ public class Player extends Entity implements IMoveable {
     public PlayerState getPotionPlayerState() {
         return potion;
     }
+
 }
