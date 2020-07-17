@@ -2,6 +2,8 @@ package unsw.dungeon;
 
 public class CollectCollision implements CollisionBehaviour {
     
+    // TODO
+    // Maybe turn this into Item parent, 
     private Entity parent;
 
     public CollectCollision(Entity parent) {
@@ -13,13 +15,19 @@ public class CollectCollision implements CollisionBehaviour {
         this.parent = p;
     }
 
+    public boolean isEnterable() {
+        return true;
+    }
+
     public void onCollide(Entity e){
         if (e instanceof Player) {
-            Player p = (Player) e;
-            p.pickup(parent);
-            parent.destroy();
+            Player player = (Player) e;
+            if (this.parent instanceof Item) {
+                Item i = (Item) this.parent;
+                player.pickup(i);
+                parent.destroy();
+            }
         }
-        e.setPos(parent.getX(), parent.getY());
     }
 
 }
