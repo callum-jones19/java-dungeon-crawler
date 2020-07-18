@@ -1,19 +1,23 @@
 package unsw.dungeon;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * An entity in the dungeon.
  * @author Robert Clifton-Everest
  *
  */
-public abstract class Entity {
+public abstract class Entity implements DestroySubject{
 
     // IntegerProperty is used so that changes to the entities position can be
     // externally observed.
-    private IntegerProperty x, y;
+    private Coordinates coords;
     private CollisionBehaviour collisionBehaviour;
+
+    private List<DestroyObserver> observers;
 
     /**
      * Create an entity positioned in square (x,y)
@@ -21,16 +25,33 @@ public abstract class Entity {
      * @param y
      */
     public Entity(int x, int y) {
-        this.x = new SimpleIntegerProperty(x);
-        this.y = new SimpleIntegerProperty(y);
+        coords = new Coordinates(x, y);
+
+        observers = new ArrayList<DestroyObserver>();
+    }
+
+    public void registerObserver(DestroyObserver o) {
+        if (! observers.contains(o)) {
+            this.observers.add(o);
+        }
+    }
+
+    public void removeObserver(DestroyObserver o) {
+        this.observers.remove(o);
+    }
+
+    public void notifyObservers() {
+        for (DestroyObserver o : observers) {
+            o.update(this);
+        }
     }
 
     public IntegerProperty x() {
-        return x;
+        return coords.x();
     }
 
     public IntegerProperty y() {
-        return y;
+        return coords.y();
     }
 
     public int getY() {
@@ -67,6 +88,6 @@ public abstract class Entity {
     }
 
     public void destroy() {
-        // Cal, help!
+        notifyObservers();
     }
 }

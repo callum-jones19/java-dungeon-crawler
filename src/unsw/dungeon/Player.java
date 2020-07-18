@@ -22,6 +22,9 @@ public class Player extends Entity implements IMoveable, IDamagable {
     public PlayerOrientation orientation = rightOrientation;
 
 
+    private VulnerableCollision vulnerableStrategy;
+    private DamageCollision invincibleStrategy;
+
     /**
      * Create a player positioned in square (x,y)
      * @param x
@@ -38,6 +41,23 @@ public class Player extends Entity implements IMoveable, IDamagable {
         downwardsOrientation = new DownwardsOrientation(this, dungeon);
         leftOrientation = new LeftOrientation(this, dungeon);
         rightOrientation = new RightOrientation(this, dungeon);
+        
+        vulnerableStrategy = new VulnerableCollision(this);
+        invincibleStrategy = new DamageCollision();
+        
+        setCollisionBehaviour(vulnerableStrategy);
+        
+        this.dungeon = dungeon;
+        this.inventory = new ArrayList<Item>();
+
+    }
+
+    public void makeInvincible() {
+        setCollisionBehaviour(invincibleStrategy);
+    }
+
+    public void makeVulnerable() {
+        setCollisionBehaviour(vulnerableStrategy);
     }
 
 
@@ -122,7 +142,7 @@ public class Player extends Entity implements IMoveable, IDamagable {
     }
 
     public void die() {
-
+        destroy();
     }
 
     public void setOrientation(PlayerOrientation o) {
