@@ -30,14 +30,14 @@ public class Player extends Entity implements IMoveable, IDamagable {
     public Player(Dungeon dungeon, int x, int y) {
         super(x, y);
         super.setCollisionBehaviour(new StopCollision());
-        
-        upwardsOrientation = new UpwardsOrientation(this);
-        downwardsOrientation = new DownwardsOrientation(this);
-        leftOrientation = new LeftOrientation(this);
-        rightOrientation = new RightOrientation(this);
 
         this.dungeon = dungeon;
         this.inventory = new ArrayList<Item>();
+
+        upwardsOrientation = new UpwardsOrientation(this, dungeon);
+        downwardsOrientation = new DownwardsOrientation(this, dungeon);
+        leftOrientation = new LeftOrientation(this, dungeon);
+        rightOrientation = new RightOrientation(this, dungeon);
     }
 
 
@@ -99,14 +99,23 @@ public class Player extends Entity implements IMoveable, IDamagable {
     public void pickup(Entity e) {
         if ((e instanceof Item) && (!(e instanceof UniqueItem))) {
             this.inventory.add((Item) e);
-            if (e instanceof PickupActivateItem) e.activate();
+            if (e instanceof PickupActivateItem) {
+                PickupActivateItem p = (PickupActivateItem) e;
+                p.activate();
+            }
             e.destroy();
         } else if ((e instanceof Item) && (e instanceof UniqueItem)) {
             for (Item i: inventory) {
-                if ((i instanceof UniqueItem) && !(i.checkSameItem(e))) {
-                    this.inventory.add((Item) e);
-                    if (e instanceof PickupActivateItem) e.activate();
-                    e.destroy();
+                if ((i instanceof UniqueItem)) {
+                    UniqueItem u = (UniqueItem) i;
+                    if (!(u.checkSameItem(e))) {
+                        this.inventory.add((Item) e);
+                        if (e instanceof PickupActivateItem) {
+                            PickupActivateItem p = (PickupActivateItem) e;
+                            p.activate();
+                        }
+                        e.destroy();
+                    }
                 } 
             }
         }
@@ -122,6 +131,16 @@ public class Player extends Entity implements IMoveable, IDamagable {
 
     public void scareEnemies() {
         dungeon.setEnemySearchPattern(new FleeSearch());
+    }
+
+    public boolean contains(Item i) {
+        for (Item item: inventory) {
+            if (item.equals(i)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

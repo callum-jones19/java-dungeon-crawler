@@ -12,8 +12,9 @@ public class Sword extends Entity implements Item, UniqueItem {
     }
 
     public void use(Entity target) {
-        if (target instanceof IDamageable) {
-            target.die();
+        if (target instanceof IDamagable) {
+            IDamagable newTarget = (IDamagable) target;
+            newTarget.die();
             this.uses--;
             if (uses == 0) {
                 destroy();

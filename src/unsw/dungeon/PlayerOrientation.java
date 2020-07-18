@@ -1,5 +1,5 @@
 package unsw.dungeon;
 
 public interface PlayerOrientation {
-    public void attack();
+    public void attack(Item tool);
 }
