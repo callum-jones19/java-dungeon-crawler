@@ -1,5 +1,5 @@
 package unsw.dungeon;
 
-public class ExitGoal extends Goal {
+public class ExitGoal {
     
 }
