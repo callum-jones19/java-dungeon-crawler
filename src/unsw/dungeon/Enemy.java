@@ -25,10 +25,12 @@ public class Enemy extends Entity implements IMoveable, IDamagable {
 
     public void makeVulnerable() {
         setCollisionBehaviour(vulnState);
+        // TODO set behaviour
     }
 
     public void makeHarmful() {
         setCollisionBehaviour(attackState);
+        // TODO set behaviour
     }
 
     public void chasePlayer() {

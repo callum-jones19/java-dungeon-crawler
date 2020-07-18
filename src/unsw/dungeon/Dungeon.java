@@ -18,8 +18,10 @@ import java.util.List;
 public class Dungeon implements DestroyObserver, GoalObserver{
 
     private int width, height;
+
     private List<Entity> entities;
     private Player player;
+    
     private List<Goal> goals;
     private boolean isComplete;
 
@@ -141,4 +143,31 @@ public class Dungeon implements DestroyObserver, GoalObserver{
             return entities.get(0);
         }
     }
+
+    public List<Enemy> getEnemies() {
+        List<Enemy> result = new ArrayList<Enemy>();
+        for (Entity e : entities) {
+            if (e instanceof Enemy) {
+                result.add((Enemy) e);
+            }
+        }
+        return result;
+    }
+
+    public void scareEnemies() {
+        List<Enemy> enemies = getEnemies();
+
+        for (Enemy e : enemies) {
+            e.makeVulnerable();
+        }
+    }
+
+    public void unScareEnemies() {
+        List<Enemy> enemies = getEnemies();
+
+        for (Enemy e : enemies) {
+            e.makeHarmful();
+        }
+    }
+
 }
