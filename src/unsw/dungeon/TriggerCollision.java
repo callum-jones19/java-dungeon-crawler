@@ -3,10 +3,12 @@ package unsw.dungeon;
 public class TriggerCollision implements CollisionBehaviour {
     
     Triggerable parent;
+    TriggerType triggerType;
 
-    public TriggerCollision(Triggerable parent) {
+    public TriggerCollision(Triggerable parent, TriggerType triggerType) {
         super();
         this.parent = parent;
+        this.triggerType = triggerType;
     } 
 
     public boolean isEnterable() {
@@ -14,9 +16,7 @@ public class TriggerCollision implements CollisionBehaviour {
     }
 
     public void onCollide(Entity e) {
-        if (e instanceof Trigger) {
-            parent.trigger();
-        }
+        if (triggerType.performTriggerCheck(e)) this.parent.trigger();
     }
 
 }

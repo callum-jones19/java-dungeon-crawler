@@ -132,4 +132,13 @@ public class Dungeon implements DestroyObserver, GoalObserver{
             return false;
         }
     }
+
+    public Entity getTopmostEntity(int x, int y) {
+        List<Entity> entities = getEntities(x, y);
+        if (entities.isEmpty()) {
+            return null;
+        } else {
+            return entities.get(0);
+        }
+    }
 }

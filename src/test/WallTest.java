@@ -1,0 +1,76 @@
+package test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+import unsw.dungeon.Dungeon;
+import unsw.dungeon.Enemy;
+import unsw.dungeon.Wall;
+import unsw.dungeon.Player;
+import unsw.dungeon.Boulder;
+import unsw.dungeon.Sword; 
+import unsw.dungeon.Potion;
+
+public class WallTest {
+    
+    @Test
+    public void testWallCreation() {
+        // test singular wall creation
+        Dungeon d = new Dungeon(5, 5);
+        Wall wall1 = new Wall(1, 1);
+        d.addEntity(wall1);
+        assertEquals(wall1, d.getTopmostEntity(1, 1));
+        
+        // test multiple wall creation
+        Wall wall2 = new Wall(1, 2);
+        d.addEntity(wall2);
+        Wall wall3 = new Wall(1, 3);
+        d.addEntity(wall3);
+        Wall wall4 = new Wall(2, 3);
+        d.addEntity(wall4);
+        assertEquals(wall2, d.getTopmostEntity(1, 2));
+        assertEquals(wall3, d.getTopmostEntity(1, 3));
+        assertEquals(wall4, d.getTopmostEntity(2, 3));
+    }
+
+    @Test 
+    public void testWallPermeability() {
+        // test player moving through wall
+        Dungeon d = new Dungeon(5, 5);
+        Wall wall1 = new Wall(1, 1);
+        d.addEntity(wall1);
+        Player player1 = new Player(d, 2, 1);
+        d.addEntity(player1);
+        player1.moveLeft();
+        assertEquals(player1, d.getTopmostEntity(2, 1));
+        assertEquals(wall1, d.getTopmostEntity(1, 1));
+
+        // test enemy moving through wall
+        Enemy enemy1 = new Enemy(1, 2, d);
+        d.addEntity(enemy1);
+        enemy1.move(1, 1);
+        assertEquals(enemy1, d.getTopmostEntity(1, 2));
+        assertEquals(wall1, d.getTopmostEntity(1, 1));
+
+        // test boulder moving through wall
+        player1.destroy();
+        Boulder boulder1 = new Boulder(2, 1);
+        d.addEntity(boulder1);
+        boulder1.move(1, 1);
+        assertEquals(boulder1, d.getTopmostEntity(2, 1));
+        assertEquals(wall1, d.getTopmostEntity(1, 1));
+    }
+
+    @Test
+    public void testWallDurability() {
+        // test player striking wall with sword
+        Dungeon d = new Dungeon(5, 5);
+        Player p1 = new Player(d, 2, 2);
+        Wall wall1 = new Wall(1, 2);
+
+
+        // test player hitting wall while invincible
+    }
+
+}
