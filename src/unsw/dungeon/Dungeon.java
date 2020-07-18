@@ -33,6 +33,7 @@ public class Dungeon implements DestroyObserver{
             removePlayer((Player) sub);
         } else if (sub instanceof Entity) {
             this.entities.remove(sub);
+            sub.removeObserver(this);
         }
     }
 
@@ -52,6 +53,14 @@ public class Dungeon implements DestroyObserver{
         return player;
     }
 
+    public int getPlayerX() {
+        return player.getX();
+    }
+
+    public int getPlayerY() {
+        return player.getY();
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
         player.registerObserver(this);
@@ -59,7 +68,6 @@ public class Dungeon implements DestroyObserver{
 
     public void removePlayer(Player p) {
         this.player = null;
-        p.removeObserver(this);
     }
 
     public void addEntity(Entity entity) {
@@ -69,7 +77,6 @@ public class Dungeon implements DestroyObserver{
 
     public void removeEntity(Entity e) {
         entities.remove(e);
-        e.removeObserver(this);
     }
 
     public List<Entity> getEntities(int x, int y) {
@@ -79,12 +86,15 @@ public class Dungeon implements DestroyObserver{
                 result.add(e);
             }
         }
+        if (player.getX() == x && player.getY() == y) {
+            result.add(player);
+        }
         return result;
     }
 
     public boolean tileIsEmpty(int x, int y) {
         List<Entity> e = getEntities(x, y);
-        if (e == null) {
+        if (e.isEmpty() && (player.getX() != x || player.getY() != y)) {
             return true;
         } else {
             return false;

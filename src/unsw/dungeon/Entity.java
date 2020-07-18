@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * An entity in the dungeon.
@@ -15,7 +14,7 @@ public abstract class Entity implements DestroySubject{
 
     // IntegerProperty is used so that changes to the entities position can be
     // externally observed.
-    private IntegerProperty x, y;
+    private Coordinates coords;
     private CollisionBehaviour collisionBehaviour;
 
     private List<DestroyObserver> observers;
@@ -26,8 +25,7 @@ public abstract class Entity implements DestroySubject{
      * @param y
      */
     public Entity(int x, int y) {
-        this.x = new SimpleIntegerProperty(x);
-        this.y = new SimpleIntegerProperty(y);
+        coords = new Coordinates(x, y);
 
         observers = new ArrayList<DestroyObserver>();
     }
@@ -49,11 +47,11 @@ public abstract class Entity implements DestroySubject{
     }
 
     public IntegerProperty x() {
-        return x;
+        return coords.x();
     }
 
     public IntegerProperty y() {
-        return y;
+        return coords.y();
     }
 
     public int getY() {
