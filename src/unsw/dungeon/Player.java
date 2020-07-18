@@ -117,26 +117,26 @@ public class Player extends Entity implements IMoveable, IDamagable {
     }
 
     public void pickup(Entity e) {
-        if ((e instanceof Item) && (!(e instanceof UniqueItem))) {
-            this.inventory.add((Item) e);
-            if (e instanceof PickupActivateItem) {
-                PickupActivateItem p = (PickupActivateItem) e;
-                p.activate();
-            }
-            e.destroy();
-        } else if ((e instanceof Item) && (e instanceof UniqueItem)) {
-            for (Item i: inventory) {
-                if ((i instanceof UniqueItem)) {
-                    UniqueItem u = (UniqueItem) i;
-                    if (!(u.checkSameItem(e))) {
-                        this.inventory.add((Item) e);
-                        if (e instanceof PickupActivateItem) {
-                            PickupActivateItem p = (PickupActivateItem) e;
-                            p.activate();
-                        }
+
+        if (e instanceof Item) {
+            Item i = (Item) e;
+            if (!(i.isUnique())) {
+                this.inventory.add(i);
+                if (i instanceof PickupActivateItem) {
+                    PickupActivateItem p = (PickupActivateItem) i;
+                    p.activate();
+                    e.destroy();
+                }
+            } else {
+                // check if we already have an instance of this type
+                if (!(contains(i))) {
+                    this.inventory.add(i);
+                    if (i instanceof PickupActivateItem) {
+                        PickupActivateItem p = (PickupActivateItem) i;
+                        p.activate();
                         e.destroy();
                     }
-                } 
+                }
             }
         }
     }
@@ -155,7 +155,7 @@ public class Player extends Entity implements IMoveable, IDamagable {
 
     public boolean contains(Item i) {
         for (Item item: inventory) {
-            if (item.equals(i)) {
+            if (item.checkItemType(i)) {
                 return true;
             }
         }
@@ -169,6 +169,10 @@ public class Player extends Entity implements IMoveable, IDamagable {
                 orientation.attack(i);
             }
         }
+    }
+
+    public List<Item> getInventory() {
+        return inventory;
     }
 
 }
