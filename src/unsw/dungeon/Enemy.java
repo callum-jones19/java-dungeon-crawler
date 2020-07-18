@@ -25,12 +25,12 @@ public class Enemy extends Entity implements IMoveable, IDamagable {
 
     public void makeVulnerable() {
         setCollisionBehaviour(vulnState);
-        // TODO set behaviour
+        currentSearchStrat = new FleeSearch();
     }
 
     public void makeHarmful() {
         setCollisionBehaviour(attackState);
-        // TODO set behaviour
+        currentSearchStrat = new DirectSearch();
     }
 
     public void chasePlayer() {
@@ -43,17 +43,7 @@ public class Enemy extends Entity implements IMoveable, IDamagable {
             setPos(x, y);
         } else {
             //FIXME
-            List<Entity> colliding = dungeon.getEntities(x,y);
-            Entity top = colliding.get(0);
-            for (Entity e : colliding) {
-                if (colliding.size() == 1) {
-                    top = e;
-                } else {
-                    if (e instanceof Boulder) {
-                        top = e;
-                    }
-                }
-            }
+            Entity top = dungeon.getTopmostEntity(x, y);
             /////////////////////////////////////////////
             if (top.isEnterable()) {
                 setPos(x, y);

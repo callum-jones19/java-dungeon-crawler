@@ -37,7 +37,6 @@ public class Dungeon implements DestroyObserver, GoalObserver{
         if (sub instanceof Player) {
             removePlayer((Player) sub);
         } else if (sub instanceof Entity) {
-            // TODO functionise.
             this.entities.remove(sub);
         }
     }
