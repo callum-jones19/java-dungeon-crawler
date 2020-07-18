@@ -163,4 +163,12 @@ public class Player extends Entity implements IMoveable, IDamagable {
         return false;
     }
 
+    public void attack() {
+        for (Item i: inventory) {
+            if (i.isWeapon()) {
+                orientation.attack(i);
+            }
+        }
+    }
+
 }

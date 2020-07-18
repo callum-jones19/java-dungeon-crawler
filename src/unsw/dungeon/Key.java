@@ -5,10 +5,9 @@ public class Key extends Entity implements Item, UniqueItem, PickupActivateItem 
     CollectCollision c = new CollectCollision(this);
     Door door;
     
-    public Key(int x, int y, Door d) {
+    public Key(int x, int y) {
         super(x, y);
         super.setCollisionBehaviour(c);
-        this.door = d;
     }
 
     public boolean checkSameItem(Entity e) {
@@ -39,6 +38,10 @@ public class Key extends Entity implements Item, UniqueItem, PickupActivateItem 
         }
         Key s = (Key) o;
         return (door.equals(s.door));
+    }
+
+    public void setDoor(Door door) {
+        this.door = door;
     }
 
 }

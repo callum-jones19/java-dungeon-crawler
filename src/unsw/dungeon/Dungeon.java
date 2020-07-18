@@ -33,7 +33,6 @@ public class Dungeon implements DestroyObserver{
             removePlayer((Player) sub);
         } else if (sub instanceof Entity) {
             this.entities.remove(sub);
-            sub.removeObserver(this);
         }
     }
 
@@ -86,7 +85,7 @@ public class Dungeon implements DestroyObserver{
                 result.add(e);
             }
         }
-        if (player.getX() == x && player.getY() == y) {
+        if (player != null && player.getX() == x && player.getY() == y) {
             result.add(player);
         }
         return result;

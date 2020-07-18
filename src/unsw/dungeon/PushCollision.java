@@ -5,7 +5,8 @@ public class PushCollision implements CollisionBehaviour {
 
     private Entity parent;
 
-    public PushCollision() {
+    public PushCollision(Entity parent) {
+        this.parent = parent;
     }
     
     public boolean isEnterable() {
