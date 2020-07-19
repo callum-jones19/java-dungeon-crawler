@@ -54,10 +54,12 @@ public class Player extends Entity implements IMoveable, IDamagable {
 
     public void makeInvincible() {
         setCollisionBehaviour(invincibleStrategy);
+        dungeon.scareEnemies();
     }
 
     public void makeVulnerable() {
         setCollisionBehaviour(vulnerableStrategy);
+        dungeon.unScareEnemies();
     }
 
 
@@ -147,10 +149,6 @@ public class Player extends Entity implements IMoveable, IDamagable {
 
     public void setOrientation(PlayerOrientation o) {
         this.orientation = o;
-    }
-
-    public void scareEnemies() {
-        dungeon.setEnemySearchPattern(new FleeSearch());
     }
 
     public boolean contains(Item i) {

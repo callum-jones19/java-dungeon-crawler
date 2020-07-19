@@ -1,5 +1,5 @@
 package unsw.dungeon;
 
-public class SwitchGoal extends Goal {
+public class SwitchGoal {
     
 }
