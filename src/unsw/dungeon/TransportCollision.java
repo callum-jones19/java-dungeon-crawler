@@ -3,20 +3,20 @@ package unsw.dungeon;
 public class TransportCollision implements CollisionBehaviour {
 
     private boolean isEnterable;
-    Coordinates teleportLocation;
+    Portal exitPortal;
 
-    public TransportCollision(int x, int y) {
+    public TransportCollision(Portal p) {
         super();
         isEnterable = true;
-        teleportLocation = new Coordinates(x, y);
+        this.exitPortal = p;
     }
 
     public boolean isEnterable() {
         return isEnterable;
     }
 
-    public void setLocation(Coordinates c) {
-        teleportLocation = c;
+    public void setLocation(Portal p) {
+        this.exitPortal = p;
     }
 
     public void setEnterability(Boolean enterability) {
@@ -27,7 +27,9 @@ public class TransportCollision implements CollisionBehaviour {
     public void onCollide(Entity e) {
         if (e instanceof IMoveable) {
             IMoveable moveable = (IMoveable) e;
-            moveable.move(teleportLocation.getX(), teleportLocation.getY());
+            exitPortal.turnOff();
+            moveable.move(exitPortal.getX(),exitPortal.getY());
+            exitPortal.turnOn();
         }
     }
 

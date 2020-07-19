@@ -12,17 +12,14 @@ public class Boulder extends Entity implements IMoveable {
     }
 
     public void move(int x, int y) {
-        // TODO
-
-        if (x < 1 || x > dungeon.getWidth()) return;
-        if (y < 1 || y > dungeon.getHeight()) return;
-
         if (dungeon.tileIsEmpty(x, y)) {
             setPos(x, y);
         } else {
-            if (dungeon.checkEnterableTile(x, y)) {
+            // Trying to move into an occupied space
+            if (dungeon.isTileEnterable(x, y)) {
                 setPos(x, y);
             }
+            dungeon.processCollision(this, x, y);
         }
     }
 

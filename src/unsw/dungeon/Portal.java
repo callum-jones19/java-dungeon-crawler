@@ -2,14 +2,33 @@ package unsw.dungeon;
 
 public class Portal extends Entity {
     
-    private Portal matching;
     private TransportCollision teleportCollision;
+    private NoCollision deactivatedCollision;
+    private int id;
 
-    public Portal(int x, int y, Portal match) {
+    public Portal(int x, int y, int id) {
         super(x, y);
-        teleportCollision = new TransportCollision(matching.getX(), matching.getY());
+        this.teleportCollision = null;
+        this.deactivatedCollision = new NoCollision();
+        // A portal with no link is 'deactivated'
+        setCollisionBehaviour(deactivatedCollision);
+    }
+
+    public void linkPortal(Portal p) {
+        this.teleportCollision = new TransportCollision(p);
         setCollisionBehaviour(teleportCollision);
-        this.matching = match;
+    }
+
+    public int getID() {
+        return this.id;
+    }
+
+    public void turnOff() {
+        setCollisionBehaviour(deactivatedCollision);
+    }
+
+    public void turnOn() {
+        setCollisionBehaviour(teleportCollision);
     }
 
     
