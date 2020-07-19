@@ -127,8 +127,8 @@ public class Player extends Entity implements IMoveable, IDamagable {
                 if (i instanceof PickupActivateItem) {
                     PickupActivateItem p = (PickupActivateItem) i;
                     p.activate();
-                    e.destroy();
                 }
+                e.destroy();
             } else {
                 // check if we already have an instance of this type
                 if (!(contains(i))) {
@@ -136,8 +136,8 @@ public class Player extends Entity implements IMoveable, IDamagable {
                     if (i instanceof PickupActivateItem) {
                         PickupActivateItem p = (PickupActivateItem) i;
                         p.activate();
-                        e.destroy();
                     }
+                    e.destroy();
                 }
             }
         }
@@ -165,6 +165,7 @@ public class Player extends Entity implements IMoveable, IDamagable {
     public void attack() {
         for (Item i: inventory) {
             if (i.isWeapon()) {
+                System.out.println("hello 1");
                 orientation.attack(i);
             }
         }

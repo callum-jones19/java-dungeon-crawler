@@ -11,6 +11,7 @@ public class Door extends Entity implements Triggerable {
     public Door(int x, int y, Key k) {
         super(x, y);
         this.key = k;
+        this.key.setDoor(this);
         this.stopCollision = new StopCollision();
         this.triggerCollision = new TriggerCollision(this, new TriggerTypePlayerInventory(key));
         this.noCollision = new NoCollision(this);
@@ -20,6 +21,7 @@ public class Door extends Entity implements Triggerable {
 
     public void trigger() {
         super.setCollisionBehaviour(noCollision);
+        this.key.destroy();
     }
 
     public void markAvailable() {

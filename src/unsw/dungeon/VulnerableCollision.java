@@ -3,13 +3,15 @@ package unsw.dungeon;
 public class VulnerableCollision implements CollisionBehaviour{
     
     Entity parent;
+    Boolean isEnterable;
 
     public VulnerableCollision(Entity parent) {
         this.parent = parent;
+        this.isEnterable = true;
     }
 
     public boolean isEnterable() {
-        return true;
+        return isEnterable;
     }
 
     // If something collides with this instance's parent, that parent is killed.
@@ -20,6 +22,12 @@ public class VulnerableCollision implements CollisionBehaviour{
             IDamagable d = (IDamagable) this.parent;
             d.die();
         }
+    }
+
+    @Override
+    public void setEnterability(Boolean enterability) {
+        this.isEnterable = enterability;
+
     }
 
 }

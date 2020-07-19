@@ -19,7 +19,7 @@ public class Key extends Entity implements Item, PickupActivateItem {
     }
 
     public boolean checkCanUse() {
-        return true;
+        return false;
     }
 
     public void activate(Entity e) {
