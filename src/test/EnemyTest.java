@@ -39,6 +39,7 @@ public class EnemyTest {
         d.addEntity(e);
         Player p = new Player(d, 4, 5);
         d.setPlayer(p);
+        d.addEntity(p);
 
         e.chasePlayer();
 
@@ -57,6 +58,7 @@ public class EnemyTest {
 
         Player p = new Player(d, 5, 1);
         d.setPlayer(p);
+        d.addEntity(p);
 
         assertEquals(5, e.getX());
         assertEquals(4, e.getY());

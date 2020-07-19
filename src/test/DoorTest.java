@@ -77,7 +77,7 @@ public class DoorTest {
     }
     @Test
     public void testUnlocked() {
-
+        //TODO remove prints
         // Test Setup 
         Dungeon d = new Dungeon (5, 5);
         Key key1 = new Key(4, 3);
@@ -89,15 +89,21 @@ public class DoorTest {
         d.setPlayer(p1);
         Enemy enemy1 = new Enemy(2, 2, d);
         d.addEntity(enemy1);
-        Boulder boulder1 = new Boulder(d, 5, 3);
+        Boulder boulder1 = new Boulder(d, 2, 4);
         d.addEntity(boulder1);
 
+
+        d.printDungeon();
         // Player collides with door having picked up the appropriate key
         p1.move(4, 3);
 
+        d.printDungeon();
         p1.moveLeft();
+        d.printDungeon();
         p1.moveLeft();
+        d.printDungeon();
         p1.moveLeft();
+        d.printDungeon();
 
         assertEquals(p1, d.getTopmostEntity(2, 3));
         assertEquals(2, door1.getX());
@@ -108,18 +114,30 @@ public class DoorTest {
         p1.moveRight();
         boulder1.move(3, 3);
         
+        d.printDungeon();
+
         p1.moveLeft();
+        d.printDungeon();
+
         assertEquals(boulder1, d.getTopmostEntity(2, 3));
+        d.printDungeon();
+
         p1.moveLeft();
+        d.printDungeon();
+
         assertEquals(p1, d.getTopmostEntity(2, 3));
 
-        // Enemy goes through unlocked door
-        p1.die();
-        boulder1.destroy();
-        enemy1.move(2, 3);
+        p1.moveDown();
+        enemy1.chasePlayer();
+        d.printDungeon();
+
         assertEquals(enemy1, d.getTopmostEntity(2, 3));
-        enemy1.move(2, 4);
-        assertEquals(door1, d.getTopmostEntity(2, 3));
+
+        enemy1.chasePlayer();
+        d.printDungeon();
+        assertEquals(null, d.getPlayer());
+        assertEquals(enemy1, d.getTopmostEntity(2, 4));
+
 
     }
 

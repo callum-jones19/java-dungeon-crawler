@@ -15,14 +15,13 @@ import java.util.List;
  * @author Robert Clifton-Everest
  *
  */
-public class Dungeon implements DestroyObserver, GoalObserver{
+public class Dungeon implements DestroyObserver{
 
     private int width, height;
 
     private List<Entity> entities;
     private Player player;
     
-    private List<Goal> goals;
     private boolean isComplete;
 
     public Dungeon(int width, int height) {
@@ -30,28 +29,13 @@ public class Dungeon implements DestroyObserver, GoalObserver{
         this.height = height;
         this.entities = new ArrayList<Entity>();
         this.player = null;
-        this.goals = new ArrayList<Goal>();
     }
 
     public void update(DestroySubject sub) {
         if (sub instanceof Player) {
             removePlayer((Player) sub);
-        } else if (sub instanceof Entity) {
+        }
             this.entities.remove(sub);
-        }
-    }
-
-    public void update(Goal g) {
-        boolean allGoalsDone = true;
-        for (Goal goal : goals) {
-            if (!goal.isCompleted()) {
-                allGoalsDone = false;
-            }
-        }
-
-        if (allGoalsDone) {
-            this.isComplete = true;
-        }
     }
 
     public boolean isComplete() {
@@ -84,6 +68,7 @@ public class Dungeon implements DestroyObserver, GoalObserver{
 
     public void setPlayer(Player player) {
         this.player = player;
+        this.entities.add(player);
         player.registerObserver(this);
     }
 
@@ -92,25 +77,26 @@ public class Dungeon implements DestroyObserver, GoalObserver{
     }
 
     public void addEntity(Entity entity) {
-        entities.add(entity);
-        entity.registerObserver(this);
+        if (!entities.contains(entity)) {
+            entities.add(entity);
+            entity.registerObserver(this);
+        }
     }
 
     public void removeEntity(Entity e) {
         entities.remove(e);
     }
 
-    public void addGoal(Goal g) {
-        this.goals.add(g);
-        g.registerObserver(this);
+    public Portal findPortal(int id) {
+        Portal p = null;
+        for (Entity e : entities) {
+            if (e instanceof Portal) {
+                p = (Portal) e;
+            }
+        }
+        return p;
     }
 
-    public void removeGoal(Goal g) {
-        this.goals.remove(g);
-        // Watch out how you use this - will cause an error if you removeGoal
-        // in the goal update function.
-        g.removeObserver(this);
-    }
 
     public List<Entity> getEntities(int x, int y) {
         List<Entity> result = new ArrayList<Entity>();
@@ -119,18 +105,12 @@ public class Dungeon implements DestroyObserver, GoalObserver{
                 result.add(e);
             }
         }
-        if (player != null && player.getX() == x && player.getY() == y) {
-            result.add(player);
-        }
         return result;
     }
 
     public boolean tileIsEmpty(int x, int y) {
         List<Entity> e = getEntities(x, y);
-        if (player == null) {
-            return e.isEmpty();
-        }
-        if (e.isEmpty() && (player.getX() != x || player.getY() != y)) {
+        if (e.isEmpty()) {
             return true;
         } else {
             return false;
@@ -151,20 +131,42 @@ public class Dungeon implements DestroyObserver, GoalObserver{
         }
     }
 
-    public boolean checkEnterableTile(int x, int y) {
+    // FIXME ? Is there a cleaner way to do this
+    public Entity getTopmostEntity(int x, int y, Entity ignore) {
         List<Entity> entities = getEntities(x, y);
-        for (Entity e: entities) {
-            if (!(e.isEnterable())) {
-                return false;
+        Entity result = null;
+        if (entities.isEmpty()) {
+            result = null;
+        } else {
+            for (Entity e: entities) {
+                if (e instanceof IMoveable && !e.equals(ignore)) {
+                    return e;
+                }
+            }
+            for (Entity e : entities) {
+                if (! (e instanceof IMoveable)) {
+                    return e;
+                }
             }
         }
-        return true;
+        
+        return result;
+    }
+
+    public boolean isTileEnterable(int x, int y) {
+        Entity e;
+        e = getTopmostEntity(x, y);
+        if (e == null) {
+            return true;
+        } else {
+            return e.isEnterable();
+        }
     }
 
     public void printDungeon() {
         System.out.println("<========= Dungeon =========>");
-        for (int i = 1; i  <= getHeight(); i++) {
-            for (int j = 1; j <= getWidth(); j++) {
+        for (int i = 0; i  < getHeight(); i++) {
+            for (int j = 0; j < getWidth(); j++) {
                 Entity e = getTopmostEntity(j, i);
                 if (e == null) {
                     System.out.print("-");
@@ -180,6 +182,10 @@ public class Dungeon implements DestroyObserver, GoalObserver{
                     System.out.print("I");
                 } else if (e instanceof FloorSwitch) {
                     System.out.print("F");
+                } else if (e instanceof Portal) {
+                    System.out.print("_");
+                } else if (e instanceof Enemy) {
+                    System.out.print("E");
                 } else {
                     System.out.print("*");
                 }
@@ -212,6 +218,16 @@ public class Dungeon implements DestroyObserver, GoalObserver{
         for (Enemy e : enemies) {
             e.makeHarmful();
         }
+    }
+
+	public void processCollision(Entity e, int x, int y) {
+        Entity top = getTopmostEntity(x, y, e);
+        top.onCollide(e);
+    }
+
+    public boolean checkCoordinatesValidity() {
+        // TODO
+        return false;
     }
 
 }

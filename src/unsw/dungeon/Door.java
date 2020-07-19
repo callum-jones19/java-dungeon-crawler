@@ -14,7 +14,7 @@ public class Door extends Entity implements Triggerable {
         this.key.setDoor(this);
         this.stopCollision = new StopCollision();
         this.triggerCollision = new TriggerCollision(this, new TriggerTypePlayerInventory(key));
-        this.noCollision = new NoCollision(this);
+        this.noCollision = new NoCollision();
         super.setCollisionBehaviour(stopCollision);
     }
 
