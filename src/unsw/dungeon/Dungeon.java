@@ -15,14 +15,13 @@ import java.util.List;
  * @author Robert Clifton-Everest
  *
  */
-public class Dungeon implements DestroyObserver, GoalObserver{
+public class Dungeon implements DestroyObserver{
 
     private int width, height;
 
     private List<Entity> entities;
     private Player player;
     
-    private List<Goal> goals;
     private boolean isComplete;
 
     public Dungeon(int width, int height) {
@@ -30,7 +29,6 @@ public class Dungeon implements DestroyObserver, GoalObserver{
         this.height = height;
         this.entities = new ArrayList<Entity>();
         this.player = null;
-        this.goals = new ArrayList<Goal>();
     }
 
     public void update(DestroySubject sub) {
@@ -38,19 +36,6 @@ public class Dungeon implements DestroyObserver, GoalObserver{
             removePlayer((Player) sub);
         } else if (sub instanceof Entity) {
             this.entities.remove(sub);
-        }
-    }
-
-    public void update(Goal g) {
-        boolean allGoalsDone = true;
-        for (Goal goal : goals) {
-            if (!goal.isCompleted()) {
-                allGoalsDone = false;
-            }
-        }
-
-        if (allGoalsDone) {
-            this.isComplete = true;
         }
     }
 
@@ -100,17 +85,7 @@ public class Dungeon implements DestroyObserver, GoalObserver{
         entities.remove(e);
     }
 
-    public void addGoal(Goal g) {
-        this.goals.add(g);
-        g.registerObserver(this);
-    }
 
-    public void removeGoal(Goal g) {
-        this.goals.remove(g);
-        // Watch out how you use this - will cause an error if you removeGoal
-        // in the goal update function.
-        g.removeObserver(this);
-    }
 
     public List<Entity> getEntities(int x, int y) {
         List<Entity> result = new ArrayList<Entity>();
