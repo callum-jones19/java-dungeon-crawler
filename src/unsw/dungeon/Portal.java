@@ -1,17 +1,35 @@
 package unsw.dungeon;
 
-public class Portal extends Entity implements Triggerable {
+public class Portal extends Entity {
     
-    private Portal matching;
-    CollisionBehaviour c = new TriggerCollision(this);
+    private TransportCollision teleportCollision;
+    private NoCollision deactivatedCollision;
+    private int id;
 
-    public Portal(int x, int y, Portal match) {
+    public Portal(int x, int y, int id) {
         super(x, y);
-        super.setCollisionBehaviour(c);
-        this.matching = match;
+        this.teleportCollision = null;
+        this.deactivatedCollision = new NoCollision();
+        // A portal with no link is 'deactivated'
+        setCollisionBehaviour(deactivatedCollision);
     }
 
-    public void trigger() {
-        
+    public void linkPortal(Portal p) {
+        this.teleportCollision = new TransportCollision(p);
+        setCollisionBehaviour(teleportCollision);
     }
+
+    public int getID() {
+        return this.id;
+    }
+
+    public void turnOff() {
+        setCollisionBehaviour(deactivatedCollision);
+    }
+
+    public void turnOn() {
+        setCollisionBehaviour(teleportCollision);
+    }
+
+    
 }

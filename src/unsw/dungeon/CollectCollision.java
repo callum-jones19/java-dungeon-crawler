@@ -30,7 +30,7 @@ public class CollectCollision implements CollisionBehaviour {
             Player player = (Player) e;
             if (this.parent instanceof Item) {
                 player.pickup(this.parent);
-                System.out.println("Picked up by player");
+                parent.destroy();
             }
         }
     }

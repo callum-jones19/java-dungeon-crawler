@@ -64,29 +64,14 @@ public class Player extends Entity implements IMoveable, IDamagable {
 
 
     public void move(int x, int y) {
-        // TODO add move check for boundaries?
         if (dungeon.tileIsEmpty(x, y)) {
             setPos(x, y);
         } else {
-            //FIXME
-            List<Entity> colliding = dungeon.getEntities(x,y);
-            Entity top = colliding.get(0);
-            for (Entity e : colliding) {
-                if (colliding.size() == 1) {
-                    top = e;
-                } else {
-                    if (e instanceof Boulder) {
-                        top = e;
-                    }
-                }
-            }
-            /////////////////////////////////////////////
-            if (top.isEnterable()) {
+            // Trying to move into an occupied space
+            if (dungeon.isTileEnterable(x, y)) {
                 setPos(x, y);
-                top.onCollide(this);
-            } else {
-                top.onCollide(this);
             }
+            dungeon.processCollision(this, x, y);
         }
     }
 

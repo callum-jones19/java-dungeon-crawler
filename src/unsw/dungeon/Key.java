@@ -23,7 +23,7 @@ public class Key extends Entity implements Item, PickupActivateItem {
     }
 
     public void activate(Entity e) {
-        // FIX
+        // FIXME
     }
 
     public void use(Entity e) {
