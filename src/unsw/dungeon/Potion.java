@@ -2,17 +2,19 @@ package unsw.dungeon;
 
 public class Potion extends Entity implements Item, PickupActivateItem {
     
-    private CollisionBehaviour collisionBehaviour;
+    private CollisionBehaviour collectStrat;
 
     public Potion(int x, int y) {
         super(x, y);
-        this.collisionBehaviour = new CollectionCollision(this);
+        this.collectStrat = new CollectCollision(this);
+        setCollisionBehaviour(collectStrat);
     }
 
     public void activate(Entity e) {
         e.setCollisionBehaviour(new DamageCollision());
         if (e instanceof Player) {
-            e.scareEnemies();
+            Player p = (Player) e;
+            p.makeInvincible();
         }
     }
 

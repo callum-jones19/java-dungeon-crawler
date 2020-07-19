@@ -15,17 +15,22 @@ import java.util.List;
  * @author Robert Clifton-Everest
  *
  */
-public class Dungeon implements DestroyObserver{
+public class Dungeon implements DestroyObserver, GoalObserver{
 
     private int width, height;
+
     private List<Entity> entities;
     private Player player;
+    
+    private List<Goal> goals;
+    private boolean isComplete;
 
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
         this.entities = new ArrayList<Entity>();
         this.player = null;
+        this.goals = new ArrayList<Goal>();
     }
 
     public void update(DestroySubject sub) {
@@ -33,8 +38,24 @@ public class Dungeon implements DestroyObserver{
             removePlayer((Player) sub);
         } else if (sub instanceof Entity) {
             this.entities.remove(sub);
-            sub.removeObserver(this);
         }
+    }
+
+    public void update(Goal g) {
+        boolean allGoalsDone = true;
+        for (Goal goal : goals) {
+            if (!goal.isCompleted()) {
+                allGoalsDone = false;
+            }
+        }
+
+        if (allGoalsDone) {
+            this.isComplete = true;
+        }
+    }
+
+    public boolean isComplete() {
+        return isComplete;
     }
 
     public int getWidth() {
@@ -79,6 +100,18 @@ public class Dungeon implements DestroyObserver{
         entities.remove(e);
     }
 
+    public void addGoal(Goal g) {
+        this.goals.add(g);
+        g.registerObserver(this);
+    }
+
+    public void removeGoal(Goal g) {
+        this.goals.remove(g);
+        // Watch out how you use this - will cause an error if you removeGoal
+        // in the goal update function.
+        g.removeObserver(this);
+    }
+
     public List<Entity> getEntities(int x, int y) {
         List<Entity> result = new ArrayList<Entity>();
         for (Entity e : entities) {
@@ -109,4 +142,31 @@ public class Dungeon implements DestroyObserver{
             return entities.get(0);
         }
     }
+
+    public List<Enemy> getEnemies() {
+        List<Enemy> result = new ArrayList<Enemy>();
+        for (Entity e : entities) {
+            if (e instanceof Enemy) {
+                result.add((Enemy) e);
+            }
+        }
+        return result;
+    }
+
+    public void scareEnemies() {
+        List<Enemy> enemies = getEnemies();
+
+        for (Enemy e : enemies) {
+            e.makeVulnerable();
+        }
+    }
+
+    public void unScareEnemies() {
+        List<Enemy> enemies = getEnemies();
+
+        for (Enemy e : enemies) {
+            e.makeHarmful();
+        }
+    }
+
 }
