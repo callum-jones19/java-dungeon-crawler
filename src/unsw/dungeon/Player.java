@@ -154,6 +154,7 @@ public class Player extends Entity implements IMoveable, IDamagable {
     }
 
     public boolean contains(Item i) {
+        System.out.println("We here fellas");
         for (Item item: inventory) {
             if (item.checkItemType(i)) {
                 return true;
@@ -173,6 +174,30 @@ public class Player extends Entity implements IMoveable, IDamagable {
 
     public List<Item> getInventory() {
         return inventory;
+    }
+
+    public void removeItem(Item item) {
+
+        System.out.println("We arrive here");
+        List<Item> newInventory = new ArrayList<Item>();
+
+        for (Item i: inventory) {
+            if (!(i.checkItemType(item))) {
+                newInventory.add(i);
+            }
+        }
+
+        this.inventory = newInventory;
+    }
+
+    public Boolean exactContains(Item i) {
+        for (Item item: inventory) {
+            if (item.equals(i)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
