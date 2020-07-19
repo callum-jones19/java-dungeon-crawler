@@ -1,17 +1,16 @@
 package unsw.dungeon;
 
-public class Portal extends Entity implements Triggerable {
+public class Portal extends Entity {
     
     private Portal matching;
-    CollisionBehaviour c = new TriggerCollision(this);
+    private TransportCollision teleportCollision;
 
     public Portal(int x, int y, Portal match) {
         super(x, y);
-        super.setCollisionBehaviour(c);
+        teleportCollision = new TransportCollision(matching.getX(), matching.getY());
+        setCollisionBehaviour(teleportCollision);
         this.matching = match;
     }
 
-    public void trigger() {
-        
-    }
+    
 }
