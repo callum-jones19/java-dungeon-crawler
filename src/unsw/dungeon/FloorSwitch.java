@@ -3,8 +3,8 @@ package unsw.dungeon;
 public class FloorSwitch extends Entity implements Triggerable {
     
     private CollisionBehaviour c = new TriggerCollision(this, new TriggerTypeBoulder());
-    List<Boulder> boulders;
     private boolean isActive;
+    BoulderSwitchMediator bsm;
 
     public FloorSwitch(int x, int y) {
         super(x, y);
@@ -19,4 +19,14 @@ public class FloorSwitch extends Entity implements Triggerable {
     public boolean isActive() {
         return this.isActive;
     }
+
+    public void setMediator(BoulderSwitchMediator bsm) {
+        this.bsm = bsm;
+    }
+
+    public void setActive(Boolean active) {
+        this.isActive = active;
+    }
+
+
 }

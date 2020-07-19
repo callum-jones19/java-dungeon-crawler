@@ -25,12 +25,15 @@ public class Dungeon implements DestroyObserver, GoalObserver{
     private List<Goal> goals;
     private boolean isComplete;
 
+    BoulderSwitchMediator boulderSwitchMediator;
+
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
         this.entities = new ArrayList<Entity>();
         this.player = null;
         this.goals = new ArrayList<Goal>();
+        this.boulderSwitchMediator = new BoulderSwitchMediator();
     }
 
     public void update(DestroySubject sub) {
@@ -93,6 +96,8 @@ public class Dungeon implements DestroyObserver, GoalObserver{
 
     public void addEntity(Entity entity) {
         entities.add(entity);
+        if (entity instanceof Boulder) boulderSwitchMediator.addBoulder((Boulder) entity);
+        if (entity instanceof FloorSwitch) boulderSwitchMediator.addSwitch((FloorSwitch) entity);
         entity.registerObserver(this);
     }
 
@@ -179,7 +184,12 @@ public class Dungeon implements DestroyObserver, GoalObserver{
                 } else if (e instanceof Item) {
                     System.out.print("I");
                 } else if (e instanceof FloorSwitch) {
-                    System.out.print("F");
+                    FloorSwitch f = (FloorSwitch) e;
+                    if (f.isActive()) {
+                        System.out.print("F*");
+                    } else {
+                        System.out.print("F");
+                    }
                 } else {
                     System.out.print("*");
                 }

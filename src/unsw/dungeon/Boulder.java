@@ -4,6 +4,7 @@ public class Boulder extends Entity implements IMoveable {
     
     Dungeon dungeon;
     CollisionBehaviour collisionBehaviour = new PushCollision(this);
+    BoulderSwitchMediator bsm;
 
     public Boulder(Dungeon dungeon, int x, int y) {
         super(x,y);
@@ -19,11 +20,17 @@ public class Boulder extends Entity implements IMoveable {
 
         if (dungeon.tileIsEmpty(x, y)) {
             setPos(x, y);
+            bsm.notifyBoulderPosChange(x, y);
         } else {
             if (dungeon.checkEnterableTile(x, y)) {
                 setPos(x, y);
+                bsm.notifyBoulderPosChange(x, y);
             }
         }
+    }
+
+    public void setMediator(BoulderSwitchMediator bsm) {
+        this.bsm = bsm;
     }
 
 }
