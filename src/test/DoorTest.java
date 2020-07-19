@@ -8,10 +8,7 @@ import unsw.dungeon.Dungeon;
 import unsw.dungeon.Enemy;
 import unsw.dungeon.Key;
 import unsw.dungeon.Door;
-import unsw.dungeon.LeftOrientation;
-import unsw.dungeon.Wall;
 import unsw.dungeon.Player;
-import unsw.dungeon.PlayerOrientation;
 import unsw.dungeon.Boulder;
 import unsw.dungeon.Sword; 
 
@@ -32,7 +29,9 @@ public class DoorTest {
         Enemy enemy1 = new Enemy(2, 2, d);
         d.addEntity(enemy1);
         Boulder boulder1 = new Boulder(d, 3, 3);
+        d.addEntity(boulder1);
         Sword sword = new Sword(4, 4, p1);
+        d.addEntity(sword);
 
 
         // Player collides with the door without having the appropriate key
@@ -56,27 +55,71 @@ public class DoorTest {
         // Boulder is pushed into locked door
         p1.move(4, 3);
         p1.moveLeft();
+
         assertEquals(boulder1, d.getTopmostEntity(3, 3));
         assertEquals(p1, d.getTopmostEntity(4, 3));
         assertEquals(door1, d.getTopmostEntity(2, 3));
 
         // Player strikes locked door with sword
+        p1.pickup(sword);
 
+        assertEquals(true, p1.contains(sword));
+        boulder1.destroy();
+        p1.moveLeft();
+        p1.attack();
+        
+        assertEquals(p1, d.getTopmostEntity(3, 3));
+        assertEquals(door1, d.getTopmostEntity(2, 3));
+        
         // Player collides with locked door while invincible
+        // TODO
 
     }
-
+    @Test
     public void testUnlocked() {
 
         // Test Setup 
+        Dungeon d = new Dungeon (5, 5);
+        Key key1 = new Key(4, 3);
+        d.addEntity(key1);
+        Door door1 = new Door(2, 3, key1);
+        d.addEntity(door1);
+        key1.setDoor(door1);
+        Player p1 = new Player(d, 1, 1);
+        d.setPlayer(p1);
+        Enemy enemy1 = new Enemy(2, 2, d);
+        d.addEntity(enemy1);
+        Boulder boulder1 = new Boulder(d, 5, 3);
+        d.addEntity(boulder1);
 
         // Player collides with door having picked up the appropriate key
+        p1.move(4, 3);
 
-        // Player can move through unlocked door (??)
+        p1.moveLeft();
+        p1.moveLeft();
+        p1.moveLeft();
+
+        assertEquals(p1, d.getTopmostEntity(2, 3));
+        assertEquals(2, door1.getX());
+        assertEquals(3, door1.getY());
 
         // Player pushes boulder through unlocked door
+        p1.moveRight();
+        p1.moveRight();
+        boulder1.move(3, 3);
+        
+        p1.moveLeft();
+        assertEquals(boulder1, d.getTopmostEntity(2, 3));
+        p1.moveLeft();
+        assertEquals(p1, d.getTopmostEntity(2, 3));
 
         // Enemy goes through unlocked door
+        p1.die();
+        boulder1.destroy();
+        enemy1.move(2, 3);
+        assertEquals(enemy1, d.getTopmostEntity(2, 3));
+        enemy1.move(2, 4);
+        assertEquals(door1, d.getTopmostEntity(2, 3));
 
     }
 
