@@ -1,10 +1,9 @@
 package unsw.dungeon;
 
-public class FloorSwitch extends Entity implements Triggerable {
+public class FloorSwitch extends Entity implements BoulderObserver {
     
-    private CollisionBehaviour c = new TriggerCollision(this, new TriggerTypeBoulder());
+    private CollisionBehaviour c = new NoCollision();
     private boolean isActive;
-    BoulderSwitchMediator bsm;
 
     public FloorSwitch(int x, int y) {
         super(x, y);
@@ -12,20 +11,31 @@ public class FloorSwitch extends Entity implements Triggerable {
         this.isActive = false;
     }
 
-    public void trigger() {
-        this.isActive = true;
-    }
-
     public boolean isActive() {
         return this.isActive;
     }
 
-    public void setMediator(BoulderSwitchMediator bsm) {
-        this.bsm = bsm;
-    }
-
     public void setActive(Boolean active) {
         this.isActive = active;
+    }
+
+    @Override
+    public void update(BoulderSubject b) {
+        
+        if (b.getX() == getX() && b.getY() == getY()) {
+            updateSwitchStatus();
+        } else if (b.getLastX() == getX() && b.getLastY() == getY()) {
+            updateSwitchStatus();
+        }
+
+    }
+
+    public void updateSwitchStatus() {
+        if (!(isActive())) {
+            setActive(true);
+        } else {
+            setActive(false);
+        }
     }
 
 

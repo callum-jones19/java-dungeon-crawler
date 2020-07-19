@@ -24,20 +24,17 @@ public class Dungeon implements DestroyObserver{
     
     private boolean isComplete;
 
-    BoulderSwitchMediator boulderSwitchMediator;
-
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
         this.entities = new ArrayList<Entity>();
         this.player = null;
-        this.boulderSwitchMediator = new BoulderSwitchMediator();
     }
 
     public void update(DestroySubject sub) {
         if (sub instanceof Player) {
             removePlayer((Player) sub);
-        }
+        } 
             this.entities.remove(sub);
     }
 
@@ -81,8 +78,11 @@ public class Dungeon implements DestroyObserver{
 
     public void addEntity(Entity entity) {
         entities.add(entity);
-        if (entity instanceof Boulder) boulderSwitchMediator.addBoulder((Boulder) entity);
-        if (entity instanceof FloorSwitch) boulderSwitchMediator.addSwitch((FloorSwitch) entity);
+        if (entity instanceof Boulder) {
+            registerBoulderObservers((Boulder) entity);
+        } else if (entity instanceof FloorSwitch) {
+            registerBoulderObservers((FloorSwitch) entity);
+        }
         entity.registerObserver(this);
     }
 
@@ -236,6 +236,24 @@ public class Dungeon implements DestroyObserver{
     public boolean checkCoordinatesValidity() {
         // TODO
         return false;
+    }
+
+    public void registerBoulderObservers(Boulder b) {
+        
+        for(Entity e: entities) {
+            if (e instanceof FloorSwitch) {
+                b.registerObserver((FloorSwitch) e);
+            }
+        }
+    }
+
+    public void registerBoulderObservers(FloorSwitch f) {
+        for (Entity e: entities) {
+            if (e instanceof Boulder) {
+                Boulder b = (Boulder) e;
+                b.registerObserver(f);
+            }
+        }
     }
 
 }
