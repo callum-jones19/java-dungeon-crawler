@@ -2,8 +2,10 @@ package unsw.dungeon;
 
 public class DamageCollision implements CollisionBehaviour{
     
-    public DamageCollision() {
+    Boolean isEnterable;
 
+    public DamageCollision() {
+        this.isEnterable = false;
     }
 
     public boolean isEnterable() {
@@ -18,5 +20,9 @@ public class DamageCollision implements CollisionBehaviour{
             IDamagable d = (IDamagable) e;
             d.die();
         }
+    }
+
+    public void setEnterability(Boolean enterability) {
+        this.isEnterable = enterability;
     }
 }

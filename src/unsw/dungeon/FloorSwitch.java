@@ -2,7 +2,7 @@ package unsw.dungeon;
 
 public class FloorSwitch extends Entity implements Triggerable {
     
-    private CollisionBehaviour c = new TriggerCollision(this);
+    private CollisionBehaviour c = new TriggerCollision(this, new TriggerTypeBoulder());
     private boolean isActive;
 
     public FloorSwitch(int x, int y) {
@@ -13,5 +13,9 @@ public class FloorSwitch extends Entity implements Triggerable {
 
     public void trigger() {
         this.isActive = true;
+    }
+
+    public boolean isActive() {
+        return this.isActive;
     }
 }
