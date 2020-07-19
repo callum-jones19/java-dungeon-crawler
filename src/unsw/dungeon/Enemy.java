@@ -1,7 +1,5 @@
 package unsw.dungeon;
 
-import java.util.List;
-
 public class Enemy extends Entity implements IMoveable, IDamagable {
     
     private Dungeon dungeon;
@@ -42,7 +40,6 @@ public class Enemy extends Entity implements IMoveable, IDamagable {
         if (dungeon.tileIsEmpty(x, y)) {
             setPos(x, y);
         } else {
-            //FIXME
             Entity top = dungeon.getTopmostEntity(x, y);
             /////////////////////////////////////////////
             if (top.isEnterable()) {
@@ -53,9 +50,6 @@ public class Enemy extends Entity implements IMoveable, IDamagable {
             }
         }
     } 
-
-    
-
 
     public void die() {
         destroy();
