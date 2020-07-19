@@ -119,7 +119,7 @@ public class Dungeon implements DestroyObserver, GoalObserver{
                 result.add(e);
             }
         }
-        if (player.getX() == x && player.getY() == y) {
+        if (player != null && player.getX() == x && player.getY() == y) {
             result.add(player);
         }
         return result;
@@ -127,6 +127,9 @@ public class Dungeon implements DestroyObserver, GoalObserver{
 
     public boolean tileIsEmpty(int x, int y) {
         List<Entity> e = getEntities(x, y);
+        if (player == null) {
+            return e.isEmpty();
+        }
         if (e.isEmpty() && (player.getX() != x || player.getY() != y)) {
             return true;
         } else {
@@ -139,10 +142,52 @@ public class Dungeon implements DestroyObserver, GoalObserver{
         if (entities.isEmpty()) {
             return null;
         } else {
+            for (Entity e: entities) {
+                if (e instanceof IMoveable) {
+                    return e;
+                }
+            }
             return entities.get(0);
         }
     }
 
+    public boolean checkEnterableTile(int x, int y) {
+        List<Entity> entities = getEntities(x, y);
+        for (Entity e: entities) {
+            if (!(e.isEnterable())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void printDungeon() {
+        System.out.println("<========= Dungeon =========>");
+        for (int i = 1; i  <= getHeight(); i++) {
+            for (int j = 1; j <= getWidth(); j++) {
+                Entity e = getTopmostEntity(j, i);
+                if (e == null) {
+                    System.out.print("-");
+                } else if (e instanceof Player) {
+                    System.out.print("P");
+                } else if (e instanceof Boulder) {
+                    System.out.print("B");
+                } else if (e instanceof Wall) {
+                    System.out.print("W");
+                } else if (e instanceof Door) {
+                    System.out.print("D");
+                } else if (e instanceof Item) {
+                    System.out.print("I");
+                } else if (e instanceof FloorSwitch) {
+                    System.out.print("F");
+                } else {
+                    System.out.print("*");
+                }
+            }
+            System.out.print("\n");
+        }
+    }
+    
     public List<Enemy> getEnemies() {
         List<Enemy> result = new ArrayList<Enemy>();
         for (Entity e : entities) {

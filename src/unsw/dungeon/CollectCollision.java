@@ -5,10 +5,12 @@ public class CollectCollision implements CollisionBehaviour {
     // TODO
     // Maybe turn this into Item parent, 
     private Entity parent;
+    Boolean isEnterable;
 
     public CollectCollision(Entity parent) {
         super();
         this.parent = parent;
+        this.isEnterable = true;
     }
 
     public void setParent(Entity p) {
@@ -16,7 +18,11 @@ public class CollectCollision implements CollisionBehaviour {
     }
 
     public boolean isEnterable() {
-        return true;
+        return isEnterable;
+    }
+
+    public void setEnterability(Boolean enterability) {
+        this.isEnterable = enterability;
     }
 
     public void onCollide(Entity e){

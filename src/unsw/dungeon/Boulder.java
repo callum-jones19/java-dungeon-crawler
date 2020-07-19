@@ -2,13 +2,28 @@ package unsw.dungeon;
 
 public class Boulder extends Entity implements IMoveable {
     
-    public Boulder(int x, int y) {
+    Dungeon dungeon;
+    CollisionBehaviour collisionBehaviour = new PushCollision(this);
+
+    public Boulder(Dungeon dungeon, int x, int y) {
         super(x,y);
+        this.dungeon = dungeon;
+        super.setCollisionBehaviour(collisionBehaviour);
     }
 
     public void move(int x, int y) {
         // TODO
-        setPos(x, y);
+
+        if (x < 1 || x > dungeon.getWidth()) return;
+        if (y < 1 || y > dungeon.getHeight()) return;
+
+        if (dungeon.tileIsEmpty(x, y)) {
+            setPos(x, y);
+        } else {
+            if (dungeon.checkEnterableTile(x, y)) {
+                setPos(x, y);
+            }
+        }
     }
 
 }

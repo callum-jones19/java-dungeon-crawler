@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class Sword extends Entity implements Item, UniqueItem {
+public class Sword extends Entity implements Item {
     
     private CollectCollision c = new CollectCollision(this);
     private int uses;
@@ -27,8 +27,16 @@ public class Sword extends Entity implements Item, UniqueItem {
         return (this.uses > 0);
     }
 
-    public boolean checkSameItem(Entity e) {
-        return (e instanceof Sword);
+    public boolean checkItemType(Item i) {
+        return (i instanceof Sword);
+    }
+
+    public boolean isWeapon() {
+        return true;
+    }
+
+    public boolean isUnique() {
+        return true;
     }
 
 }

@@ -24,6 +24,7 @@ public class Door extends Entity implements Triggerable {
 
     public void markAvailable() {
         super.setCollisionBehaviour(triggerCollision);
+        triggerCollision.setEnterability(false);
     }
 
     @Override 
