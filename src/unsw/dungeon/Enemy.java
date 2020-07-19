@@ -40,14 +40,12 @@ public class Enemy extends Entity implements IMoveable, IDamagable {
         if (dungeon.tileIsEmpty(x, y)) {
             setPos(x, y);
         } else {
-            Entity top = dungeon.getTopmostEntity(x, y);
-            /////////////////////////////////////////////
-            if (top.isEnterable()) {
+            // Trying to move into an occupied space
+            if (dungeon.isTileEnterable(x, y)) {
                 setPos(x, y);
-                top.onCollide(this);
-            } else {
-                top.onCollide(this);
             }
+            dungeon.processCollision(this, x, y);
+            
         }
     } 
 
