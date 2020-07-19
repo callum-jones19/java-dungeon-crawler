@@ -3,8 +3,6 @@ package test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import unsw.dungeon.Dungeon;
 import unsw.dungeon.Enemy;
@@ -12,6 +10,11 @@ import unsw.dungeon.Player;
 
 
 public class EnemyTest {
+    
+    /**
+     * If the player moves onto a tile an enemy sits on, they should die.
+     * (If the player has no potion effect)
+     */
     @Test
     public void damagePlayerMoveOn () {
         Dungeon dungeon = new Dungeon(10, 10);
@@ -25,6 +28,10 @@ public class EnemyTest {
         assertEquals(null, dungeon.getPlayer());
     }
 
+    /**
+     * If the enemy moves onto the player, the player should die.
+     * (If the player has no potion effect)
+     */
     @Test
     public void damagePlayerEnemyMoveOn() {
         Dungeon d = new Dungeon(10, 10);
@@ -38,6 +45,10 @@ public class EnemyTest {
         assertEquals(null, d.getPlayer());
     }
 
+    /**
+     * The enemy should chase the player in a straight line on any of the
+     * 4 axes.
+     */
     @Test
     public void enemyChaseTest() {
         Dungeon d = new Dungeon(10, 10);

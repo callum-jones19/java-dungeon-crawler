@@ -1,11 +1,20 @@
 package unsw.dungeon;
 
-public class Exit extends Entity {
+public class Exit extends Entity implements Triggerable{
     
-    CollisionBehaviour c = new // does this go with a StopCollision or a TriggerCollision?
+    private TriggerCollision trigStrat;
+    private boolean isActive;
+
 
     public Exit(int x, int y) {
         super(x, y);
+        trigStrat = new TriggerCollision(this);
+        isActive = false;
     }
+
+    public void trigger() {
+        isActive = true;
+    }
+
 
 }
