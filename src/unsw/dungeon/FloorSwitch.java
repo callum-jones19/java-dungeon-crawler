@@ -3,6 +3,7 @@ package unsw.dungeon;
 public class FloorSwitch extends Entity implements Triggerable {
     
     private CollisionBehaviour c = new TriggerCollision(this, new TriggerTypeBoulder());
+    List<Boulder> boulders;
     private boolean isActive;
 
     public FloorSwitch(int x, int y) {

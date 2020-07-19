@@ -25,4 +25,22 @@ public class Potion extends Entity implements Item, PickupActivateItem {
     public void activate() {
         // FIX
     }
+
+    public boolean checkCanUse() {
+        return false;
+    }
+
+    public boolean isWeapon() {
+        return false;
+    }
+
+    public boolean isUnique() {
+        return false;
+    }
+
+    public boolean checkItemType(Item i) {
+        return (i instanceof Potion);
+    }
+
+    
 }

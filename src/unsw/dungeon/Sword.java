@@ -4,11 +4,13 @@ public class Sword extends Entity implements Item {
     
     private CollectCollision c = new CollectCollision(this);
     private int uses;
+    Player user;
 
-    public Sword(int x, int y, Entity user) {
+    public Sword(int x, int y, Player user) {
         super(x, y);
         super.setCollisionBehaviour(c);
         this.uses = 5;
+        this.user = user;
     }
 
     public void use(Entity target) {
@@ -17,6 +19,7 @@ public class Sword extends Entity implements Item {
             newTarget.die();
             this.uses--;
             if (uses == 0) {
+                user.removeItem(this);
                 destroy();
             }
         }

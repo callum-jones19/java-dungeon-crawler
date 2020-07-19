@@ -112,8 +112,8 @@ public class Player extends Entity implements IMoveable, IDamagable {
                 if (i instanceof PickupActivateItem) {
                     PickupActivateItem p = (PickupActivateItem) i;
                     p.activate();
-                    e.destroy();
                 }
+                e.destroy();
             } else {
                 // check if we already have an instance of this type
                 if (!(contains(i))) {
@@ -121,8 +121,8 @@ public class Player extends Entity implements IMoveable, IDamagable {
                     if (i instanceof PickupActivateItem) {
                         PickupActivateItem p = (PickupActivateItem) i;
                         p.activate();
-                        e.destroy();
                     }
+                    e.destroy();
                 }
             }
         }
@@ -137,6 +137,7 @@ public class Player extends Entity implements IMoveable, IDamagable {
     }
 
     public boolean contains(Item i) {
+        System.out.println("We here fellas");
         for (Item item: inventory) {
             if (item.checkItemType(i)) {
                 return true;
@@ -149,6 +150,7 @@ public class Player extends Entity implements IMoveable, IDamagable {
     public void attack() {
         for (Item i: inventory) {
             if (i.isWeapon()) {
+                System.out.println("hello 1");
                 orientation.attack(i);
             }
         }
@@ -156,6 +158,30 @@ public class Player extends Entity implements IMoveable, IDamagable {
 
     public List<Item> getInventory() {
         return inventory;
+    }
+
+    public void removeItem(Item item) {
+
+        System.out.println("We arrive here");
+        List<Item> newInventory = new ArrayList<Item>();
+
+        for (Item i: inventory) {
+            if (!(i.checkItemType(item))) {
+                newInventory.add(i);
+            }
+        }
+
+        this.inventory = newInventory;
+    }
+
+    public Boolean exactContains(Item i) {
+        for (Item item: inventory) {
+            if (item.equals(i)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
