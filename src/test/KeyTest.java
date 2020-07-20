@@ -112,17 +112,17 @@ public class KeyTest {
         // Test that a player can pick up a single key
         player.addToInventory(key1);
 
-        assertEquals(true, player.exactContains(key1));
+        assertEquals(true, player.isHoldingInstance(key1));
 
         // Test that a player cannot pickup another key whilst holding a key already
         player.addToInventory(key2);
 
-        assertEquals(false, player.exactContains(key2));
+        assertEquals(false, player.isHoldingInstance(key2));
 
         player.move(5, 6);
         player.moveDown();
 
-        assertEquals(false, player.exactContains(key1));
+        assertEquals(false, player.isHoldingInstance(key1));
 
         // Test that a player can pick up a second key after using the first one
         player.addToInventory(key2);

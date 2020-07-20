@@ -150,7 +150,6 @@ public class Dungeon implements DestroyObserver {
         }
     }
 
-    // FIXME ? Is there a cleaner way to do this
     public Entity getTopmostEntity(int x, int y, Entity ignore) {
         List<Entity> entities = getEntities(x, y);
         Entity result = null;

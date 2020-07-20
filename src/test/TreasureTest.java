@@ -56,7 +56,7 @@ public class TreasureTest {
         // Test player can pick up one piece of treasure
         player.moveUp();
 
-        assertEquals(true, player.exactContains(treasure1));
+        assertEquals(true, player.isHoldingInstance(treasure1));
 
         // Test player can pick up more pieces of treasure
         player.move(7, 6);
@@ -64,8 +64,8 @@ public class TreasureTest {
         player.moveDown();
         player.moveDown();
 
-        assertEquals(true, player.exactContains(treasure2));
-        assertEquals(true, player.exactContains(treasure3));
+        assertEquals(true, player.isHoldingInstance(treasure2));
+        assertEquals(true, player.isHoldingInstance(treasure3));
         assertEquals(null, dungeon.getTopmostEntity(7, 7));
         assertEquals(null, dungeon.getTopmostEntity(7, 8));
 

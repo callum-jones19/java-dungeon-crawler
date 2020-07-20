@@ -1,9 +1,7 @@
 package unsw.dungeon;
 
 public class CollectCollision implements CollisionBehaviour {
-    
-    // TODO
-    // Maybe turn this into Item parent, 
+
     private Entity parent;
     Boolean isEnterable;
 

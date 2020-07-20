@@ -18,7 +18,7 @@ public class Key extends Entity implements Item, PickupActivateItem {
         return false;
     }
 
-    public void activate(Entity e) {
+    public void activate() {
         door.markAvailable();
     }
 
@@ -50,7 +50,8 @@ public class Key extends Entity implements Item, PickupActivateItem {
         if (e instanceof Player) {
             Player p = (Player) e;
             p.addToInventory(this);
-            if (p.exactContains(this)) {
+            activate();
+            if (p.isHoldingInstance(this)) {
                 destroy();
             }
         }

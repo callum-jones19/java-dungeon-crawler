@@ -135,18 +135,10 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
     public void addToInventory(Item i) {
         if (!(i.isUnique())) {
             this.inventory.add(i);
-            if (i instanceof PickupActivateItem) {
-                PickupActivateItem p = (PickupActivateItem) i;
-                p.activate(this);
-            }
         } else {
             // check if we already have an instance of this type
             if (!(contains(i))) {
                 this.inventory.add(i);
-                if (i instanceof PickupActivateItem) {
-                    PickupActivateItem p = (PickupActivateItem) i;
-                    p.activate(this);
-                }
             }
         }
     }
@@ -212,7 +204,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         this.inventory = newInventory;
     }
 
-    public Boolean exactContains(Item i) {
+    public Boolean isHoldingInstance(Item i) {
         for (Item item: inventory) {
             if (item.equals(i)) {
                 return true;

@@ -14,7 +14,7 @@ public class NoCollision implements CollisionBehaviour {
     }
 
     public void onCollide(Entity e) {
-        // TODO might have to think about these empty ones.
+        // Can add an effect here in milestone 3.
     }
 
     public void setEnterability(Boolean enterability) {

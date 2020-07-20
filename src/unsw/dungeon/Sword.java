@@ -42,7 +42,7 @@ public class Sword extends Entity implements Item, Weapon {
         if (e instanceof Player) {
             Player p = (Player) e;
             p.addToInventory(this);
-            if (p.exactContains(this)) {
+            if (p.isHoldingInstance(this)) {
                 destroy();
             }
                
