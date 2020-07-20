@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class Enemy extends Entity implements IMoveable, IDamagable {
+public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable {
     
     private Dungeon dungeon;
     
@@ -8,6 +8,8 @@ public class Enemy extends Entity implements IMoveable, IDamagable {
     private DamageCollision attackState;
 
     private SearchStyle currentSearchStrat;
+
+    private double timeUntilNextMove;
 
     public Enemy (int x, int y, Dungeon d) {
         super(x,y);
@@ -19,7 +21,18 @@ public class Enemy extends Entity implements IMoveable, IDamagable {
         currentSearchStrat = new DirectSearch();
 
         setCollisionBehaviour(attackState);
+
+        timeUntilNextMove = 1.0;
     }
+
+    public void update(double deltaTime) {
+        if (timeUntilNextMove <= 0) {
+            chasePlayer();
+            timeUntilNextMove = 1.0;
+        } else {
+            timeUntilNextMove -= deltaTime;
+        }
+    }    
 
     public void makeVulnerable() {
         setCollisionBehaviour(vulnState);
@@ -34,6 +47,7 @@ public class Enemy extends Entity implements IMoveable, IDamagable {
     public void chasePlayer() {
         Coordinates targetLoc = currentSearchStrat.pathSearch(dungeon.getPlayerX(), dungeon.getPlayerY(), getX(), getY());
         move(targetLoc.getX(), targetLoc.getY());
+        dungeon.printDungeon();
     }
 
     public void move(int x, int y) {
