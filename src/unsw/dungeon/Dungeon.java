@@ -234,9 +234,8 @@ public class Dungeon implements DestroyObserver{
         top.onCollide(e);
     }
 
-    public boolean checkCoordinatesValidity() {
-        // TODO
-        return false;
+    public boolean hasEntity(Entity e) {
+        return entities.contains(e);
     }
 
 }
