@@ -16,15 +16,18 @@ public class ExitGoal implements GoalObserver, GoalObserverChild {
 
     @Override
     public void update(Goal g) {
-        
-        exits.remove((Exit) g);
+        System.out.println("Exit Goal observer receiving updates...");
         if (parent != null) {
+            System.out.println(parent.checkRemainingGoals());
             if (parent.checkRemainingGoals()) {
+                System.out.println("We here");
                 isComplete = false;
             } else {
+                exits.remove((Exit) g);
                 if (exits.isEmpty()) isComplete = true;
             }
         } else {
+            exits.remove((Exit) g);
             if (exits.isEmpty()) isComplete = true;
         }
 

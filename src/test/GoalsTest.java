@@ -278,9 +278,84 @@ public class GoalsTest {
 
         assertEquals(true, compositeGoal4.isComplete());
 
-        // Test treasure goal and switches goal and enemies goal and exit goal
-        
+        b3.destroy();
+        b4.destroy();
+        t7.destroy();
+        t8.destroy();
+        f3.destroy();
+        f4.destroy();
+        enemy1.destroy();
+        enemy2.destroy();
+        enemy3.destroy();
+        sword.destroy();
 
+        // Test treasure goal and switches goal and enemies goal and exit goal
+        GoalObserver compositeGoal6 = new CompositeGoal(true);
+        GoalObserverParent compositeParent6 = (GoalObserverParent) compositeGoal6;
+        GoalObserver treasure5 = new TreasureGoal();
+        GoalObserver switches3 = new SwitchGoal();
+        GoalObserver enemies3 = new EnemyGoal();
+        GoalObserver exit4 = new ExitGoal();
+        compositeParent6.addChildGoal(treasure5);
+        compositeParent6.addChildGoal(switches3);
+        compositeParent6.addChildGoal(enemies3);
+        compositeParent6.addChildGoal(exit4);
+        dungeon.setGoal(compositeGoal6);
+
+        Treasure t9 = new Treasure(5, 5);
+        Treasure t10 = new Treasure(7, 7);
+        FloorSwitch f5 = new FloorSwitch(5, 5);
+        FloorSwitch f6 = new FloorSwitch(7, 7);
+        Boulder b5 = new Boulder(dungeon, 5, 6);
+        Boulder b6 = new Boulder(dungeon, 7, 8);
+        Enemy enemy4 = new Enemy(9, 6, dungeon);
+        Enemy enemy5 = new Enemy(9, 7, dungeon);
+        Enemy enemy6 = new Enemy(9, 8, dungeon);
+        Sword sword2 = new Sword(1, 1, player);
+        Exit exit6 = new Exit(3, 3);
+        Exit exit7 = new Exit(1, 2);
+
+        dungeon.addEntity(t9);
+        dungeon.addEntity(t10);
+        dungeon.addEntity(f5);
+        dungeon.addEntity(f6);
+        dungeon.addEntity(b5);
+        dungeon.addEntity(b6);
+        dungeon.addEntity(enemy4);
+        dungeon.addEntity(enemy5);
+        dungeon.addEntity(enemy6);
+        dungeon.addEntity(sword2);
+        dungeon.addEntity(exit6);
+        dungeon.addEntity(exit7);
+
+        assertEquals(false, compositeGoal6.isComplete());
+
+        t9.pickup(player);
+        t10.pickup(player);
+        
+        assertEquals(false, compositeGoal6.isComplete());
+
+        b5.move(5, 5);
+        b6.move(7, 7);
+
+        // (have the player try to complete the exit goal without
+        // completing the others)
+        player.move(3, 3);
+        assertEquals(false, exit4.isComplete());
+
+        player.move(8, 6);
+
+        assertEquals(false, compositeGoal6.isComplete());
+
+        enemy4.die();
+        enemy5.die();
+        enemy6.die();
+
+        assertEquals(false, compositeGoal6.isComplete());
+
+        player.move(3, 3);
+
+        assertEquals(true, compositeGoal6.isComplete());
         // Test treasure goal and switches goal and enemies goal or exit goal
 
         // Test treasure goal or switches goal or enemies goal or exit goal
