@@ -10,11 +10,9 @@ public class UpwardsOrientation implements PlayerOrientation {
         this.dungeon = dungeon;
     }
     
-    public void attack(Sword weapon) {
+    public void attack(Weapon weapon) {
         int attackY = parent.getY() - 1;
         int attackX = parent.getX();
-        if (weapon.canUseAgain()) {
-            weapon.use(dungeon.getTopmostEntity(attackX, attackY));
-        }
+        weapon.use(dungeon.getTopmostEntity(attackX, attackY));
     }
 }

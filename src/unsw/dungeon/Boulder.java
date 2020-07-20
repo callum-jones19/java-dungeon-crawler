@@ -18,6 +18,9 @@ public class Boulder extends Entity implements IMoveable, BoulderSubject {
     }
 
     public void move(int x, int y) {
+        if (!dungeon.areCoordinatesValid(x, y)) {
+            return;
+        }
         if (dungeon.tileIsEmpty(x, y)) {
             lastX = getX();
             lastY = getY();

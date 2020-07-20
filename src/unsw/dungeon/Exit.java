@@ -35,6 +35,7 @@ public class Exit extends Entity implements Triggerable, Goal {
 
     @Override
     public void notifyGoalObservers() {
+        System.out.println("Notifying goal observers...");
         for (GoalObserver goal: goalObservers) {
             if (goal instanceof GoalObserverChild) {
                 GoalObserverChild goalChild = (GoalObserverChild) goal;

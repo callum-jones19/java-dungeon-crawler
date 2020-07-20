@@ -83,7 +83,7 @@ public class WallTest {
         Wall wall1 = new Wall(1, 2);
         d.addEntity(wall1);
         Sword sword = new Sword(3, 3, p1);
-        p1.pickup(sword);
+        p1.addToInventory(sword);
         PlayerOrientation left = new LeftOrientation(p1, d);
         p1.setOrientation(left);
         p1.attack();
