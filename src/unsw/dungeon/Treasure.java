@@ -1,8 +1,12 @@
 package unsw.dungeon;
 
-public class Treasure extends Entity implements Item {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Treasure extends Entity implements Item, Goal {
 
     private CollisionBehaviour collectionStrategy;
+    List<GoalObserverChild> goalObservers = new ArrayList<GoalObserverChild>();
 
     public Treasure(int x, int y) {
         super(x, y);
@@ -23,6 +27,38 @@ public class Treasure extends Entity implements Item {
 
     public boolean checkItemType(Item i) {
         return (i instanceof Treasure);
+    }
+
+
+    @Override
+    public void registerObserver(GoalObserver obs) {
+        this.goalObservers.add((GoalObserverChild) obs);
+
+    }
+
+    @Override
+    public void removeObserver(GoalObserver obs) {
+        this.goalObservers.remove((GoalObserverChild) obs);
+
+    }
+
+    public void pickup(Entity e) {
+        if (e instanceof Player) {
+            System.out.println("We here my guys");
+            Player p = (Player) e;
+            p.pickup(this);
+            if (p.exactContains(this)) {
+                notifyGoalObservers();
+                destroy();
+            }
+               
+        }
+    }
+
+    public void notifyGoalObservers() {
+        for (GoalObserverChild g: goalObservers) {
+            g.update(this);
+        }
     }
     
 }

@@ -1,9 +1,12 @@
 package unsw.dungeon;
 
-public class FloorSwitch extends Entity implements Triggerable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class FloorSwitch extends Entity implements BoulderObserver, Goal {
     
-    private CollisionBehaviour c = new TriggerCollision(this, new TriggerTypeBoulder());
-    List<Boulder> boulders;
+    private CollisionBehaviour c = new NoCollision();
+    List<GoalObserver> goalObservers = new ArrayList<GoalObserver>();
     private boolean isActive;
 
     public FloorSwitch(int x, int y) {
@@ -12,11 +15,55 @@ public class FloorSwitch extends Entity implements Triggerable {
         this.isActive = false;
     }
 
-    public void trigger() {
-        this.isActive = true;
-    }
-
     public boolean isActive() {
         return this.isActive;
     }
+
+    public void setActive(Boolean active) {
+        this.isActive = active;
+    }
+
+    @Override
+    public void update(BoulderSubject b) {
+        
+        if (b.getX() == getX() && b.getY() == getY()) {
+            updateSwitchStatus();
+        } else if (b.getLastX() == getX() && b.getLastY() == getY()) {
+            updateSwitchStatus();
+        }
+
+    }
+
+    public void updateSwitchStatus() {
+        if (!(isActive())) {
+            setActive(true);
+        } else {
+            setActive(false);
+        }
+        notifyGoalObservers();
+    }
+
+    @Override
+    public void registerObserver(GoalObserver obs) {
+        this.goalObservers.add(obs);
+
+    }
+
+    @Override
+    public void removeObserver(GoalObserver obs) {
+        this.goalObservers.remove(obs);
+    }
+
+    @Override
+    public void notifyGoalObservers() {
+        for (GoalObserver g: goalObservers) {
+            if (g instanceof GoalObserverChild) {
+                GoalObserverChild gChild = (GoalObserverChild) g;
+                gChild.update(this);
+            }
+            
+        }
+    }
+
+
 }

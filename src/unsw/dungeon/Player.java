@@ -139,7 +139,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
                     PickupActivateItem p = (PickupActivateItem) i;
                     p.activate(this);
                 }
-                e.destroy();
+                //e.destroy();
             } else {
                 // check if we already have an instance of this type
                 if (!(contains(i))) {
@@ -148,7 +148,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
                         PickupActivateItem p = (PickupActivateItem) i;
                         p.activate(this);
                     }
-                    e.destroy();
+                    //e.destroy();
                 }
             }
         }
@@ -163,7 +163,6 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
     }
 
     public boolean contains(Item i) {
-        System.out.println("We here fellas");
         for (Item item: inventory) {
             if (item.checkItemType(i)) {
                 return true;
@@ -205,7 +204,6 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
 
     public void removeItem(Item item) {
 
-        System.out.println("We arrive here");
         List<Item> newInventory = new ArrayList<Item>();
 
         for (Item i: inventory) {

@@ -1,6 +1,9 @@
 package unsw.dungeon;
 
-public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable, Goal {
     
     private Dungeon dungeon;
     
@@ -9,6 +12,8 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable 
 
     private SearchStyle currentSearchStrat;
 
+    private List<GoalObserverChild> goalObservers = new ArrayList<GoalObserverChild>();
+    
     private double timeUntilNextMove;
 
     public Enemy (int x, int y, Dungeon d) {
@@ -65,6 +70,38 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable 
 
     public void die() {
         destroy();
+    }
+
+    @Override
+    public void registerObserver(GoalObserver obs) {
+        if (obs instanceof GoalObserverChild) {
+            this.goalObservers.add((GoalObserverChild) obs);
+        }
+        
+
+    }
+
+    @Override
+    public void removeObserver(GoalObserver obs) {
+
+        if (obs instanceof GoalObserverChild) {
+            this.goalObservers.remove((GoalObserverChild) obs);
+        }
+
+    }
+
+    @Override
+    public void notifyGoalObservers() {
+        for (GoalObserverChild g: goalObservers) {
+            g.update(this);
+        }
+
+    }
+
+    @Override
+    public void destroy() {
+        super.notifyObservers();
+        notifyGoalObservers();
     }
 
 }

@@ -15,7 +15,7 @@ import java.util.List;
  * @author Robert Clifton-Everest
  *
  */
-public class Dungeon implements DestroyObserver{
+public class Dungeon implements DestroyObserver {
 
     private int width, height;
 
@@ -23,6 +23,8 @@ public class Dungeon implements DestroyObserver{
     private Player player;
     
     private boolean isComplete;
+
+    private GoalObserver goal;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -34,7 +36,7 @@ public class Dungeon implements DestroyObserver{
     public void update(DestroySubject sub) {
         if (sub instanceof Player) {
             removePlayer((Player) sub);
-        }
+        } 
             this.entities.remove(sub);
     }
 
@@ -86,10 +88,18 @@ public class Dungeon implements DestroyObserver{
     }
 
     public void addEntity(Entity entity) {
-        if (!entities.contains(entity)) {
-            entities.add(entity);
-            entity.registerObserver(this);
+        if (entities.contains(entity)) {
+            return;
         }
+        
+        entities.add(entity);
+        if (entity instanceof Boulder) {
+            registerBoulderObservers((Boulder) entity);
+        } else if (entity instanceof FloorSwitch) {
+            registerBoulderObservers((FloorSwitch) entity);
+        }
+        if (goal != null) goal.addGoalEntity(entity);
+        entity.registerObserver(this);
     }
 
     public void removeEntity(Entity e) {
@@ -190,7 +200,12 @@ public class Dungeon implements DestroyObserver{
                 } else if (e instanceof Item) {
                     System.out.print("I");
                 } else if (e instanceof FloorSwitch) {
-                    System.out.print("F");
+                    FloorSwitch f = (FloorSwitch) e;
+                    if (f.isActive()) {
+                        System.out.print("F*");
+                    } else {
+                        System.out.print("F");
+                    }
                 } else if (e instanceof Portal) {
                     System.out.print("_");
                 } else if (e instanceof Enemy) {
@@ -236,6 +251,28 @@ public class Dungeon implements DestroyObserver{
 
     public boolean hasEntity(Entity e) {
         return entities.contains(e);
+    }
+
+    public void registerBoulderObservers(Boulder b) {
+        
+        for(Entity e: entities) {
+            if (e instanceof FloorSwitch) {
+                b.registerObserver((FloorSwitch) e);
+            }
+        }
+    }
+
+    public void registerBoulderObservers(FloorSwitch f) {
+        for (Entity e: entities) {
+            if (e instanceof Boulder) {
+                Boulder b = (Boulder) e;
+                b.registerObserver(f);
+            }
+        }
+    }
+
+    public void setGoal(GoalObserver g) {
+        this.goal = g;
     }
 
 }

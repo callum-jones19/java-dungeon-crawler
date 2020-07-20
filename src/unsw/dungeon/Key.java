@@ -45,4 +45,16 @@ public class Key extends Entity implements Item, PickupActivateItem {
         return false;
     }
 
+    @Override
+    public void pickup(Entity e) {
+        if (e instanceof Player) {
+            Player p = (Player) e;
+            p.pickup(this);
+            if (p.exactContains(this)) {
+                destroy();
+            }
+        }
+
+    }
+
 }
