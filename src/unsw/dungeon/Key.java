@@ -49,6 +49,7 @@ public class Key extends Entity implements Item, PickupActivateItem {
     public void pickup(Entity e) {
         if (e instanceof Player) {
             Player p = (Player) e;
+            // TODO make this player.addToInventory?
             p.pickup(this);
             if (p.exactContains(this)) {
                 destroy();
