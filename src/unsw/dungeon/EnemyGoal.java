@@ -22,7 +22,7 @@ public class EnemyGoal implements GoalObserver, GoalObserverChild {
             this.enemies.remove((Enemy) g);
             if (isComplete() && parent != null) {
                 parent.update();
-            } else if (isComplete()) {
+            } else if (enemies.isEmpty()) {
                 this.isComplete = true;
             }
         }
@@ -41,7 +41,7 @@ public class EnemyGoal implements GoalObserver, GoalObserverChild {
 
     @Override
     public boolean isComplete() {
-        return enemies.isEmpty();
+        return isComplete;
     }
 
     @Override

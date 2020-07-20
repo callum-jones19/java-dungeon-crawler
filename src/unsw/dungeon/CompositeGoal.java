@@ -31,6 +31,11 @@ public class CompositeGoal implements GoalObserver, GoalObserverParent {
     }
 
     @Override
+    public void removeChildGoal(GoalObserver g) {
+        if (childGoals.contains(g)) childGoals.remove(g);
+    }
+
+    @Override
     public boolean isComplete() {
         for (GoalObserver goal: childGoals) {
             if (!goal.isComplete() && isCompulsoryConjunction) {
@@ -39,16 +44,33 @@ public class CompositeGoal implements GoalObserver, GoalObserverParent {
                 return true;
             }
         }
-        return true;
+        return isCompulsoryConjunction;
     }
 
     @Override
     public List<Object> getSubjects() {
-        return null;
+        List<Object> retList = new ArrayList<Object>();
+        for (GoalObserver g: childGoals) {
+            retList.add((Object) g);
+        }
+
+        return retList;
     }
 
     public void addChildGoal(GoalObserver obs) {
         childGoals.add(obs);
+    }
+
+    @Override
+    public boolean checkRemainingGoals() {
+        
+        for (GoalObserver g: childGoals) {
+            if (!g.isComplete()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

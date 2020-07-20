@@ -21,7 +21,7 @@ public class TreasureGoal implements GoalObserver, GoalObserverChild {
             treasure.remove((Treasure) g);
             if (isComplete() && parent != null) {
                 parent.update();
-            } else if (isComplete()) {
+            } else if (treasure.isEmpty()) {
                 this.isComplete = true;
             }
         }
@@ -40,7 +40,7 @@ public class TreasureGoal implements GoalObserver, GoalObserverChild {
 
     @Override
     public boolean isComplete() {
-        return treasure.isEmpty();
+        return isComplete;
     }
 
     @Override

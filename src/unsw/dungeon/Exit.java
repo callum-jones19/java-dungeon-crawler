@@ -1,37 +1,46 @@
 package unsw.dungeon;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Exit extends Entity implements Triggerable, Goal {
     
     private TriggerCollision trigStrat;
     private boolean isActive;
-    
-
+    private List<GoalObserver> goalObservers = new ArrayList<GoalObserver>();
 
     public Exit(int x, int y) {
         super(x, y);
-        trigStrat = new TriggerCollision(this, new TriggerTypePlayer());
+        this.trigStrat = new TriggerCollision(this, new TriggerTypePlayer());
+        super.setCollisionBehaviour(trigStrat);
         isActive = false;
     }
 
     public void trigger() {
         isActive = true;
+        notifyGoalObservers();
     }
 
     @Override
     public void registerObserver(GoalObserver obs) {
-        // TODO Auto-generated method stub
+       this.goalObservers.add(obs);
 
     }
 
     @Override
     public void removeObserver(GoalObserver obs) {
-        // TODO Auto-generated method stub
+        this.goalObservers.remove(obs);
 
     }
 
     @Override
     public void notifyGoalObservers() {
-        // TODO Auto-generated method stub
+        for (GoalObserver goal: goalObservers) {
+            if (goal instanceof GoalObserverChild) {
+                GoalObserverChild goalChild = (GoalObserverChild) goal;
+                goalChild.update(this);
+            }
+        }
 
     }
 
