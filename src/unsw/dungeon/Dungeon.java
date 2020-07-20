@@ -15,7 +15,7 @@ import java.util.List;
  * @author Robert Clifton-Everest
  *
  */
-public class Dungeon implements DestroyObserver{
+public class Dungeon implements DestroyObserver {
 
     private int width, height;
 
@@ -23,6 +23,8 @@ public class Dungeon implements DestroyObserver{
     private Player player;
     
     private boolean isComplete;
+
+    private GoalObserver goal;
 
     public Dungeon(int width, int height) {
         this.width = width;
@@ -83,6 +85,7 @@ public class Dungeon implements DestroyObserver{
         } else if (entity instanceof FloorSwitch) {
             registerBoulderObservers((FloorSwitch) entity);
         }
+        if (goal != null) goal.addGoalEntity(entity);
         entity.registerObserver(this);
     }
 
@@ -254,6 +257,10 @@ public class Dungeon implements DestroyObserver{
                 b.registerObserver(f);
             }
         }
+    }
+
+    public void setGoal(GoalObserver g) {
+        this.goal = g;
     }
 
 }

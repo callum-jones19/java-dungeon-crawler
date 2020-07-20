@@ -6,4 +6,5 @@ public interface Item {
     boolean isWeapon();
     boolean isUnique();
     boolean checkItemType(Item i);
+    void pickup(Entity e);
 }
