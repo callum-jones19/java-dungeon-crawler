@@ -37,7 +37,6 @@ public class WallTest {
 
     @Test 
     public void testWallPermeability() {
-
         // test player moving through wall
         Dungeon d = new Dungeon(10, 10);
         Wall wall1 = new Wall(1, 1);
@@ -71,6 +70,8 @@ public class WallTest {
         assertEquals(boulder1, d.getTopmostEntity(2, 1));
         assertEquals(wall1, d.getTopmostEntity(1, 1));
         assertEquals(player1, d.getTopmostEntity(3, 1));
+
+
     }
 
     @Test
@@ -82,7 +83,7 @@ public class WallTest {
         Wall wall1 = new Wall(1, 2);
         d.addEntity(wall1);
         Sword sword = new Sword(3, 3, p1);
-        p1.pickup(sword);
+        p1.addToInventory(sword);
         PlayerOrientation left = new LeftOrientation(p1, d);
         p1.setOrientation(left);
         p1.attack();

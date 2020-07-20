@@ -29,7 +29,7 @@ public class Dungeon implements DestroyObserver {
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
-        this.entities = new ArrayList<Entity>();
+        this.entities = new ArrayList<>();
         this.player = null;
     }
 
@@ -150,7 +150,6 @@ public class Dungeon implements DestroyObserver {
         }
     }
 
-    // FIXME ? Is there a cleaner way to do this
     public Entity getTopmostEntity(int x, int y, Entity ignore) {
         List<Entity> entities = getEntities(x, y);
         Entity result = null;
@@ -273,6 +272,22 @@ public class Dungeon implements DestroyObserver {
 
     public void setGoal(GoalObserver g) {
         this.goal = g;
+    }
+
+    public boolean areCoordinatesValid(int x, int y) {
+        if (y < 0) {
+            return false;
+        }
+        if (x < 0) {
+            return false;
+        }
+        if (y >= getWidth()) {
+            return false;
+        }
+        if(x >= getHeight()) {
+            return false;
+        }
+        return true;
     }
 
 }

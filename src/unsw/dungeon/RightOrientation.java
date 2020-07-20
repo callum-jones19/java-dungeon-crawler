@@ -10,11 +10,9 @@ public class RightOrientation implements PlayerOrientation {
         this.dungeon = dungeon;
     }
     
-    public void attack(Sword weapon) {
+    public void attack(Weapon weapon) {
         int attackY = parent.getY();
         int attackX = parent.getX() + 1;
-        if (weapon.canUseAgain()) {
-            weapon.use(dungeon.getTopmostEntity(attackX, attackY));
-        }
+        weapon.use(dungeon.getTopmostEntity(attackX, attackY));
     }
 }

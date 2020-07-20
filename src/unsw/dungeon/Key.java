@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class Key extends Entity implements Item, PickupActivateItem {
+public class Key extends Entity implements Item {
 
     CollectCollision c = new CollectCollision(this);
     Door door;
@@ -18,7 +18,7 @@ public class Key extends Entity implements Item, PickupActivateItem {
         return false;
     }
 
-    public void activate(Entity e) {
+    public void activate() {
         door.markAvailable();
     }
 
@@ -49,8 +49,9 @@ public class Key extends Entity implements Item, PickupActivateItem {
     public void pickup(Entity e) {
         if (e instanceof Player) {
             Player p = (Player) e;
-            p.pickup(this);
-            if (p.exactContains(this)) {
+            p.addToInventory(this);
+            activate();
+            if (p.isHoldingInstance(this)) {
                 destroy();
             }
         }
