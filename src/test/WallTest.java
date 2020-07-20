@@ -37,11 +37,8 @@ public class WallTest {
 
     @Test 
     public void testWallPermeability() {
-
-        // TODO: FIXME
-
         // test player moving through wall
-        Dungeon d = new Dungeon(5, 5);
+        Dungeon d = new Dungeon(10, 10);
         Wall wall1 = new Wall(1, 1);
         d.addEntity(wall1);
         Player player1 = new Player(d, 2, 1);
@@ -66,11 +63,15 @@ public class WallTest {
         assertEquals(wall1, d.getTopmostEntity(1, 1));
 
         // test player pushing boulder through wall
+        d.printDungeon();
         player1.move(3, 1);
+        boulder1.move(2, 1);
         player1.moveLeft();
-        assertEquals(boulder1, d.getTopmostEntity(5, 1));
+        assertEquals(boulder1, d.getTopmostEntity(2, 1));
         assertEquals(wall1, d.getTopmostEntity(1, 1));
         assertEquals(player1, d.getTopmostEntity(3, 1));
+
+
     }
 
     @Test
