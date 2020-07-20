@@ -71,7 +71,6 @@ public abstract class Entity implements DestroySubject{
     }
 
     public void setPos(int x, int y) {
-        // TODO check bounds
         setY(y);
         setX(x);
     }

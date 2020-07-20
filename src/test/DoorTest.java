@@ -61,7 +61,7 @@ public class DoorTest {
         assertEquals(door1, d.getTopmostEntity(2, 3));
 
         // Player strikes locked door with sword
-        p1.pickup(sword);
+        p1.addToInventory(sword);
 
         assertEquals(true, p1.contains(sword));
         boulder1.destroy();

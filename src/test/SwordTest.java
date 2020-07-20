@@ -57,9 +57,9 @@ public class SwordTest {
         dungeon.addEntity(sword);
 
         // Test sword can kill enemies in one hit
-        player.pickup(sword);
+        player.addToInventory(sword);
 
-        assertEquals(true, player.exactContains(sword));
+        assertEquals(true, player.isHoldingInstance(sword));
 
         player.move(7, 8);
         player.setOrientation(right);
@@ -93,7 +93,7 @@ public class SwordTest {
         player.moveUp();
         player.moveUp();
 
-        assertEquals(true, player.exactContains(sword));
+        assertEquals(true, player.isHoldingInstance(sword));
         
         // Test player cannot pick up second sword while in possession 
         // of existing sword
@@ -101,7 +101,7 @@ public class SwordTest {
         player.moveUp();
         player.moveRight();
 
-        assertEquals(false, player.exactContains(sword2));
+        assertEquals(false, player.isHoldingInstance(sword2));
 
     }
 
@@ -130,9 +130,9 @@ public class SwordTest {
         dungeon.addEntity(sword2);
 
         // Test sword disappears after five kills
-        player.pickup(sword);
+        player.addToInventory(sword);
 
-        assertEquals(true, player.exactContains(sword));
+        assertEquals(true, player.isHoldingInstance(sword));
 
         player.move(8, 3);
         player.setOrientation(down);
@@ -147,13 +147,13 @@ public class SwordTest {
         player.moveDown();
         player.attack();
 
-        assertEquals(false, player.exactContains(sword));
+        assertEquals(false, player.isHoldingInstance(sword));
 
         // Test player can pick up second sword after first sword
         // has broken
-        player.pickup(sword2);
+        player.addToInventory(sword2);
 
-        assertEquals(true, player.exactContains(sword2));
+        assertEquals(true, player.isHoldingInstance(sword2));
 
     }
 
