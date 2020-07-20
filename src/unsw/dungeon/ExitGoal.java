@@ -19,16 +19,16 @@ public class ExitGoal implements GoalObserver, GoalObserverChild {
         System.out.println("Exit Goal observer receiving updates...");
         if (parent != null) {
             System.out.println(parent.checkRemainingGoals());
-            if (parent.checkRemainingGoals()) {
+            if (parent.checkRemainingGoals() && parent.isCompulsoryConjunction()) {
                 System.out.println("We here");
                 isComplete = false;
             } else {
                 exits.remove((Exit) g);
-                if (exits.isEmpty()) isComplete = true;
+                isComplete = true;
             }
         } else {
             exits.remove((Exit) g);
-            if (exits.isEmpty()) isComplete = true;
+            isComplete = true;
         }
 
     }

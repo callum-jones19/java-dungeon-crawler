@@ -27,7 +27,7 @@ public class Dungeon implements DestroyObserver {
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
-        this.entities = new ArrayList<Entity>();
+        this.entities = new ArrayList<>();
         this.player = null;
     }
 

@@ -6,4 +6,5 @@ public interface GoalObserver {
     void addGoalEntity(Entity e);
     boolean isComplete();
     public List<Object> getSubjects();
+    void setParent(GoalObserverParent parent);
 }
