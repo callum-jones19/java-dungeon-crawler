@@ -50,6 +50,15 @@ public class Dungeon implements DestroyObserver{
         return height;
     }
 
+    public void executeUpdates(double deltaTime) {
+        for (Entity e : entities) {
+            if (e instanceof IUpdateable) {
+                IUpdateable u = (IUpdateable) e;
+                u.update(deltaTime);
+            }
+        }
+    }
+
     public boolean entityExists(Entity e) {
         return entities.contains(e);
     }
