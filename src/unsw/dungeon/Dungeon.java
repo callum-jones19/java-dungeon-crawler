@@ -21,8 +21,6 @@ public class Dungeon implements DestroyObserver {
 
     private List<Entity> entities;
     private Player player;
-    
-    private boolean isComplete;
 
     private GoalObserver goal;
 
@@ -40,9 +38,6 @@ public class Dungeon implements DestroyObserver {
             this.entities.remove(sub);
     }
 
-    public boolean isComplete() {
-        return isComplete;
-    }
 
     public int getWidth() {
         return width;
@@ -53,16 +48,13 @@ public class Dungeon implements DestroyObserver {
     }
 
     public void executeUpdates(double deltaTime) {
-        for (Entity e : entities) {
+        List<Entity> entCopy = new ArrayList<Entity>(entities);
+        for (Entity e : entCopy) {
             if (e instanceof IUpdateable) {
                 IUpdateable u = (IUpdateable) e;
                 u.update(deltaTime);
             }
         }
-    }
-
-    public boolean entityExists(Entity e) {
-        return entities.contains(e);
     }
 
     public Player getPlayer() {
@@ -102,10 +94,6 @@ public class Dungeon implements DestroyObserver {
         entity.registerObserver(this);
     }
 
-    public void removeEntity(Entity e) {
-        entities.remove(e);
-    }
-
     public Portal findPortal(int id) {
         Portal p = null;
         for (Entity e : entities) {
@@ -137,37 +125,41 @@ public class Dungeon implements DestroyObserver {
     }
 
     public Entity getTopmostEntity(int x, int y) {
-        List<Entity> entities = getEntities(x, y);
-        if (entities.isEmpty()) {
+        List<Entity> ens = getEntities(x, y);
+        if (ens.isEmpty()) {
             return null;
         } else {
-            for (Entity e: entities) {
+            for (Entity e: ens) {
                 if (e instanceof IMoveable) {
                     return e;
                 }
             }
-            return entities.get(0);
+            return ens.get(0);
         }
     }
 
     public Entity getTopmostEntity(int x, int y, Entity ignore) {
-        List<Entity> entities = getEntities(x, y);
+        List<Entity> ens = getEntities(x, y);
         Entity result = null;
-        if (entities.isEmpty()) {
+        // NB: This branch is never called because this version of the function
+        // is only called when there is guaranteed to be a collision.
+        // Best to leave it in for saftey though.
+        if (ens.isEmpty()) {
             result = null;
         } else {
-            for (Entity e: entities) {
+            for (Entity e: ens) {
                 if (e instanceof IMoveable && !e.equals(ignore)) {
                     return e;
                 }
             }
-            for (Entity e : entities) {
+            for (Entity e : ens) {
                 if (! (e instanceof IMoveable)) {
                     return e;
                 }
             }
         }
         
+        // Again, given context, this should never happen.
         return result;
     }
 
@@ -175,12 +167,14 @@ public class Dungeon implements DestroyObserver {
         Entity e;
         e = getTopmostEntity(x, y);
         if (e == null) {
+            // Only called in collisions, so this doesn't need to be tested.
             return true;
         } else {
             return e.isEnterable();
         }
     }
 
+    // TODO - remove
     public void printDungeon() {
         System.out.println("<========= Dungeon =========>");
         for (int i = 0; i  < getHeight(); i++) {
@@ -275,16 +269,10 @@ public class Dungeon implements DestroyObserver {
     }
 
     public boolean areCoordinatesValid(int x, int y) {
-        if (y < 0) {
+        if (y < 0 || x < 0) {
             return false;
         }
-        if (x < 0) {
-            return false;
-        }
-        if (y >= getWidth()) {
-            return false;
-        }
-        if(x >= getHeight()) {
+        if (y >= getWidth() || x >= getHeight()) {
             return false;
         }
         return true;

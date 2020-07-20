@@ -137,4 +137,57 @@ public class EnemyTest {
             e.chasePlayer();
         }
     }
+
+    @Test
+    public void testMoveOutBounds() {
+        Dungeon d = new Dungeon(10, 10);
+        Enemy e = new Enemy(5, 4, d);
+        d.addEntity(e);
+
+        Player p = new Player(d, 5, 1);
+        d.setPlayer(p);
+
+        e.move(100, 100);
+
+        assertEquals(5, e.getX());
+        assertEquals(4, e.getY());
+
+        e.move(-2, -2);
+
+        assertEquals(5, e.getX());
+        assertEquals(4, e.getY());
+
+        e.move(6,4);
+        assertEquals(6, e.getX());
+        assertEquals(4, e.getY());
+    }
+
+    @Test
+    public void enemyFleeTest() {
+        Dungeon d = new Dungeon(10, 10);
+        Enemy e = new Enemy(5, 4, d);
+        d.addEntity(e);
+
+        Player p = new Player(d, 5, 1);
+        d.setPlayer(p);
+        p.makeInvincible();
+
+        e.chasePlayer();
+        assertEquals(5, e.getX());
+        assertEquals(5, e.getY());
+
+        e.setPos(4, 1);
+        e.chasePlayer();
+        assertEquals(3, e.getX());
+        assertEquals(1, e.getY());
+
+        p.setPos(2, 3);
+        e.setPos(2, 2);
+        
+        e.chasePlayer();
+        assertEquals(2, e.getX());
+        assertEquals(1, e.getY());
+
+    }
+
 }
