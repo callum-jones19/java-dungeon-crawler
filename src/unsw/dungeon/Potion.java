@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class Potion extends Entity implements Item, PickupActivateItem {
+public class Potion extends Entity implements Item {
     
     private CollisionBehaviour collectStrat;
 

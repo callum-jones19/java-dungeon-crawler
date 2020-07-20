@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class Key extends Entity implements Item, PickupActivateItem {
+public class Key extends Entity implements Item {
 
     CollectCollision c = new CollectCollision(this);
     Door door;
