@@ -4,7 +4,7 @@ public class Sword extends Entity implements Item, Weapon {
     
     private CollectCollision c = new CollectCollision(this);
     private int uses;
-    Player user;
+    private Player user;
 
     public Sword(int x, int y, Player user) {
         super(x, y);

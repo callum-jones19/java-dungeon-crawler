@@ -3,7 +3,7 @@ package unsw.dungeon;
 public class DownwardsOrientation implements PlayerOrientation {
     
     private Entity parent;
-    Dungeon dungeon;
+    private Dungeon dungeon;
 
     public DownwardsOrientation(Entity p, Dungeon d) {
         this.parent = p;

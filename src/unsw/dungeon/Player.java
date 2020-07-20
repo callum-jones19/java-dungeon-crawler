@@ -13,12 +13,12 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
     private Dungeon dungeon;
     private List<Item> inventory;
     
-    PlayerOrientation upwardsOrientation;
-    PlayerOrientation downwardsOrientation;
-    PlayerOrientation leftOrientation;
-    PlayerOrientation rightOrientation;
+    private PlayerOrientation upwardsOrientation;
+    private PlayerOrientation downwardsOrientation;
+    private PlayerOrientation leftOrientation;
+    private PlayerOrientation rightOrientation;
 
-    public PlayerOrientation orientation = rightOrientation;
+    private PlayerOrientation orientation = rightOrientation;
 
 
     private VulnerableCollision vulnerableStrategy;

@@ -6,7 +6,7 @@ import java.util.List;
 public class Treasure extends Entity implements Item, Goal {
 
     private CollisionBehaviour collectionStrategy;
-    List<GoalObserverChild> goalObservers = new ArrayList<GoalObserverChild>();
+    private List<GoalObserverChild> goalObservers = new ArrayList<GoalObserverChild>();
 
     public Treasure(int x, int y) {
         super(x, y);

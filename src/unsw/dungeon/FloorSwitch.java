@@ -6,7 +6,7 @@ import java.util.List;
 public class FloorSwitch extends Entity implements BoulderObserver, Goal {
     
     private CollisionBehaviour c = new NoCollision();
-    List<GoalObserver> goalObservers = new ArrayList<GoalObserver>();
+    private List<GoalObserver> goalObservers = new ArrayList<GoalObserver>();
     private boolean isActive;
 
     public FloorSwitch(int x, int y) {
