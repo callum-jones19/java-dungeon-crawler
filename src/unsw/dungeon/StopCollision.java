@@ -2,7 +2,7 @@ package unsw.dungeon;
 
 public class StopCollision implements CollisionBehaviour {
     
-    Boolean isEnterable;
+    private Boolean isEnterable;
 
     public StopCollision() {
         super();
@@ -15,6 +15,10 @@ public class StopCollision implements CollisionBehaviour {
 
     public void onCollide(Entity e) {
         // As of now, do nothing.
+    }
+
+    public void setEnterability(Boolean enterability) {
+        this.isEnterable = enterability;
     }
 
 
