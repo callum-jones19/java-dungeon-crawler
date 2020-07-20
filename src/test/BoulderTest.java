@@ -116,6 +116,7 @@ public class BoulderTest {
         assertEquals(true, player.contains(sword));
 
         // Test player pushing boulder onto exit
+        // TODO
 
     }
 

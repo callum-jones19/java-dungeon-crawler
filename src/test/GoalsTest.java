@@ -2,7 +2,6 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import unsw.dungeon.Dungeon;
@@ -10,10 +9,7 @@ import unsw.dungeon.Enemy;
 import unsw.dungeon.EnemyGoal;
 import unsw.dungeon.Exit;
 import unsw.dungeon.ExitGoal;
-import unsw.dungeon.Wall;
 import unsw.dungeon.Player;
-import unsw.dungeon.PlayerOrientation;
-import unsw.dungeon.RightOrientation;
 import unsw.dungeon.SwitchGoal;
 import unsw.dungeon.Boulder;
 import unsw.dungeon.CompositeGoal;
@@ -24,8 +20,6 @@ import unsw.dungeon.UpwardsOrientation;
 import unsw.dungeon.FloorSwitch;
 import unsw.dungeon.GoalObserver;
 import unsw.dungeon.GoalObserverParent;
-
-import java.util.*;
 
 public class GoalsTest {
     
@@ -342,9 +336,6 @@ public class GoalsTest {
         // completing the others)
         player.move(3, 3);
         assertEquals(false, exit4.isComplete());
-
-        player.move(8, 6);
-
         assertEquals(false, compositeGoal6.isComplete());
 
         enemy4.die();
@@ -353,142 +344,130 @@ public class GoalsTest {
 
         assertEquals(false, compositeGoal6.isComplete());
 
-        player.move(3, 3);
+        player.move(1, 2);
 
         assertEquals(true, compositeGoal6.isComplete());
+
+        t9.destroy();
+        t10.destroy();
+        f5.destroy();
+        f6.destroy();
+        b5.destroy();
+        b6.destroy();
+        sword2.destroy();
+        exit6.destroy();
+        exit7.destroy();
+        
         // Test treasure goal and switches goal and enemies goal or exit goal
+        GoalObserver compositeGoal7 = new CompositeGoal(true);
+        GoalObserverParent compositeParent7 = (GoalObserverParent) compositeGoal7;
+        GoalObserver compositeGoal8 = new CompositeGoal(false);
+        GoalObserverParent compositeParent8 = (GoalObserverParent) compositeGoal8;
+        GoalObserver treasure6 = new TreasureGoal();
+        GoalObserver switches5 = new SwitchGoal();
+        GoalObserver enemies6 = new EnemyGoal();
+        GoalObserver exit5 = new ExitGoal();
+        compositeParent7.addChildGoal(treasure6);
+        compositeParent7.addChildGoal(switches5);
+        compositeParent7.addChildGoal(compositeGoal8);
+        compositeParent8.addChildGoal(enemies6);
+        compositeParent8.addChildGoal(exit5);
+        dungeon.setGoal(compositeGoal7);
+
+        Treasure t11 = new Treasure(5, 5);
+        Treasure t12 = new Treasure(7, 7);
+        FloorSwitch f7 = new FloorSwitch(5, 5);
+        FloorSwitch f8 = new FloorSwitch(7, 7);
+        Boulder b7 = new Boulder(dungeon, 5, 6);
+        Boulder b8 = new Boulder(dungeon, 7, 8);
+        Enemy enemy7 = new Enemy(9, 6, dungeon);
+        Enemy enemy8 = new Enemy(9, 7, dungeon);
+        Enemy enemy9 = new Enemy(9, 8, dungeon);
+        Sword sword3 = new Sword(1, 1, player);
+        Exit exit8 = new Exit(1, 2);
+
+        dungeon.addEntity(t11);
+        dungeon.addEntity(t12);
+        dungeon.addEntity(f7);
+        dungeon.addEntity(f8);
+        dungeon.addEntity(b7);
+        dungeon.addEntity(b8);
+        dungeon.addEntity(enemy7);
+        dungeon.addEntity(enemy8);
+        dungeon.addEntity(enemy9);
+        dungeon.addEntity(sword3);
+        dungeon.addEntity(exit8);
+
+        assertEquals(false, compositeGoal7.isComplete());
+
+        t11.pickup(player);
+        t12.pickup(player);
+
+        assertEquals(false, compositeGoal7.isComplete());
+
+        b7.move(5, 5);
+        b8.move(7, 7);
+
+        assertEquals(false, compositeGoal7.isComplete());
+
+        enemy7.die();
+        enemy8.die();
+        enemy9.die();
+
+        assertEquals(true, compositeGoal7.isComplete());
+
+        t11.destroy();
+        t12.destroy();
+        b7.destroy();
+        b8.destroy();
+        f7.destroy();
+        f8.destroy();
+        exit8.destroy();
+        sword3.destroy();
 
         // Test treasure goal or switches goal or enemies goal or exit goal
+        GoalObserver compositeGoal9 = new CompositeGoal(false);
+        GoalObserverParent compositeParent9 = (GoalObserverParent) compositeGoal9;
+        GoalObserver treasure7 = new TreasureGoal();
+        GoalObserver switches6 = new SwitchGoal();
+        GoalObserver enemies5 = new EnemyGoal();
+        GoalObserver exit9 = new ExitGoal();
+        compositeParent9.addChildGoal(treasure7);
+        compositeParent9.addChildGoal(switches6);
+        compositeParent9.addChildGoal(enemies5);
+        compositeParent9.addChildGoal(exit9);
+        dungeon.setGoal(compositeGoal9);
 
-    }
+        Treasure t13 = new Treasure(5, 5);
+        Treasure t14 = new Treasure(7, 7);
+        FloorSwitch f9 = new FloorSwitch(5, 5);
+        FloorSwitch f10 = new FloorSwitch(7, 7);
+        Boulder b9 = new Boulder(dungeon, 5, 6);
+        Boulder b10 = new Boulder(dungeon, 7, 8);
+        Enemy enemy10 = new Enemy(9, 6, dungeon);
+        Enemy enemy11 = new Enemy(9, 7, dungeon);
+        Enemy enemy12 = new Enemy(9, 8, dungeon);
+        Sword sword4 = new Sword(1, 1, player);
+        Exit exit10 = new Exit(1, 2);
 
+        dungeon.addEntity(t13);
+        dungeon.addEntity(t14);
+        dungeon.addEntity(f9);
+        dungeon.addEntity(f10);
+        dungeon.addEntity(b9);
+        dungeon.addEntity(b10);
+        dungeon.addEntity(enemy10);
+        dungeon.addEntity(enemy11);
+        dungeon.addEntity(enemy12);
+        dungeon.addEntity(sword4);
+        dungeon.addEntity(exit10);
 
+        assertEquals(false, compositeGoal9.isComplete());
 
+        t13.pickup(player);
+        t14.pickup(player);
 
-    public static void main(String[] args) {
-        Dungeon dungeon = new Dungeon(10, 10);
-        GoalObserver mainGoal = new TreasureGoal();
-        dungeon.setGoal(mainGoal);
-
-        Treasure t1 = new Treasure(5, 5);
-        Treasure t2 = new Treasure(7, 7);
-
-        dungeon.addEntity(t1);
-        dungeon.addEntity(t2);
-
-        dungeon.printDungeon();
-
-        System.out.println(mainGoal.getSubjects());  
-        
-        Player player = new Player(dungeon, 4, 4);
-        dungeon.setPlayer(player);
-
-        player.move(5, 5);
-        player.move(7, 7);
-
-        dungeon.printDungeon();
-        System.out.println(player.getInventory());
-        System.out.println(mainGoal.getSubjects());
-        System.out.println(mainGoal.isComplete());
-        /*
-        GoalObserver compositeGoal = new CompositeGoal(true);
-        GoalObserverParent compositeParent = (GoalObserverParent) compositeGoal;
-        GoalObserver treasure = new TreasureGoal();
-        GoalObserver enemies = new EnemyGoal();
-        compositeParent.addChildGoal(treasure);
-        compositeParent.addChildGoal(enemies);
-
-        Treasure t1 = new Treasure(5, 5);
-        Treasure t2 = new Treasure(7, 7);
-        Player p1 = new Player(dungeon, 3, 3);
-        Enemy enemy1 = new Enemy(8, 8, dungeon);
-        Enemy enemy2 = new Enemy(9, 9, dungeon);
-        Sword s = new Sword(4, 4, p1);
-        PlayerOrientation right = new RightOrientation(p1, dungeon);
-        dungeon.setGoal(compositeGoal);
-
-        dungeon.addEntity(t1);
-        dungeon.addEntity(t2);
-        dungeon.addEntity(enemy1);
-        dungeon.addEntity(enemy2);
-        dungeon.addEntity(s);
-        dungeon.setPlayer(p1);
-
-        dungeon.printDungeon();
-        
-        System.out.println(treasure.getSubjects());
-        System.out.println(enemies.getSubjects());
-
-        t1.pickup(p1);
-        t2.pickup(p1);
-
-        System.out.println(treasure.isComplete());
-        System.out.println(compositeGoal.isComplete());
-
-        //s.pickup(p1);
-        //p1.setOrientation(right);
-
-        //p1.move(7, 8);
-        //p1.attack();
-
-        //p1.move(8, 9);
-        //p1.attack();
-
-        //dungeon.printDungeon();
-        //System.out.println(enemies.isComplete());
-        //System.out.println(compositeGoal.isComplete());
-        */
-        GoalObserver compositeGoal1 = new CompositeGoal(true);
-        GoalObserverParent compositeParent1 = (GoalObserverParent) compositeGoal1;
-        GoalObserver compositeGoal2 = new CompositeGoal(false);
-        GoalObserverParent compositeParent2 = (GoalObserverParent) compositeGoal2;
-        
-        GoalObserver treasure = new TreasureGoal();
-        GoalObserver enemies = new EnemyGoal();
-        GoalObserver switches = new SwitchGoal();
-        
-        compositeParent1.addChildGoal(treasure);
-        compositeParent1.addChildGoal(compositeGoal2);
-        compositeParent2.addChildGoal(enemies);
-        compositeParent2.addChildGoal(switches);
-
-        Treasure t1 = new Treasure(5, 5);
-        Treasure t2 = new Treasure(7, 7);
-        Player p1 = new Player(dungeon, 3, 3);
-        Enemy enemy1 = new Enemy(8, 8, dungeon);
-        Enemy enemy2 = new Enemy(9, 9, dungeon);
-        Sword s = new Sword(4, 4, p1);
-        PlayerOrientation right = new RightOrientation(p1, dungeon);
-        FloorSwitch s1 = new FloorSwitch(3, 1);
-        Boulder b1 = new Boulder(dungeon, 3, 2);
-        dungeon.setGoal(compositeGoal1);
-
-        dungeon.addEntity(t1);
-        dungeon.addEntity(t2);
-        dungeon.addEntity(enemy1);
-        dungeon.addEntity(enemy2);
-        dungeon.addEntity(s);
-        dungeon.setPlayer(p1);
-        dungeon.addEntity(s1);
-        dungeon.addEntity(b1);
-
-        dungeon.printDungeon();
-
-        System.out.println(switches.getSubjects());
-        System.out.println(enemies.getSubjects());
-        System.out.println(treasure.getSubjects());
-
-        p1.moveUp();
-
-        dungeon.printDungeon();
-        System.out.println(switches.isComplete());
-
-        t1.pickup(p1);
-        t2.pickup(p1);
-
-        System.out.println(treasure.isComplete());
-        System.out.println(compositeGoal1.isComplete());
-        System.out.println(compositeGoal2.isComplete());
+        assertEquals(true, compositeGoal9.isComplete());
 
     }
 
