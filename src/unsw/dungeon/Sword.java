@@ -26,16 +26,12 @@ public class Sword extends Entity implements Item {
  
     }
 
-    public boolean checkCanUse() {
+    public boolean canUseAgain() {
         return (this.uses > 0);
     }
 
     public boolean checkItemType(Item i) {
         return (i instanceof Sword);
-    }
-
-    public boolean isWeapon() {
-        return true;
     }
 
     public boolean isUnique() {

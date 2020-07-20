@@ -9,7 +9,7 @@ import java.util.List;
  * @author Robert Clifton-Everest
  *
  */
-public class Player extends Entity implements IMoveable, IDamagable {
+public class Player extends Entity implements IMoveable, IDamagable, IUpdateable {
 
     private Dungeon dungeon;
     private List<Item> inventory;
@@ -24,6 +24,8 @@ public class Player extends Entity implements IMoveable, IDamagable {
 
     private VulnerableCollision vulnerableStrategy;
     private DamageCollision invincibleStrategy;
+    private boolean isInvincible;
+    private double invincTimeLeft;
 
     /**
      * Create a player positioned in square (x,y)
@@ -47,19 +49,43 @@ public class Player extends Entity implements IMoveable, IDamagable {
         
         setCollisionBehaviour(vulnerableStrategy);
         
+        this.isInvincible = false;
+
         this.dungeon = dungeon;
         this.inventory = new ArrayList<Item>();
 
+        this.invincTimeLeft = 0.0;
+    }
+
+    public void update(double deltaTime) {
+        if (isInvincible) {
+            if (invincTimeLeft >= 0) {
+                invincTimeLeft -= deltaTime;
+            } else {
+                makeVulnerable();
+            }
+        }
     }
 
     public void makeInvincible() {
         setCollisionBehaviour(invincibleStrategy);
+        this.isInvincible = true;
+        this.invincTimeLeft = 10.0;
         dungeon.scareEnemies();
     }
 
     public void makeVulnerable() {
         setCollisionBehaviour(vulnerableStrategy);
+        this.isInvincible = false;
         dungeon.unScareEnemies();
+    }
+
+    public boolean isInvincible() {
+        return isInvincible;
+    }
+
+    public double getInvincTimeLeft() {
+        return this.invincTimeLeft;
     }
 
 
@@ -111,7 +137,7 @@ public class Player extends Entity implements IMoveable, IDamagable {
                 this.inventory.add(i);
                 if (i instanceof PickupActivateItem) {
                     PickupActivateItem p = (PickupActivateItem) i;
-                    p.activate();
+                    p.activate(this);
                 }
                 e.destroy();
             } else {
@@ -120,7 +146,7 @@ public class Player extends Entity implements IMoveable, IDamagable {
                     this.inventory.add(i);
                     if (i instanceof PickupActivateItem) {
                         PickupActivateItem p = (PickupActivateItem) i;
-                        p.activate();
+                        p.activate(this);
                     }
                     e.destroy();
                 }
@@ -148,12 +174,29 @@ public class Player extends Entity implements IMoveable, IDamagable {
     }
 
     public void attack() {
-        for (Item i: inventory) {
-            if (i.isWeapon()) {
-                System.out.println("hello 1");
-                orientation.attack(i);
+        if (hasWeapon()) {
+            Sword s = getWeapon();
+            orientation.attack(s);
+        }
+    }
+
+    public boolean hasWeapon() {
+        for (Item i : inventory) {
+            if (i instanceof Sword) {
+                return true;
             }
         }
+        
+        return false;
+    }
+
+    public Sword getWeapon() {
+        for (Item i : inventory) {
+            if (i instanceof Sword) {
+                return (Sword) i;
+            }
+        }
+        return null;
     }
 
     public List<Item> getInventory() {

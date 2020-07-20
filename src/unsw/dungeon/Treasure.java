@@ -10,17 +10,8 @@ public class Treasure extends Entity implements Item {
         super.setCollisionBehaviour(collectionStrategy);
     }
 
-    public void use(Entity e) {
-        // FIXME
-    }
 
-
-    public boolean checkCanUse() {
-        return false;
-    }
-
-
-    public boolean isWeapon() {
+    public boolean canUseAgain() {
         return false;
     }
 
