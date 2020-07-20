@@ -12,6 +12,7 @@ public class Portal extends Entity {
         this.deactivatedCollision = new NoCollision();
         // A portal with no link is 'deactivated'
         setCollisionBehaviour(deactivatedCollision);
+        this.id = id;
     }
 
     public void linkPortal(Portal p) {

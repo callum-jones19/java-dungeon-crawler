@@ -56,16 +56,6 @@ public class CompositeGoal implements GoalObserver, GoalObserverParent {
         return isCompulsoryConjunction;
     }
 
-    @Override
-    public List<Object> getSubjects() {
-        List<Object> retList = new ArrayList<Object>();
-        for (GoalObserver g: childGoals) {
-            retList.add((Object) g);
-        }
-
-        return retList;
-    }
-
     public void addChildGoal(GoalObserver obs) {
         childGoals.add(obs);
         obs.setParent(this);

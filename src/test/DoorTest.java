@@ -141,9 +141,11 @@ public class DoorTest {
 
     @Test
     public void testEquals() {
-        Door d = new Door(1, 1, null);
+        Key k = new Key(3, 3);
+        Door d = new Door(1, 1, k);
         assertEquals(false, d.equals(null));
-        Door d2 = new Door(1,1,null);
+        Key k1 = new Key(4,4);
+        Door d2 = new Door(1,1,k1);
         assertEquals(true, d.equals(d2));
     }
 

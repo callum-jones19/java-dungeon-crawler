@@ -173,6 +173,14 @@ public class PlayerTest {
         Player player = new Player(dungeon, 5, 5);
         dungeon.setPlayer(player);
 
-        assertEquals(10.0, player.getInvincTimeLeft());
+        assertEquals(0.0, player.getInvincTimeLeft());
+    }
+
+    public void hasWeapon() {
+        Dungeon dungeon = new Dungeon(10, 10);
+        Player player = new Player(dungeon, 5, 5);
+        dungeon.setPlayer(player);
+
+        assertEquals(false, player.hasWeapon());
     }
 }

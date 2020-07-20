@@ -104,31 +104,23 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
     }
 
     public void moveUp() {
-        if (getY() > 0) {
-            move(getX(), getY() - 1);
-            setOrientation(upwardsOrientation);
-        }
+        move(getX(), getY() - 1);
+        setOrientation(upwardsOrientation);
     }
     
     public void moveDown() {
-        if (getY() < dungeon.getHeight() - 1) {
-            move(getX(), getY() + 1);
-            setOrientation(downwardsOrientation);
-        }
+        move(getX(), getY() + 1);
+        setOrientation(downwardsOrientation);
     }
 
     public void moveLeft() {
-        if (getX() > 0) {
-            move(getX() - 1, getY());
-            setOrientation(leftOrientation);
-        }
+        move(getX() - 1, getY());
+        setOrientation(leftOrientation);
     }
 
     public void moveRight() {
-        if (getX() < dungeon.getWidth() - 1) {
-            move(getX() + 1, getY());
-            setOrientation(rightOrientation);
-        }
+        move(getX() + 1, getY());
+        setOrientation(rightOrientation);
     }
 
     public void addToInventory(Item i) {
@@ -178,7 +170,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
     }
 
     public Weapon getWeapon() {
-        for (Item i : inventory) {
+        for (Item i : getInventory()) {
             if (i instanceof Weapon) {
                 return (Weapon) i;
             }

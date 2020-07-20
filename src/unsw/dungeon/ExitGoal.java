@@ -53,15 +53,6 @@ public class ExitGoal implements GoalObserver, GoalObserverChild {
         return isComplete;
     }
 
-    @Override
-    public List<Object> getSubjects() {
-        List<Object> retList = new ArrayList<Object>();
-        for (Exit e: exits) {
-            retList.add((Object) e);
-        }
-
-        return retList;
-    }
 
     
 }
