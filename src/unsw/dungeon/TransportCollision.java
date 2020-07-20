@@ -3,7 +3,7 @@ package unsw.dungeon;
 public class TransportCollision implements CollisionBehaviour {
 
     private boolean isEnterable;
-    Portal exitPortal;
+    private Portal exitPortal;
 
     public TransportCollision(Portal p) {
         super();

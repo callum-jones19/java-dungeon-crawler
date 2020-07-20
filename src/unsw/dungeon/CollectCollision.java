@@ -3,7 +3,7 @@ package unsw.dungeon;
 public class CollectCollision implements CollisionBehaviour {
 
     private Entity parent;
-    Boolean isEnterable;
+    private Boolean isEnterable;
 
     public CollectCollision(Entity parent) {
         super();

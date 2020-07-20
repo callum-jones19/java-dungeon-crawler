@@ -2,8 +2,8 @@ package unsw.dungeon;
 
 public class Key extends Entity implements Item {
 
-    CollectCollision c = new CollectCollision(this);
-    Door door;
+    private CollectCollision c = new CollectCollision(this);
+    private Door door;
     
     public Key(int x, int y) {
         super(x, y);

@@ -2,8 +2,8 @@ package unsw.dungeon;
 
 public class TriggerCollision implements CollisionBehaviour {
     
-    Triggerable parent;
-    TriggerType triggerType;
+    private Triggerable parent;
+    private TriggerType triggerType;
     Boolean isEnterable;
 
     public TriggerCollision(Triggerable parent, TriggerType triggerType) {

@@ -3,7 +3,7 @@ package unsw.dungeon;
 public class LeftOrientation implements PlayerOrientation {
     
     private Entity parent;
-    Dungeon dungeon;
+    private Dungeon dungeon;
 
     public LeftOrientation(Entity p, Dungeon dungeon) {
         this.parent = p;

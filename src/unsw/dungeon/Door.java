@@ -3,10 +3,10 @@ package unsw.dungeon;
 public class Door extends Entity implements Triggerable {
 
 
-    CollisionBehaviour stopCollision;
-    CollisionBehaviour triggerCollision;
-    CollisionBehaviour noCollision;
-    Key key;
+    private CollisionBehaviour stopCollision;
+    private CollisionBehaviour triggerCollision;
+    private CollisionBehaviour noCollision;
+    private Key key;
 
     public Door(int x, int y, Key k) {
         super(x, y);

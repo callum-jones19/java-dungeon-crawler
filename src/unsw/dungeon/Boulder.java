@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Boulder extends Entity implements IMoveable, BoulderSubject {
     
-    Dungeon dungeon;
-    CollisionBehaviour collisionBehaviour = new PushCollision(this);
-    List<BoulderObserver> observers = new ArrayList<BoulderObserver>();
-    int lastX;
-    int lastY;
+    private Dungeon dungeon;
+    private CollisionBehaviour collisionBehaviour = new PushCollision(this);
+    private List<BoulderObserver> observers = new ArrayList<BoulderObserver>();
+    private int lastX;
+    private int lastY;
 
     public Boulder(Dungeon dungeon, int x, int y) {
         super(x,y);
