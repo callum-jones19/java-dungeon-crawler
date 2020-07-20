@@ -10,6 +10,7 @@ public class Potion extends Entity implements Item, PickupActivateItem {
         setCollisionBehaviour(collectStrat);
     }
 
+    
     public void activate(Entity e) {
         e.setCollisionBehaviour(new DamageCollision());
         if (e instanceof Player) {
@@ -18,19 +19,7 @@ public class Potion extends Entity implements Item, PickupActivateItem {
         }
     }
 
-    public void use(Entity e) {
-
-    }
-
-    public void activate() {
-        // FIX
-    }
-
-    public boolean checkCanUse() {
-        return false;
-    }
-
-    public boolean isWeapon() {
+    public boolean canUseAgain() {
         return false;
     }
 
@@ -41,6 +30,5 @@ public class Potion extends Entity implements Item, PickupActivateItem {
     public boolean checkItemType(Item i) {
         return (i instanceof Potion);
     }
-
     
 }

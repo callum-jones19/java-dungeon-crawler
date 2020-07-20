@@ -13,7 +13,7 @@ public class TriggerTypePlayerInventory implements TriggerType {
         if (e instanceof Player) {
             Player p = (Player) e;
             if (p.contains(item)) {
-                if (!(item.checkCanUse())) {
+                if (!(item.canUseAgain())) {
                     p.removeItem(item);
                 }
                 return true;
