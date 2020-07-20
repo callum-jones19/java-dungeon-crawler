@@ -154,4 +154,25 @@ public class PlayerTest {
 
     }
 
+
+    @Test
+    public void moveInvalid() {
+        Dungeon dungeon = new Dungeon(10, 10);
+        Player player = new Player(dungeon, 5, 5);
+        dungeon.setPlayer(player);
+
+        player.move(-1,-1);
+
+        assertEquals(5, player.getX());
+        assertEquals(5, player.getY());
+    }
+
+    @Test
+    public void potionTime() {
+        Dungeon dungeon = new Dungeon(10, 10);
+        Player player = new Player(dungeon, 5, 5);
+        dungeon.setPlayer(player);
+
+        assertEquals(10.0, player.getInvincTimeLeft());
+    }
 }

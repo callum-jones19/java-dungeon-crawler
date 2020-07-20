@@ -137,8 +137,15 @@ public class DoorTest {
         d.printDungeon();
         assertEquals(null, d.getPlayer());
         assertEquals(enemy1, d.getTopmostEntity(2, 4));
-
-
     }
+
+    @Test
+    public void testEquals() {
+        Door d = new Door(1, 1, null);
+        assertEquals(false, d.equals(null));
+        Door d2 = new Door(1,1,null);
+        assertEquals(true, d.equals(d2));
+    }
+
 
 }
