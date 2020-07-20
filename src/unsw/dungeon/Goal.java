@@ -1,5 +1,10 @@
 package unsw.dungeon;
 
-public abstract class Goal {
-    
+public interface Goal {
+
+    public void registerObserver(GoalObserver obs);
+
+    public void removeObserver(GoalObserver obs);
+
+    public void notifyGoalObservers();
 }

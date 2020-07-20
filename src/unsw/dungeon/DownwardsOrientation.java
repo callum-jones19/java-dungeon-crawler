@@ -1,0 +1,20 @@
+package unsw.dungeon;
+
+public class DownwardsOrientation implements PlayerOrientation {
+    
+    private Entity parent;
+    Dungeon dungeon;
+
+    public DownwardsOrientation(Entity p, Dungeon d) {
+        this.parent = p;
+        this.dungeon = d;
+    }
+    
+    public void attack(Sword weapon) {
+        int attackY = parent.getY() + 1;
+        int attackX = parent.getX();
+        if (weapon.canUseAgain()) {
+            weapon.use(dungeon.getTopmostEntity(attackX, attackY));
+        }
+    }
+}
