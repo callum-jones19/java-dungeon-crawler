@@ -7,52 +7,10 @@
     "configurations": [
         {
             "type": "java",
-            "name": "CodeLens (Launch) - GoalsTest",
-            "request": "launch",
-            "mainClass": "test.GoalsTest",
-            "projectName": "T13B-Analog_Interface_aebd14d2"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - SwitchTest",
-            "request": "launch",
-            "mainClass": "test.SwitchTest",
-            "projectName": "T13B-Analog_Interface_aebd14d2"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - SwordTest",
-            "request": "launch",
-            "mainClass": "test.SwordTest",
-            "projectName": "T13B-Analog_Interface_aebd14d2"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - KeyTest",
-            "request": "launch",
-            "mainClass": "test.KeyTest",
-            "projectName": "T13B-Analog_Interface_aebd14d2"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - BoulderTest",
-            "request": "launch",
-            "mainClass": "test.BoulderTest",
-            "projectName": "T13B-Analog_Interface_aebd14d2"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - DoorTest",
-            "request": "launch",
-            "mainClass": "test.DoorTest",
-            "projectName": "T13B-Analog_Interface_aebd14d2"
-        },
-        {
-            "type": "java",
             "name": "CodeLens (Launch) - DungeonApplication",
             "request": "launch",
-            "vmArgs": "--module-path ./lib --add-modules javafx.controls,javafx.fxml",
-            "mainClass": "unsw.dungeon.DungeonApplication"
+            "vmArgs": "--module-path ./lib/symlink_javafx --add-modules javafx.controls,javafx.fxml",
+            "mainClass": "unsw.dungeon.DungeonApplication",
         }
     ]
 }

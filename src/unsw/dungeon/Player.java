@@ -5,7 +5,6 @@ import java.util.List;
 
 /**
  * The player entity
- * 
  * @author Robert Clifton-Everest
  *
  */
@@ -213,5 +212,4 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
 
         return false;
     }
-
 }
