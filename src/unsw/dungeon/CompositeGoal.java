@@ -8,6 +8,7 @@ public class CompositeGoal implements GoalObserver, GoalObserverParent {
     private List<GoalObserver> childGoals = new ArrayList<GoalObserver>();
     private boolean isComplete;
     private boolean isCompulsoryConjunction;
+    private GoalObserverParent parent;
 
     public CompositeGoal(Boolean isCompulsoryConjunction) {
         super();
@@ -17,9 +18,17 @@ public class CompositeGoal implements GoalObserver, GoalObserverParent {
 
     public void update() {
         
-        if (isComplete()) {
-            this.isComplete = true;
+        if (parent == null) {
+            if (isComplete()) {
+                this.isComplete = true;
+            }
+        } else {
+            if (isComplete()) {
+                this.isComplete = true;
+                parent.update();
+            }
         }
+
 
     }
 
@@ -59,18 +68,31 @@ public class CompositeGoal implements GoalObserver, GoalObserverParent {
 
     public void addChildGoal(GoalObserver obs) {
         childGoals.add(obs);
+        obs.setParent(this);
     }
 
     @Override
     public boolean checkRemainingGoals() {
         
+        int count = 0;
         for (GoalObserver g: childGoals) {
             if (!g.isComplete()) {
-                return true;
+                count++;
             }
         }
 
-        return false;
+        return count > 1 ? true: false;
     }
+
+	@Override
+	public void setParent(GoalObserverParent parent) {
+        this.parent = parent;
+    }
+    
+    @Override
+    public boolean isCompulsoryConjunction() {
+        return isCompulsoryConjunction;
+    }
+
 
 }

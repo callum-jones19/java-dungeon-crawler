@@ -27,6 +27,7 @@ public class SwitchGoal implements GoalObserver, GoalObserverChild {
             }
 
             if (isComplete() && parent != null) {
+                this.isComplete = true;
                 parent.update();
             } else if (isComplete()) {
                 this.isComplete = true;
