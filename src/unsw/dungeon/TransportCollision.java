@@ -8,7 +8,7 @@ public class TransportCollision implements CollisionBehaviour {
     public TransportCollision(Portal p) {
         super();
         isEnterable = true;
-        this.exitPortal = p;
+        setLocation(p);
     }
 
     public boolean isEnterable() {

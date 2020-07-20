@@ -18,7 +18,7 @@ public class Sword extends Entity implements Item, Weapon {
             IDamagable newTarget = (IDamagable) target;
             newTarget.die();
             this.uses--;
-            if (uses == 0) {
+            if (!canUseAgain()) {
                 user.removeItem(this);
                 destroy();
             }

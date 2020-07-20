@@ -21,6 +21,8 @@ public class PotionTest {
         Player p = new Player(d, 1, 2);
         d.setPlayer(p);
 
+        assertEquals(true, pot.checkItemType(new Potion(1, 1)));
+
         assertEquals(false, p.isInvincible());
         p.moveRight();
 
@@ -81,6 +83,20 @@ public class PotionTest {
 
         // Check there is no longer an enemy in the dungeon.
         assertEquals(false, d.hasEntity(e));
+    }
+
+    @Test
+    public void edgeCase() {
+        Dungeon d = new Dungeon(10, 10);
+        Potion pot = new Potion(2, 2);
+        d.addEntity(pot);
+        Player p = new Player(d, 1, 2);
+        d.setPlayer(p);
+        Enemy e = new Enemy(4, 2, d);
+        d.addEntity(e);
+
+        p.addToInventory(new Potion(1, 1));
+        p.moveRight();
     }
 
 }
