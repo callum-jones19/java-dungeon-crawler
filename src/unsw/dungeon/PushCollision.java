@@ -35,8 +35,4 @@ public class PushCollision implements CollisionBehaviour {
         }
     }
 
-    public void setEnterability(Boolean enterability) {
-        this.isEnterable = enterability;
-    }
-
 }

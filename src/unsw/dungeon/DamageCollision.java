@@ -22,7 +22,4 @@ public class DamageCollision implements CollisionBehaviour{
         }
     }
 
-    public void setEnterability(Boolean enterability) {
-        this.isEnterable = enterability;
-    }
 }

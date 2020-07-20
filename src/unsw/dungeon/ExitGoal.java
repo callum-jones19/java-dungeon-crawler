@@ -53,5 +53,9 @@ public class ExitGoal implements GoalObserver, GoalObserverChild {
         return isComplete;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> b6f132667b6d69de25b840813f7268b021b73a76
     
 }

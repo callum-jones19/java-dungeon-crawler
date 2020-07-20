@@ -17,9 +17,5 @@ public class StopCollision implements CollisionBehaviour {
         // As of now, do nothing.
     }
 
-    public void setEnterability(Boolean enterability) {
-        this.isEnterable = enterability;
-    }
-
 
 }

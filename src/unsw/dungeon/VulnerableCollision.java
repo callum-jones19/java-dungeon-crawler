@@ -14,10 +14,6 @@ public class VulnerableCollision implements CollisionBehaviour{
         return isEnterable;
     }
 
-    public void setEnterability(Boolean enterability) {
-        isEnterable = enterability;
-    }
-
     // If something collides with this instance's parent, that parent is killed.
     // i.e. This parent is vulnerable to collisions. They didn't drink their milk.
     // They have weak bones.

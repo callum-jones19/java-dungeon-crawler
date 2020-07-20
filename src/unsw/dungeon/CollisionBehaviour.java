@@ -21,11 +21,6 @@ public interface CollisionBehaviour {
      */
     boolean isEnterable();
 
-    /**
-     * Update whether or not a particular instance of a collision strategy
-     * should be allowed to be entered by a moveable entity.
-     */
-    void setEnterability(Boolean enterability);
 
     /**
      * This function defines the behaviour this collision strategy should

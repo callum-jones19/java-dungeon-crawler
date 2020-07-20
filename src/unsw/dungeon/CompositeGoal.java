@@ -56,7 +56,6 @@ public class CompositeGoal implements GoalObserver, GoalObserverParent {
         return isCompulsoryConjunction;
     }
 
-
     public void addChildGoal(GoalObserver obs) {
         childGoals.add(obs);
         obs.setParent(this);

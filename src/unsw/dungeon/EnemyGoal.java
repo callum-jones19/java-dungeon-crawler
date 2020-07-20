@@ -50,13 +50,5 @@ public class EnemyGoal implements GoalObserver, GoalObserverChild {
 
     }
 
-    public List<Object> getSubjects() {
-        List<Object> retList = new ArrayList<Object>();
-        for (Enemy e: enemies) {
-            retList.add((Object) e);
-        }
-
-        return retList;
-    }
     
 }

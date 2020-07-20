@@ -19,10 +19,6 @@ public class TransportCollision implements CollisionBehaviour {
         this.exitPortal = p;
     }
 
-    public void setEnterability(Boolean enterability) {
-        isEnterable = enterability;
-
-    }
 
     public void onCollide(Entity e) {
         if (e instanceof IMoveable) {
