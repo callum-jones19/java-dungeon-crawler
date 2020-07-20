@@ -50,6 +50,11 @@ public class PotionTest {
         // Enemy should have run 3 spaces away
         assertEquals(7, e.getX());
         assertEquals(2, e.getY());
+        
+        // Potion runs off - enemy should chase and kill player.
+        ds.run(14);
+        assertEquals(null, d.getPlayer());
+
     }
 
     @Test
