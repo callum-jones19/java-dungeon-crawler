@@ -171,14 +171,14 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
 
     public void attack() {
         if (hasWeapon()) {
-            Sword s = getWeapon();
+            Weapon s = getWeapon();
             orientation.attack(s);
         }
     }
 
     public boolean hasWeapon() {
         for (Item i : inventory) {
-            if (i instanceof Sword) {
+            if (i instanceof Weapon) {
                 return true;
             }
         }
@@ -186,10 +186,10 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         return false;
     }
 
-    public Sword getWeapon() {
+    public Weapon getWeapon() {
         for (Item i : inventory) {
-            if (i instanceof Sword) {
-                return (Sword) i;
+            if (i instanceof Weapon) {
+                return (Weapon) i;
             }
         }
         return null;

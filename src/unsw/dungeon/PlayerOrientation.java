@@ -5,5 +5,5 @@ package unsw.dungeon;
  * player and how their attacks should accordingly be oriented
  */
 public interface PlayerOrientation {
-    public void attack(Sword weapon);
+    public void attack(Weapon weapon);
 }

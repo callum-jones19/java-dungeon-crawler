@@ -1,6 +1,6 @@
 package unsw.dungeon;
 
-public class Sword extends Entity implements Item {
+public class Sword extends Entity implements Item, Weapon {
     
     private CollectCollision c = new CollectCollision(this);
     private int uses;
