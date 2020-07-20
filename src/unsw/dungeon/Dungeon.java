@@ -88,6 +88,10 @@ public class Dungeon implements DestroyObserver {
     }
 
     public void addEntity(Entity entity) {
+        if (entities.contains(entity)) {
+            return;
+        }
+        
         entities.add(entity);
         if (entity instanceof Boulder) {
             registerBoulderObservers((Boulder) entity);
