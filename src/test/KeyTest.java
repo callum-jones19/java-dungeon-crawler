@@ -82,7 +82,7 @@ public class KeyTest {
         assertEquals(false, player.contains(key1));
         
         // Test key does not unlock door it is not paired with
-        player.pickup(key2);
+        player.addToInventory(key2);
         player.move(9, 8);
         player.moveDown();
 
@@ -110,12 +110,12 @@ public class KeyTest {
         dungeon.addEntity(door1);
         dungeon.addEntity(door2);
         // Test that a player can pick up a single key
-        player.pickup(key1);
+        player.addToInventory(key1);
 
         assertEquals(true, player.exactContains(key1));
 
         // Test that a player cannot pickup another key whilst holding a key already
-        player.pickup(key2);
+        player.addToInventory(key2);
 
         assertEquals(false, player.exactContains(key2));
 
@@ -125,7 +125,7 @@ public class KeyTest {
         assertEquals(false, player.exactContains(key1));
 
         // Test that a player can pick up a second key after using the first one
-        player.pickup(key2);
+        player.addToInventory(key2);
 
         assertEquals(true, player.contains(key2));
 

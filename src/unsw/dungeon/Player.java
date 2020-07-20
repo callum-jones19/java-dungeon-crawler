@@ -132,26 +132,20 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         }
     }
 
-    public void pickup(Entity e) {
-
-        if (e instanceof Item) {
-            Item i = (Item) e;
-            if (!(i.isUnique())) {
+    public void addToInventory(Item i) {
+        if (!(i.isUnique())) {
+            this.inventory.add(i);
+            if (i instanceof PickupActivateItem) {
+                PickupActivateItem p = (PickupActivateItem) i;
+                p.activate(this);
+            }
+        } else {
+            // check if we already have an instance of this type
+            if (!(contains(i))) {
                 this.inventory.add(i);
                 if (i instanceof PickupActivateItem) {
                     PickupActivateItem p = (PickupActivateItem) i;
                     p.activate(this);
-                }
-                //e.destroy();
-            } else {
-                // check if we already have an instance of this type
-                if (!(contains(i))) {
-                    this.inventory.add(i);
-                    if (i instanceof PickupActivateItem) {
-                        PickupActivateItem p = (PickupActivateItem) i;
-                        p.activate(this);
-                    }
-                    //e.destroy();
                 }
             }
         }

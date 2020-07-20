@@ -57,7 +57,7 @@ public class SwordTest {
         dungeon.addEntity(sword);
 
         // Test sword can kill enemies in one hit
-        player.pickup(sword);
+        player.addToInventory(sword);
 
         assertEquals(true, player.exactContains(sword));
 
@@ -130,7 +130,7 @@ public class SwordTest {
         dungeon.addEntity(sword2);
 
         // Test sword disappears after five kills
-        player.pickup(sword);
+        player.addToInventory(sword);
 
         assertEquals(true, player.exactContains(sword));
 
@@ -151,7 +151,7 @@ public class SwordTest {
 
         // Test player can pick up second sword after first sword
         // has broken
-        player.pickup(sword2);
+        player.addToInventory(sword2);
 
         assertEquals(true, player.exactContains(sword2));
 

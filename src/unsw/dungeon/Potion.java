@@ -34,7 +34,7 @@ public class Potion extends Entity implements Item, PickupActivateItem {
     public void pickup(Entity e) {
         if (e instanceof Player) {
             Player p = (Player) e;
-            p.pickup(this);
+            p.addToInventory(this);
             if (p.exactContains(this)) {
                 destroy();
             }
