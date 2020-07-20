@@ -14,21 +14,14 @@ public class Key extends Entity implements Item, PickupActivateItem {
         return (i instanceof Key);
     }
 
-    public void activate() {
-        door.markAvailable();
-    }
-
-    public boolean checkCanUse() {
+    public boolean canUseAgain() {
         return false;
     }
 
     public void activate(Entity e) {
-        // FIXME
+        door.markAvailable();
     }
 
-    public void use(Entity e) {
-        
-    }
 
     @Override
     public boolean equals(Object o) {

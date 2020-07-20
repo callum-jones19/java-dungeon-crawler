@@ -52,6 +52,15 @@ public class Dungeon implements DestroyObserver {
         return height;
     }
 
+    public void executeUpdates(double deltaTime) {
+        for (Entity e : entities) {
+            if (e instanceof IUpdateable) {
+                IUpdateable u = (IUpdateable) e;
+                u.update(deltaTime);
+            }
+        }
+    }
+
     public boolean entityExists(Entity e) {
         return entities.contains(e);
     }
@@ -236,9 +245,8 @@ public class Dungeon implements DestroyObserver {
         top.onCollide(e);
     }
 
-    public boolean checkCoordinatesValidity() {
-        // TODO
-        return false;
+    public boolean hasEntity(Entity e) {
+        return entities.contains(e);
     }
 
     public void registerBoulderObservers(Boulder b) {

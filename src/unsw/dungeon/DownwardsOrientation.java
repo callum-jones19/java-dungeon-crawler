@@ -10,11 +10,11 @@ public class DownwardsOrientation implements PlayerOrientation {
         this.dungeon = d;
     }
     
-    public void attack(Item tool) {
+    public void attack(Sword weapon) {
         int attackY = parent.getY() + 1;
         int attackX = parent.getX();
-        if (tool.checkCanUse()) {
-            tool.use(dungeon.getTopmostEntity(attackX, attackY));
+        if (weapon.canUseAgain()) {
+            weapon.use(dungeon.getTopmostEntity(attackX, attackY));
         }
     }
 }
