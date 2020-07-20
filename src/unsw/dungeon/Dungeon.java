@@ -275,4 +275,20 @@ public class Dungeon implements DestroyObserver {
         this.goal = g;
     }
 
+    public boolean areCoordinatesValid(int x, int y) {
+        if (y < 0) {
+            return false;
+        }
+        if (x < 0) {
+            return false;
+        }
+        if (y >= getWidth()) {
+            return false;
+        }
+        if(x >= getHeight()) {
+            return false;
+        }
+        return true;
+    }
+
 }

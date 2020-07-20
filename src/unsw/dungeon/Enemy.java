@@ -56,6 +56,9 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
     }
 
     public void move(int x, int y) {
+        if (!dungeon.areCoordinatesValid(x, y)) {
+            return;
+        }
         if (dungeon.tileIsEmpty(x, y)) {
             setPos(x, y);
         } else {
