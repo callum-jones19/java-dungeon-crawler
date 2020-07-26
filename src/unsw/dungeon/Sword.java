@@ -6,15 +6,14 @@ public class Sword extends Entity implements Item, Weapon {
     private int uses;
     private Player user;
 
-    public Sword(int x, int y, Player user) {
+    public Sword(int x, int y) {
         super(x, y);
         super.setCollisionBehaviour(c);
         this.uses = 5;
-        this.user = user;
     }
 
     public void use(Entity target) {
-        if (target instanceof IDamagable) {
+        if (target instanceof IDamagable && user != null) {
             IDamagable newTarget = (IDamagable) target;
             newTarget.die();
             this.uses--;
@@ -24,6 +23,10 @@ public class Sword extends Entity implements Item, Weapon {
             }
         }
  
+    }
+
+    public void setUser(Player player) {
+        this.user = player;
     }
 
     public boolean canUseAgain() {

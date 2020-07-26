@@ -80,6 +80,11 @@ public class Dungeon implements DestroyObserver {
     }
 
     public void addEntity(Entity entity) {
+
+        if (entity == null) {
+            System.out.println("Hello!");
+        }
+
         if (entities.contains(entity)) {
             return;
         }
