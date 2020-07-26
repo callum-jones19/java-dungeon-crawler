@@ -16,6 +16,9 @@ public class Potion extends Entity implements Item {
         if (e instanceof Player) {
             Player p = (Player) e;
             p.makeInvincible();
+            if (!canUseAgain()) {
+                p.removeItem(this);
+            }
         }
     }
 

@@ -2,7 +2,7 @@ package unsw.dungeon;
 
 public class NoCollision implements CollisionBehaviour {
 
-    Boolean isEnterable;
+    private Boolean isEnterable;
 
     public NoCollision() {
         super();
@@ -17,7 +17,4 @@ public class NoCollision implements CollisionBehaviour {
         // Can add an effect here in milestone 3.
     }
 
-    public void setEnterability(Boolean enterability) {
-        this.isEnterable = enterability;
-    }
 }

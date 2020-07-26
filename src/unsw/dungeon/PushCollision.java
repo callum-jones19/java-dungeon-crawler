@@ -3,7 +3,7 @@ package unsw.dungeon;
 public class PushCollision implements CollisionBehaviour {
 
     private Entity parent;
-    Boolean isEnterable;
+    private Boolean isEnterable;
 
     public PushCollision(Entity parent) {
         this.parent = parent;
@@ -33,10 +33,6 @@ public class PushCollision implements CollisionBehaviour {
                 }
             }
         }
-    }
-
-    public void setEnterability(Boolean enterability) {
-        this.isEnterable = enterability;
     }
 
 }

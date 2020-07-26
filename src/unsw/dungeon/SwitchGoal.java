@@ -27,6 +27,7 @@ public class SwitchGoal implements GoalObserver, GoalObserverChild {
             }
 
             if (isComplete() && parent != null) {
+                this.isComplete = true;
                 parent.update();
             } else if (isComplete()) {
                 this.isComplete = true;
@@ -56,15 +57,6 @@ public class SwitchGoal implements GoalObserver, GoalObserverChild {
     public void setParent(GoalObserverParent parent) {
         this.parent = parent;
 
-    }
-
-    public List<Object> getSubjects() {
-        List<Object> retList = new ArrayList<Object>();
-        for (FloorSwitch f: switches) {
-            retList.add((Object) f);
-        }
-
-        return retList;
     }
     
 }

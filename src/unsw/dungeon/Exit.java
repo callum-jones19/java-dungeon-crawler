@@ -45,5 +45,9 @@ public class Exit extends Entity implements Triggerable, Goal {
 
     }
 
+    public Boolean isActivated() {
+        return isActive;
+    }
+
 
 }

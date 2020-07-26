@@ -3,12 +3,12 @@ package unsw.dungeon;
 public class TransportCollision implements CollisionBehaviour {
 
     private boolean isEnterable;
-    Portal exitPortal;
+    private Portal exitPortal;
 
     public TransportCollision(Portal p) {
         super();
         isEnterable = true;
-        this.exitPortal = p;
+        setLocation(p);
     }
 
     public boolean isEnterable() {
@@ -19,10 +19,6 @@ public class TransportCollision implements CollisionBehaviour {
         this.exitPortal = p;
     }
 
-    public void setEnterability(Boolean enterability) {
-        isEnterable = enterability;
-
-    }
 
     public void onCollide(Entity e) {
         if (e instanceof IMoveable) {

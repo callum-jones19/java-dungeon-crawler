@@ -2,7 +2,7 @@ package unsw.dungeon;
 
 public class StopCollision implements CollisionBehaviour {
     
-    Boolean isEnterable;
+    private Boolean isEnterable;
 
     public StopCollision() {
         super();

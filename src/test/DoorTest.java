@@ -30,7 +30,8 @@ public class DoorTest {
         d.addEntity(enemy1);
         Boulder boulder1 = new Boulder(d, 3, 3);
         d.addEntity(boulder1);
-        Sword sword = new Sword(4, 4, p1);
+        Sword sword = new Sword(4, 4);
+        sword.setUser(p1);
         d.addEntity(sword);
 
 
@@ -137,8 +138,17 @@ public class DoorTest {
         d.printDungeon();
         assertEquals(null, d.getPlayer());
         assertEquals(enemy1, d.getTopmostEntity(2, 4));
-
-
     }
+
+    @Test
+    public void testEquals() {
+        Key k = new Key(3, 3);
+        Door d = new Door(1, 1, k);
+        assertEquals(false, d.equals(null));
+        Key k1 = new Key(4,4);
+        Door d2 = new Door(1,1,k1);
+        assertEquals(true, d.equals(d2));
+    }
+
 
 }

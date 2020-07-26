@@ -2,7 +2,7 @@ package unsw.dungeon;
 
 public class TriggerTypePlayerInventory implements TriggerType {
 
-    Item item;
+    private Item item;
 
     public TriggerTypePlayerInventory(Item i) {
         super();

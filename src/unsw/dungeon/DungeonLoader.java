@@ -60,6 +60,42 @@ public abstract class DungeonLoader {
             onLoad(wall);
             entity = wall;
             break;
+        case "exit":
+            Exit exit = new Exit(x, y);
+            onLoad(exit);
+            entity = exit;
+            break;
+        case "boulder":
+            Boulder boulder = new Boulder(dungeon, x, y);
+            onLoad(boulder);
+            entity = boulder;
+            break;
+        case "switch":
+            FloorSwitch floorSwitch = new FloorSwitch(x, y);
+            onLoad(floorSwitch);
+            entity = floorSwitch;
+            break;
+        case "sword":
+            Sword sword = new Sword(x, y);
+            onLoad(sword);
+            entity = sword;
+            break;
+        case "invincibility":
+            Potion potion = new Potion(x, y);
+            onLoad(potion);
+            entity = potion;
+            break;
+        case "enemy":
+            Enemy enemy = new Enemy(x, y, dungeon);
+            onLoad(enemy);
+            entity = enemy;
+            break;
+        case "treasure":
+            Treasure treasure = new Treasure(x, y);
+            onLoad(treasure);
+            entity = treasure;
+            break;
+
         // TODO Handle other possible entities
         }
         dungeon.addEntity(entity);
@@ -68,6 +104,26 @@ public abstract class DungeonLoader {
     public abstract void onLoad(Entity player);
 
     public abstract void onLoad(Wall wall);
+
+    public abstract void onLoad(Exit exit);
+
+    public abstract void onLoad(Door door);
+
+    public abstract void onLoad(Key key);
+
+    public abstract void onLoad(Enemy enemy);
+
+    public abstract void onLoad(Sword sword);
+
+    public abstract void onLoad(Boulder boulder);
+
+    public abstract void onLoad(Potion potion);
+
+    public abstract void onLoad(FloorSwitch floorSwitch);
+
+    public abstract void onLoad(Portal portal);
+
+    public abstract void onLoad(Treasure treasure);
 
     // TODO Create additional abstract methods for the other entities
 

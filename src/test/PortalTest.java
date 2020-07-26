@@ -78,4 +78,12 @@ public class PortalTest {
         assertEquals(8, e.getX());
         assertEquals(8, e.getY());
     }
+
+
+    @Test
+    public void testPortalID() {
+        Portal p = new Portal(1, 1, 1);
+        assertEquals(1, p.getID());
+    }
+    
 }

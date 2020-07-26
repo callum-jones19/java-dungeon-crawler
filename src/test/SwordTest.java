@@ -20,7 +20,8 @@ public class SwordTest {
         // Test create one sword
         Dungeon dungeon = new Dungeon(10, 10);
         Player player = new Player(dungeon, 5, 5);
-        Sword sword = new Sword(3, 3, player);
+        Sword sword = new Sword(3, 3);
+        sword.setUser(player);
 
         dungeon.setPlayer(player);
         dungeon.addEntity(sword);
@@ -28,9 +29,12 @@ public class SwordTest {
         assertEquals(sword, dungeon.getTopmostEntity(3, 3));
 
         // Test create many swords
-        Sword sword1 = new Sword(4, 4, player);
-        Sword sword2 = new Sword(6, 6, player);
-        Sword sword3 = new Sword(7, 7, player);
+        Sword sword1 = new Sword(4, 4);
+        sword1.setUser(player);
+        Sword sword2 = new Sword(6, 6);
+        sword2.setUser(player);
+        Sword sword3 = new Sword(7, 7);
+        sword3.setUser(player);
 
         dungeon.addEntity(sword1);
         dungeon.addEntity(sword2);
@@ -48,7 +52,8 @@ public class SwordTest {
         // Test Setup
         Dungeon dungeon = new Dungeon(10, 10);
         Player player = new Player(dungeon, 5, 5);
-        Sword sword = new Sword(3, 3, player);
+        Sword sword = new Sword(3, 3);
+        sword.setUser(player);
         Enemy enemy1 = new Enemy(8, 8, dungeon);
         PlayerOrientation right = new RightOrientation(player, dungeon);
 
@@ -78,8 +83,10 @@ public class SwordTest {
         // Test Setup
         Dungeon dungeon = new Dungeon(10, 10);
         Player player = new Player(dungeon, 5, 5);
-        Sword sword = new Sword(3, 3, player);
-        Sword sword2 = new Sword(3, 2, player);
+        Sword sword = new Sword(3, 3);
+        sword.setUser(player);
+        Sword sword2 = new Sword(3, 2);
+        sword2.setUser(player);
         Enemy enemy1 = new Enemy(8, 8, dungeon);
 
         dungeon.setPlayer(player);
@@ -112,8 +119,10 @@ public class SwordTest {
         Dungeon dungeon = new Dungeon(10, 10);
         Player player = new Player(dungeon, 5, 5);
         PlayerOrientation down = new DownwardsOrientation(player, dungeon);
-        Sword sword = new Sword(3, 3, player);
-        Sword sword2 = new Sword(3, 2, player);
+        Sword sword = new Sword(3, 3);
+        sword.setUser(player);
+        Sword sword2 = new Sword(3, 2);
+        sword2.setUser(player);
         Enemy enemy1 = new Enemy(8, 8, dungeon);
         Enemy enemy2 = new Enemy(8, 7, dungeon);
         Enemy enemy3 = new Enemy(8, 6, dungeon);
