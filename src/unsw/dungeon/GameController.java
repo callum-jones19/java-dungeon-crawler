@@ -17,7 +17,7 @@ import javafx.scene.layout.Pane;
 public class GameController {
     
     @FXML
-    Pane mainScreen;
+    private Pane mainScreen;
 
     // States
     // TODO change
@@ -42,37 +42,38 @@ public class GameController {
                 double deltaTime = (double)(newTime - prevTime)/1000000000;
                 prevTime = newTime;
                 
-                System.out.println(deltaTime);
-                dungeonState.update(deltaTime);
+                //System.out.println("DeltaTime = " + deltaTime);
+                update(deltaTime);
             }
 
         };
 
         KeyFrame kf = new KeyFrame(Duration.seconds(0.017), ev);
         gameLoop.getKeyFrames().addAll(kf);
-
-        // Now load in the starting dungeon and create the game state.
-        for (ZLayer z : ZLayer.values()) {
-            System.out.println(z);
-        }
-
-
     }
 
     public Parent getRootNode() {
         return this.mainScreen;
     }
 
+    /**
+     * Function run every frame by the game loop.
+     */
+    private void update(double deltaTime) {
+        currentState.update(deltaTime);
+    }
+
     @FXML
     public void initialize() {
+        dungeonState = new DungeonState("advanced.json");
+        currentState = dungeonState;
+
+        currentState.initialRender(mainScreen);
         gameLoop.play();
     }
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
-        switch (event.getCode()) {
-            case ESCAPE:
-                // TODO change state.
-        }
+        //TODO   
     }
 }
