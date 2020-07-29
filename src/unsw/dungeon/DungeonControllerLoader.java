@@ -183,6 +183,16 @@ public class DungeonControllerLoader extends DungeonLoader {
         return this.entities;
     }
 
+    /**
+     * Gets the size of each each tile in the dungeon. Bases this off the background tile.
+     * @return
+     */
+    public int getTileSize() {
+        Image ground = new Image((new File("images/dirt_0_new.png")).toURI().toString());
+
+        return (int) ground.getWidth();
+    }
+
 
 
 }
