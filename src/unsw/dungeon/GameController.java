@@ -42,7 +42,7 @@ public class GameController {
                 double deltaTime = (double)(newTime - prevTime)/1000000000;
                 prevTime = newTime;
                 
-                //System.out.println("DeltaTime = " + deltaTime);
+                System.out.println("DeltaTime = " + deltaTime);
                 update(deltaTime);
             }
 
@@ -60,15 +60,24 @@ public class GameController {
      * Function run every frame by the game loop.
      */
     private void update(double deltaTime) {
-        currentState.update(deltaTime);
+        if (currentState.update(deltaTime)) {
+            gameLoop.stop();
+        }
     }
+
+    /////////////////////////////////////////////////////////////////
+    //
+    //                     FXML Functions
+    //
+    /////////////////////////////////////////////////////////////////
+    
 
     @FXML
     public void initialize() {
         dungeonState = new DungeonState("advanced.json");
         currentState = dungeonState;
-
         currentState.initialRender(mainScreen);
+        
         gameLoop.play();
     }
 

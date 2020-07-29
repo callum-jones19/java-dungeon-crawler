@@ -46,8 +46,14 @@ public class DungeonState extends StackPane implements GameState{
         createGridPaneLayers();
     }
 
-    public void update(double deltaTime) {
+    // TODO Change from bool to changing back to menu state.
+    public boolean update(double deltaTime) {
         dungeon.executeUpdates(deltaTime);
+        updateRender();
+        if(dungeon.getPlayer() == null) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -61,6 +67,16 @@ public class DungeonState extends StackPane implements GameState{
         for (ZLayer z : ZLayer.values()) {
             System.out.println("Rendering layer " + z.toString());
             renderEntityLayer(z);
+        }
+    }
+
+    public void updateRender() {
+        for (ZLayer z : ZLayer.values()) {
+            if (! z.isStatic()) {
+                GridPane g = getRenderLayer(z.getZIndex());
+                g.getChildren().clear();
+                renderEntityLayer(z);
+            }
         }
     }
 
@@ -106,7 +122,7 @@ public class DungeonState extends StackPane implements GameState{
                 GridPane.setColumnIndex(entTexture, e.getX());
                 GridPane.setRowIndex(entTexture, e.getY());
                 //targetLayer.add(entTexture, e.getX(), e.getY(), 1, 1);
-                System.out.println("Rendered entity " + e.toString() + " at " + e.getX() + "," + e.getY() + ". Render coords are: " + GridPane.getColumnIndex(entTexture) + "," + GridPane.getRowIndex(entTexture));
+                // System.out.println("Rendered entity " + e.toString() + " at " + e.getX() + "," + e.getY() + ". Render coords are: " + GridPane.getColumnIndex(entTexture) + "," + GridPane.getRowIndex(entTexture));
                 //System.out.println("Layer " + layer.toString() + " has gridPane with dimensions " + targetLayer.getColumnCount() + "," + targetLayer.getRowCount());
             }
     }
