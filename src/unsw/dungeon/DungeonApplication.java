@@ -17,7 +17,7 @@ public class DungeonApplication extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("GameView.fxml"));
         GameController game = new GameController();
         loader.setController(game);
-
+        loader.load();
 
         Scene scene = new Scene(game.getRootNode());
         primaryStage.setScene(scene);
