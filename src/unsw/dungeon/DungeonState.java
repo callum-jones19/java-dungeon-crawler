@@ -10,7 +10,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -20,6 +24,7 @@ public class DungeonState extends StackPane implements GameState{
 
     // JavaFX Data
     private HashMap<Entity, ImageView> entityImages;
+    private int tileSize;
 
     // Dungeon data
     private DungeonControllerLoader loader;
@@ -33,19 +38,28 @@ public class DungeonState extends StackPane implements GameState{
             e.printStackTrace();
         }
 
-        createGridPaneLayers();
-
         this.dungeon = loader.load();
         this.entityImages = loader.loadDungeonImages();
+        this.tileSize = loader.getTileSize();
+        System.out.println(tileSize);
+
+        createGridPaneLayers();
     }
 
     public void update(double deltaTime) {
         dungeon.executeUpdates(deltaTime);
     }
 
-    public void initialRender() {
+    /**
+     * The initial render of the state. This initial render will
+     * attach this JavaFX StackPane to a parent which it will draw onto.
+     * @param parent
+     */
+    public void initialRender(Pane parent) {
+        parent.getChildren().add(this);
         renderBG();
         for (ZLayer z : ZLayer.values()) {
+            System.out.println("Rendering layer " + z.toString());
             renderEntityLayer(z);
         }
     }
@@ -62,7 +76,21 @@ public class DungeonState extends StackPane implements GameState{
     private void createGridPaneLayers() {
         for (ZLayer z : ZLayer.values()) {
             GridPane g = new GridPane();
-            getChildren().add(z.getZIndex(), g);;
+
+            // Now force the grid constraints.
+            int numRows = dungeon.getWidth();
+            int numCols = dungeon.getHeight();
+            for (int i = 0; i < numRows; i++) {
+                //
+                ColumnConstraints colConst = new ColumnConstraints(tileSize);
+                g.getColumnConstraints().add(colConst);
+            }
+            for (int i = 0; i < numCols; i++) {
+                RowConstraints rowConst = new RowConstraints(tileSize);
+                g.getRowConstraints().add(rowConst);
+            }
+
+            getChildren().add(z.getZIndex(), g);
         }
     }
 
@@ -74,7 +102,12 @@ public class DungeonState extends StackPane implements GameState{
         for (Entity e : dungeon.getEntities(layer)) {
                 GridPane targetLayer = getRenderLayer(layer.getZIndex());
                 ImageView entTexture = entityImages.get(e);
-                targetLayer.add(entTexture, e.getX(), e.getY());
+                targetLayer.getChildren().add(entTexture);
+                GridPane.setColumnIndex(entTexture, e.getX());
+                GridPane.setRowIndex(entTexture, e.getY());
+                //targetLayer.add(entTexture, e.getX(), e.getY(), 1, 1);
+                System.out.println("Rendered entity " + e.toString() + " at " + e.getX() + "," + e.getY() + ". Render coords are: " + GridPane.getColumnIndex(entTexture) + "," + GridPane.getRowIndex(entTexture));
+                //System.out.println("Layer " + layer.toString() + " has gridPane with dimensions " + targetLayer.getColumnCount() + "," + targetLayer.getRowCount());
             }
     }
 
