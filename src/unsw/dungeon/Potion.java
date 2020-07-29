@@ -5,7 +5,7 @@ public class Potion extends Entity implements Item {
     private CollisionBehaviour collectStrat;
 
     public Potion(int x, int y) {
-        super(x, y);
+        super(x, y, ZLayer.ITEM);
         this.collectStrat = new CollectCollision(this);
         setCollisionBehaviour(collectStrat);
     }

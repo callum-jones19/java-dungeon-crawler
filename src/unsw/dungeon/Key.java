@@ -6,7 +6,7 @@ public class Key extends Entity implements Item {
     private Door door;
     
     public Key(int x, int y) {
-        super(x, y);
+        super(x, y, ZLayer.ITEM);
         super.setCollisionBehaviour(c);
     }
 

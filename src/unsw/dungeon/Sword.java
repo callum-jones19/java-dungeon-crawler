@@ -7,7 +7,7 @@ public class Sword extends Entity implements Item, Weapon {
     private Player user;
 
     public Sword(int x, int y) {
-        super(x, y);
+        super(x, y, ZLayer.ITEM);
         super.setCollisionBehaviour(c);
         this.uses = 5;
     }

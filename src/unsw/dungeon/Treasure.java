@@ -9,7 +9,7 @@ public class Treasure extends Entity implements Item, Goal {
     private List<GoalObserver> goalObservers = new ArrayList<GoalObserver>();
 
     public Treasure(int x, int y) {
-        super(x, y);
+        super(x, y, ZLayer.ITEM);
         this.collectionStrategy = new CollectCollision(this);
         super.setCollisionBehaviour(collectionStrategy);
     }

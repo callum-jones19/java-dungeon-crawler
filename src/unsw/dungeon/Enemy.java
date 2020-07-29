@@ -17,7 +17,7 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
     private double timeUntilNextMove;
 
     public Enemy (int x, int y, Dungeon d) {
-        super(x,y);
+        super(x, y, ZLayer.MOVEABLE);
         this.dungeon = d;
 
         vulnState = new VulnerableCollision(this);

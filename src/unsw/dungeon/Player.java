@@ -32,7 +32,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
      * @param y
      */
     public Player(Dungeon dungeon, int x, int y) {
-        super(x, y);
+        super(x, y, ZLayer.MOVEABLE);
         super.setCollisionBehaviour(new StopCollision());
 
         this.dungeon = dungeon;

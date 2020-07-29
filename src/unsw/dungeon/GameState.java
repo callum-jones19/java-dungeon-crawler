@@ -23,5 +23,6 @@ public interface GameState {
     // timeToRunFor will be removed after this milestone - this function just
     // allows for testing, as we can choose to run the game loop for only x
     // seconds.
-    public void run(double timeToRunFor);
+    public void update(double deltaTime);
+    public void initialRender();
 }

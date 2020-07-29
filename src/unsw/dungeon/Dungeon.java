@@ -283,4 +283,16 @@ public class Dungeon implements DestroyObserver {
         return true;
     }
 
+	public List<Entity> getEntities(ZLayer layer) {
+        List<Entity> answer = new ArrayList<Entity>();
+
+        for (Entity e : entities) {
+            if (e.getLayer() == layer) {
+                answer.add(e);
+            }
+        }
+        
+        return answer;
+	}
+
 }

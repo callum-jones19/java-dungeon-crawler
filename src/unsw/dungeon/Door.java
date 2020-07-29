@@ -9,7 +9,7 @@ public class Door extends Entity implements Triggerable {
     private Key key;
 
     public Door(int x, int y, Key k) {
-        super(x, y);
+        super(x, y, ZLayer.FLOOR);
         this.key = k;
         this.key.setDoor(this);
         this.stopCollision = new StopCollision();
