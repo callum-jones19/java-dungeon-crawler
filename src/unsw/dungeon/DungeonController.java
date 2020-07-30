@@ -1,32 +1,39 @@
 package unsw.dungeon;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
+import javafx.event.EventHandler;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
+import javafx.util.Duration;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 
 /**
  * Class to manage a dungeon instance being run by the JavaFX frontend.
  */
-public class DungeonState extends StackPane implements GameState{
+public class DungeonController {
 
     // JavaFX Data
+    @FXML
+    private StackPane gamePane;
+
+    private DungeonScreen screen;
+
     private HashMap<Entity, ImageView> entityImages;
     private int tileSize;
 
+    // Input data
     KeyCode lastInput;
 
     // Dungeon data
@@ -35,46 +42,115 @@ public class DungeonState extends StackPane implements GameState{
     private Dungeon dungeon;
     private Player p;
 
-    public DungeonState(String filename) {
-        try {
-            this.loader = new DungeonControllerLoader(filename);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+    //Gameloop
+    private Timeline gameLoop;
+    private boolean running;
+    private EventHandler<ActionEvent> ev;
+    private boolean wasPaused;
+
+    public DungeonController(DungeonControllerLoader l, DungeonScreen d) {
+
+        screen = d;
+
+        // Create the game loop.
+        gameLoop = new Timeline();
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        running = true;
+        ev = createGameLoop();
+        KeyFrame kf = new KeyFrame(Duration.seconds(0.017), ev);
+        gameLoop.getKeyFrames().addAll(kf);
+
+        // Initialise the dungeon 
+        this.loader = l;
 
         this.dungeon = loader.load();
         this.entityImages = loader.loadDungeonImages();
-        this.tileSize = loader.getTileSize();
-        this.lastInput = null;
         this.p = dungeon.getPlayer();
 
-        createGridPaneLayers();
+        // Initialise JavaFX-related variables.
+        this.tileSize = loader.getTileSize();
+        this.lastInput = null;
     }
 
-    // TODO Change from bool to changing back to menu state.
-    public boolean update(double deltaTime) {
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    //                      Initialise Functions
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Initialise all visual elements. Once this is done, begin the game loop.
+     */
+    @FXML
+    public void initialize() {
+        createGridPaneLayers();
+        initialRender();
+
+        gameLoop.play();
+    }
+
+    private EventHandler<ActionEvent> createGameLoop() {
+        EventHandler<ActionEvent> ev = new EventHandler<ActionEvent>() {
+            long prevTime = System.nanoTime();
+            
+            @Override
+            public void handle(ActionEvent event) {
+                // Run until the bool flag is set to false.
+                if (!running) {
+                    gameLoop.stop();
+                }
+                if (wasPaused) {
+                    // If coming back from a pause state, we need to update with
+                    // a new delta time, otherwise it will think the frame took
+                    // as long as we paused for.
+                    prevTime = System.nanoTime();
+                    wasPaused = false;
+                }
+                long newTime = System.nanoTime();
+                double deltaTime = (double)(newTime - prevTime)/1000000000;
+                prevTime = newTime;
+                
+                System.out.println("DeltaTime = " + deltaTime);
+                update(deltaTime);
+            }
+        };
+
+        return ev;
+    }
+
+    public void update(double deltaTime) {
         dungeon.executeUpdates(deltaTime);
         processInput();
         updateRender();
         if(dungeon.getPlayer() == null) {
-            return true;
+            running = false;
         }
-        // if (dungeon.isComplete()) {
-        //     return true;
-        // }
-        return false;
     }
+
+    public void stopGameLoop() {
+        gameLoop.stop();
+        wasPaused = true;
+    }
+
+    public void startGameLoop() {
+        gameLoop.play();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    //                      Rendering Functions
+    //
+    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * The initial render of the state. This initial render will
      * attach this JavaFX StackPane to a parent which it will draw onto.
      * @param parent
      */
-    public void initialRender(Pane parent) {
-        parent.getChildren().add(this);
+    public void initialRender() {
         renderBG();
         for (ZLayer z : ZLayer.values()) {
-            System.out.println("Rendering layer " + z.toString());
+            //System.out.println("Rendering layer " + z.toString());
             renderEntityLayer(z);
         }
     }
@@ -90,7 +166,7 @@ public class DungeonState extends StackPane implements GameState{
     }
 
     private GridPane getRenderLayer(int zIndex) {
-        Node n = getChildren().get(zIndex);
+        Node n = gamePane.getChildren().get(zIndex);
         GridPane g = null;
         if (n instanceof GridPane) {
             g = (GridPane) n;
@@ -115,7 +191,8 @@ public class DungeonState extends StackPane implements GameState{
                 g.getRowConstraints().add(rowConst);
             }
 
-            getChildren().add(z.getZIndex(), g);
+            System.out.println("Created layer for " + z.toString());
+            gamePane.getChildren().add(z.getZIndex(), g);
         }
     }
 
@@ -151,10 +228,27 @@ public class DungeonState extends StackPane implements GameState{
         }
     }
 
-    public void receiveInput(KeyCode kc) {
+    
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    //                          FXML Functions
+    //
+    ////////////////////////////////////////////////////////////////////////////    
+    
+    
+
+    /**
+     * This event will feed the last key into a buffer so the game loop
+     * doesn't run concurrently with the inputs.
+     * @param event
+     */
+    @FXML
+    public void handleKeyPress(KeyEvent event) {
+        KeyCode kc = event.getCode();
         lastInput = kc;
     }
 
+    
     private void processInput() {
         if (lastInput == null) {
             // FIXME doesnt work the other way around??? No idea what i was doing
@@ -176,11 +270,13 @@ public class DungeonState extends StackPane implements GameState{
                 case SPACE:
                     p.attack();
                     break;
+                case ESCAPE:
+                    screen.openPauseScreen();
+                    break;
                 default:
                     break;
             }
             lastInput = null;
-            System.out.println(lastInput);
         }
     }
 
