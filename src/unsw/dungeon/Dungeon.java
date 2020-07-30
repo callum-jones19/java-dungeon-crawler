@@ -297,6 +297,13 @@ public class Dungeon implements DestroyObserver {
         }
         
         return answer;
-	}
+    }
+    
+    public GoalObserver getCompositeGoal() {
+        if (this.goal instanceof CompositeGoal) {
+            return this.goal;
+        }
+        return null;
+    }
 
 }
