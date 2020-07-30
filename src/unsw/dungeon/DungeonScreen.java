@@ -48,12 +48,8 @@ public class DungeonScreen implements GameScreen {
     }
 
     public void openPauseScreen() {
-        try {
-            controller.stopGameLoop();
-            gm.setActiveScreen(new MenuScreen(stage, gm, this));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        controller.stopGameLoop();
+        gm.setActiveScreen(gm.getPausedState());
     }
 
 

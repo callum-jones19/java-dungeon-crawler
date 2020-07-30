@@ -15,9 +15,8 @@ public class MenuScreen implements GameScreen {
     private Scene scene;
 
     GameScreenManager gm;
-    private DungeonScreen pausedDungeon;
 
-    public MenuScreen (Stage stage, GameScreenManager gm, DungeonScreen ds) throws IOException {
+    public MenuScreen (Stage stage, GameScreenManager gm) throws IOException {
         // Set a reference to the primary window to draw to.
         this.stage = stage;
         
@@ -29,14 +28,11 @@ public class MenuScreen implements GameScreen {
         loader.setController(controller);
 
         // Set the scene title
-        this.title = "[PAUSE] Dungeon";
+        this.title = "[PAUSED] Dungeon";
 
         // Create a scene with the controller class as a root.
         Parent root = loader.load();
         scene = new Scene(root, 600, 600);
-
-        // Keep track of the dungeon to return to
-        pausedDungeon = ds;
     }
 
     @Override
@@ -47,7 +43,11 @@ public class MenuScreen implements GameScreen {
         stage.show();
     }
 
-    public void returnToDungeon() {
-        gm.setActiveScreen(pausedDungeon);
+    public void returnToDungeonScreen() {
+        gm.setActiveScreen(gm.getDungeonState());
+    }
+
+    public void closeApplication() {
+        stage.close();
     }
 }

@@ -13,17 +13,16 @@ public class GameScreenManager {
     Stage primaryStage;
 
     // States
-    private GameScreen currentScreen;
+    private GameScreen currentScreenState;
     
     private GameScreen pausedState;
-    private GameScreen lobbyState;
-    private GameScreen dungeonScreen;
+    private GameScreen dungeonState;
 
 
 
     public GameScreenManager(Stage stage) {
         this.primaryStage = stage;
-        currentScreen = null;
+        currentScreenState = null;
     }
 
     /**
@@ -33,15 +32,27 @@ public class GameScreenManager {
     public void loadNewDungeon(String filename) {
         try {
             DungeonControllerLoader loader = new DungeonControllerLoader(filename);
-            setActiveScreen(new DungeonScreen(primaryStage, this, loader));
+            dungeonState = new DungeonScreen(primaryStage, this, loader);
+            pausedState = new MenuScreen(primaryStage, this);
+            
+            // Load into the dungeon by default
+            setActiveScreen(getDungeonState());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public void setActiveScreen (GameScreen gs) {
-        currentScreen = gs;
-        currentScreen.loadScreen();
+        this.currentScreenState = gs;
+        currentScreenState.loadScreen();
+    }
+
+    public GameScreen getPausedState () {
+        return pausedState;
+    }
+
+    public GameScreen getDungeonState() {
+        return dungeonState;
     }
 
 }
