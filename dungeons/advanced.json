@@ -408,6 +408,11 @@
       "type": "wall"
     },
     {
+      "x": 7,
+      "y": 11,
+      "type": "boulder"
+    },
+    {
       "x": 8,
       "y": 11,
       "type": "wall"

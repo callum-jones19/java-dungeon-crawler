@@ -12,7 +12,7 @@ public class Potion extends Entity implements Item {
 
     
     public void activate(Player p) {
-        p.setCollisionBehaviour(new DamageCollision());
+        p.setCollisionBehaviour(new DamageCollision(p));
         p.makeInvincible();
         if (!canUseAgain()) {
             p.removeItem(this);
