@@ -157,6 +157,8 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
             Weapon s = getWeapon();
             orientation.attack(s);
         }
+
+        System.out.println(orientation);
     }
 
     public boolean hasWeapon() {

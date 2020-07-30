@@ -22,6 +22,7 @@ public class DungeonApplication extends Application {
         Scene scene = new Scene(game.getRootNode());
         primaryStage.setScene(scene);
         primaryStage.show();
+        scene.getRoot().requestFocus();
 
     }
 

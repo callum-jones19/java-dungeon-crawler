@@ -52,7 +52,7 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
     public void chasePlayer() {
         Coordinates targetLoc = currentSearchStrat.pathSearch(dungeon.getPlayerX(), dungeon.getPlayerY(), getX(), getY());
         move(targetLoc.getX(), targetLoc.getY());
-        dungeon.printDungeon();
+        //dungeon.printDungeon();
     }
 
     public void move(int x, int y) {

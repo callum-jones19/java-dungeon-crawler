@@ -46,14 +46,11 @@ public class Key extends Entity implements Item {
     }
 
     @Override
-    public void pickup(Entity e) {
-        if (e instanceof Player) {
-            Player p = (Player) e;
-            p.addToInventory(this);
-            activate();
-            if (p.isHoldingInstance(this)) {
-                destroy();
-            }
+    public void pickup(Player p) {
+        p.addToInventory(this);
+        activate();
+        if (p.isHoldingInstance(this)) {
+            destroy();
         }
 
     }

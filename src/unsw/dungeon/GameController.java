@@ -42,7 +42,7 @@ public class GameController {
                 double deltaTime = (double)(newTime - prevTime)/1000000000;
                 prevTime = newTime;
                 
-                System.out.println("DeltaTime = " + deltaTime);
+                //System.out.println("DeltaTime = " + deltaTime);
                 update(deltaTime);
             }
 
@@ -74,7 +74,7 @@ public class GameController {
 
     @FXML
     public void initialize() {
-        dungeonState = new DungeonState("advanced.json");
+        dungeonState = new DungeonState("boulders.json");
         currentState = dungeonState;
         currentState.initialRender(mainScreen);
         
@@ -83,6 +83,7 @@ public class GameController {
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
-        //TODO   
+        currentState.receiveInput(event.getCode());
+        System.out.println("Input detected");
     }
 }

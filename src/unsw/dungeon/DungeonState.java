@@ -10,6 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -26,10 +27,13 @@ public class DungeonState extends StackPane implements GameState{
     private HashMap<Entity, ImageView> entityImages;
     private int tileSize;
 
+    KeyCode lastInput;
+
     // Dungeon data
     private DungeonControllerLoader loader;
 
     private Dungeon dungeon;
+    private Player p;
 
     public DungeonState(String filename) {
         try {
@@ -41,7 +45,8 @@ public class DungeonState extends StackPane implements GameState{
         this.dungeon = loader.load();
         this.entityImages = loader.loadDungeonImages();
         this.tileSize = loader.getTileSize();
-        System.out.println(tileSize);
+        this.lastInput = null;
+        this.p = dungeon.getPlayer();
 
         createGridPaneLayers();
     }
@@ -49,10 +54,14 @@ public class DungeonState extends StackPane implements GameState{
     // TODO Change from bool to changing back to menu state.
     public boolean update(double deltaTime) {
         dungeon.executeUpdates(deltaTime);
+        processInput();
         updateRender();
         if(dungeon.getPlayer() == null) {
             return true;
         }
+        // if (dungeon.isComplete()) {
+        //     return true;
+        // }
         return false;
     }
 
@@ -142,8 +151,37 @@ public class DungeonState extends StackPane implements GameState{
         }
     }
 
-    public void handleInput() {
+    public void receiveInput(KeyCode kc) {
+        lastInput = kc;
+    }
 
+    private void processInput() {
+        if (lastInput == null) {
+            // FIXME doesnt work the other way around??? No idea what i was doing
+            // but its 1:30AM so fix it later.
+        } else {
+            switch(lastInput) {
+                case UP:
+                    p.moveUp();
+                    break;
+                case DOWN:
+                    p.moveDown();
+                    break;
+                case LEFT:
+                    p.moveLeft();
+                    break;
+                case RIGHT:
+                    p.moveRight();
+                    break;
+                case SPACE:
+                    p.attack();
+                    break;
+                default:
+                    break;
+            }
+            lastInput = null;
+            System.out.println(lastInput);
+        }
     }
 
 }

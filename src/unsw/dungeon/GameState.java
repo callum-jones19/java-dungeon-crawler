@@ -1,6 +1,7 @@
 package unsw.dungeon;
 
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
 /**
@@ -28,4 +29,5 @@ public interface GameState {
     // seconds.
     public boolean update(double deltaTime);
     public void initialRender(Pane parent);
+    public void receiveInput(KeyCode k);
 }

@@ -41,14 +41,12 @@ public class Sword extends Entity implements Item, Weapon {
         return true;
     }
 
-    public void pickup(Entity e) {
-        if (e instanceof Player) {
-            Player p = (Player) e;
-            p.addToInventory(this);
-            if (p.isHoldingInstance(this)) {
-                destroy();
-            }
-               
+    // FIXME maybe change entity e to player?
+    public void pickup(Player p) {
+        setUser(p);
+        p.addToInventory(this);
+        if (p.isHoldingInstance(this)) {
+            destroy();
         }
     }
 

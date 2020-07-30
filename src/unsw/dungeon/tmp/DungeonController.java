@@ -1,4 +1,4 @@
-package unsw.dungeon;
+package unsw.dungeon.tmp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,22 +51,22 @@ public class DungeonController {
 
     @FXML
     public void handleKeyPress(KeyEvent event) {
-        switch (event.getCode()) {
-        case UP:
-            player.moveUp();
-            break;
-        case DOWN:
-            player.moveDown();
-            break;
-        case LEFT:
-            player.moveLeft();
-            break;
-        case RIGHT:
-            player.moveRight();
-            break;
-        default:
-            break;
-        }
+        // switch (event.getCode()) {
+        // case UP:
+        //     player.moveUp();
+        //     break;
+        // case DOWN:
+        //     player.moveDown();
+        //     break;
+        // case LEFT:
+        //     player.moveLeft();
+        //     break;
+        // case RIGHT:
+        //     player.moveRight();
+        //     break;
+        // default:
+        //     break;
+        // }
     }
 
 }

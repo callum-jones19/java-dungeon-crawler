@@ -42,16 +42,12 @@ public class Treasure extends Entity implements Item, Goal {
 
     }
 
-    public void pickup(Entity e) {
-        if (e instanceof Player) {
-            Player p = (Player) e;
-            p.addToInventory(this);
-            if (p.isHoldingInstance(this)) {
-                notifyGoalObservers();
-                destroy();
-            }
-               
-        }
+    public void pickup(Player p) {
+        p.addToInventory(this);
+        if (p.isHoldingInstance(this)) {
+            notifyGoalObservers();
+            destroy();
+        }      
     }
 
     public void notifyGoalObservers() {

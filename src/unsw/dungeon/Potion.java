@@ -11,14 +11,11 @@ public class Potion extends Entity implements Item {
     }
 
     
-    public void activate(Entity e) {
-        e.setCollisionBehaviour(new DamageCollision());
-        if (e instanceof Player) {
-            Player p = (Player) e;
-            p.makeInvincible();
-            if (!canUseAgain()) {
-                p.removeItem(this);
-            }
+    public void activate(Player p) {
+        p.setCollisionBehaviour(new DamageCollision());
+        p.makeInvincible();
+        if (!canUseAgain()) {
+            p.removeItem(this);
         }
     }
 
@@ -34,16 +31,13 @@ public class Potion extends Entity implements Item {
         return (i instanceof Potion);
     }
 
-    public void pickup(Entity e) {
-        if (e instanceof Player) {
-            Player p = (Player) e;
-            p.addToInventory(this);
-            activate(e);
-            if (p.isHoldingInstance(this)) {
-                destroy();
-            }
-               
+    public void pickup(Player p) {
+        p.addToInventory(this);
+        activate(p);
+        if (p.isHoldingInstance(this)) {
+            destroy();
         }
+               
     }
 
     
