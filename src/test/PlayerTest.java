@@ -68,7 +68,8 @@ public class PlayerTest {
         // Test Setup
         Dungeon dungeon = new Dungeon(10, 10);
         Player player = new Player(dungeon, 5, 5);
-        Sword sword = new Sword(5, 6, player);
+        Sword sword = new Sword(5, 6);
+        sword.setUser(player);
         Key key = new Key(5, 7);
         Door door = new Door(6, 6, key);
         Potion potion = new Potion(5, 8);
@@ -117,7 +118,8 @@ public class PlayerTest {
         Enemy enemy2 = new Enemy(5, 4, dungeon);
         Enemy enemy3 = new Enemy(4, 5, dungeon);
         Enemy enemy4 = new Enemy(6, 5, dungeon);
-        Sword sword = new Sword(8, 8, player);
+        Sword sword = new Sword(8, 8);
+        sword.setUser(player);
 
         dungeon.addEntity(enemy1);
         dungeon.addEntity(enemy2);

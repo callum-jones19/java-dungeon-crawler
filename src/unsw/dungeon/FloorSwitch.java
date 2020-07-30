@@ -10,7 +10,7 @@ public class FloorSwitch extends Entity implements BoulderObserver, Goal {
     private boolean isActive;
 
     public FloorSwitch(int x, int y) {
-        super(x, y);
+        super(x, y, ZLayer.FLOOR);
         super.setCollisionBehaviour(c);
         this.isActive = false;
     }

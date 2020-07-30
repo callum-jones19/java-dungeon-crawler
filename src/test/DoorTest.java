@@ -30,7 +30,8 @@ public class DoorTest {
         d.addEntity(enemy1);
         Boulder boulder1 = new Boulder(d, 3, 3);
         d.addEntity(boulder1);
-        Sword sword = new Sword(4, 4, p1);
+        Sword sword = new Sword(4, 4);
+        sword.setUser(p1);
         d.addEntity(sword);
 
 

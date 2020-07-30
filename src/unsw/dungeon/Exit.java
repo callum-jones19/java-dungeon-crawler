@@ -10,7 +10,7 @@ public class Exit extends Entity implements Triggerable, Goal {
     private List<GoalObserver> goalObservers = new ArrayList<GoalObserver>();
 
     public Exit(int x, int y) {
-        super(x, y);
+        super(x, y, ZLayer.FLOOR);
         this.trigStrat = new TriggerCollision(this, new TriggerTypePlayer());
         super.setCollisionBehaviour(trigStrat);
         isActive = false;

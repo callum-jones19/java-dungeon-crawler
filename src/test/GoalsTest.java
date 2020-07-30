@@ -99,7 +99,8 @@ public class GoalsTest {
         Enemy enemy1 = new Enemy(9, 6, dungeon);
         Enemy enemy2 = new Enemy(9, 7, dungeon);
         Enemy enemy3 = new Enemy(9, 8, dungeon);
-        Sword sword = new Sword(1, 1, player);
+        Sword sword = new Sword(1, 1);
+        sword.setUser(player);
 
         dungeon.addEntity(enemy1);
         dungeon.addEntity(enemy2);
@@ -249,7 +250,8 @@ public class GoalsTest {
         Enemy enemy1 = new Enemy(9, 6, dungeon);
         Enemy enemy2 = new Enemy(9, 7, dungeon);
         Enemy enemy3 = new Enemy(9, 8, dungeon);
-        Sword sword = new Sword(1, 1, player);
+        Sword sword = new Sword(1, 1);
+        sword.setUser(player);
         
         dungeon.addEntity(t7);
         dungeon.addEntity(t8);
@@ -305,7 +307,8 @@ public class GoalsTest {
         Enemy enemy4 = new Enemy(9, 6, dungeon);
         Enemy enemy5 = new Enemy(9, 7, dungeon);
         Enemy enemy6 = new Enemy(9, 8, dungeon);
-        Sword sword2 = new Sword(1, 1, player);
+        Sword sword2 = new Sword(1, 1);
+        sword.setUser(player);
         Exit exit6 = new Exit(3, 3);
         Exit exit7 = new Exit(1, 2);
 
@@ -383,7 +386,8 @@ public class GoalsTest {
         Enemy enemy7 = new Enemy(9, 6, dungeon);
         Enemy enemy8 = new Enemy(9, 7, dungeon);
         Enemy enemy9 = new Enemy(9, 8, dungeon);
-        Sword sword3 = new Sword(1, 1, player);
+        Sword sword3 = new Sword(1, 1);
+        sword.setUser(player);
         Exit exit8 = new Exit(1, 2);
 
         dungeon.addEntity(t11);
@@ -447,7 +451,8 @@ public class GoalsTest {
         Enemy enemy10 = new Enemy(9, 6, dungeon);
         Enemy enemy11 = new Enemy(9, 7, dungeon);
         Enemy enemy12 = new Enemy(9, 8, dungeon);
-        Sword sword4 = new Sword(1, 1, player);
+        Sword sword4 = new Sword(1, 1);
+        sword.setUser(player);
         Exit exit10 = new Exit(1, 2);
 
         dungeon.addEntity(t13);

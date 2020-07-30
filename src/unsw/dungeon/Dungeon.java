@@ -80,6 +80,11 @@ public class Dungeon implements DestroyObserver {
     }
 
     public void addEntity(Entity entity) {
+
+        if (entity == null) {
+            System.out.println("Hello!");
+        }
+
         if (entities.contains(entity)) {
             return;
         }
@@ -268,6 +273,10 @@ public class Dungeon implements DestroyObserver {
         this.goal = g;
     }
 
+    public boolean isComplete() {
+        return this.goal.isComplete();
+    }
+
     public boolean areCoordinatesValid(int x, int y) {
         if (y < 0 || x < 0) {
             return false;
@@ -277,5 +286,17 @@ public class Dungeon implements DestroyObserver {
         }
         return true;
     }
+
+	public List<Entity> getEntities(ZLayer layer) {
+        List<Entity> answer = new ArrayList<Entity>();
+
+        for (Entity e : entities) {
+            if (e.getLayer() == layer) {
+                answer.add(e);
+            }
+        }
+        
+        return answer;
+	}
 
 }

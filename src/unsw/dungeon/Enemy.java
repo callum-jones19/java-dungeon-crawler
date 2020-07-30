@@ -12,12 +12,12 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
 
     private SearchStyle currentSearchStrat;
 
-    private List<GoalObserverChild> goalObservers = new ArrayList<GoalObserverChild>();
+    private List<GoalObserver> goalObservers = new ArrayList<GoalObserver>();
     
     private double timeUntilNextMove;
 
     public Enemy (int x, int y, Dungeon d) {
-        super(x,y);
+        super(x, y, ZLayer.MOVEABLE);
         this.dungeon = d;
 
         vulnState = new VulnerableCollision(this);
@@ -52,7 +52,7 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
     public void chasePlayer() {
         Coordinates targetLoc = currentSearchStrat.pathSearch(dungeon.getPlayerX(), dungeon.getPlayerY(), getX(), getY());
         move(targetLoc.getX(), targetLoc.getY());
-        dungeon.printDungeon();
+        //dungeon.printDungeon();
     }
 
     public void move(int x, int y) {
@@ -77,9 +77,8 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
 
     @Override
     public void registerObserver(GoalObserver obs) {
-        if (obs instanceof GoalObserverChild) {
-            this.goalObservers.add((GoalObserverChild) obs);
-        }
+        this.goalObservers.add(obs);
+
         
 
     }
@@ -87,16 +86,16 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
     @Override
     public void removeObserver(GoalObserver obs) {
 
-        if (obs instanceof GoalObserverChild) {
-            this.goalObservers.remove((GoalObserverChild) obs);
-        }
+        this.goalObservers.remove(obs);
+        
 
     }
 
     @Override
     public void notifyGoalObservers() {
-        for (GoalObserverChild g: goalObservers) {
-            g.update(this);
+        for (GoalObserver g: goalObservers) {
+            GoalObserverChild gChild = (GoalObserverChild) g;
+            gChild.update(this);
         }
 
     }

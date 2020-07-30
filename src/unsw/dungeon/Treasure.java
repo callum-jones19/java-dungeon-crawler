@@ -6,10 +6,10 @@ import java.util.List;
 public class Treasure extends Entity implements Item, Goal {
 
     private CollisionBehaviour collectionStrategy;
-    private List<GoalObserverChild> goalObservers = new ArrayList<GoalObserverChild>();
+    private List<GoalObserver> goalObservers = new ArrayList<GoalObserver>();
 
     public Treasure(int x, int y) {
-        super(x, y);
+        super(x, y, ZLayer.ITEM);
         this.collectionStrategy = new CollectCollision(this);
         super.setCollisionBehaviour(collectionStrategy);
     }
@@ -32,32 +32,28 @@ public class Treasure extends Entity implements Item, Goal {
 
     @Override
     public void registerObserver(GoalObserver obs) {
-        this.goalObservers.add((GoalObserverChild) obs);
+        this.goalObservers.add(obs);
 
     }
 
     @Override
     public void removeObserver(GoalObserver obs) {
-        this.goalObservers.remove((GoalObserverChild) obs);
+        this.goalObservers.remove(obs);
 
     }
 
-    public void pickup(Entity e) {
-        if (e instanceof Player) {
-            System.out.println("We here my guys");
-            Player p = (Player) e;
-            p.addToInventory(this);
-            if (p.isHoldingInstance(this)) {
-                notifyGoalObservers();
-                destroy();
-            }
-               
-        }
+    public void pickup(Player p) {
+        p.addToInventory(this);
+        if (p.isHoldingInstance(this)) {
+            notifyGoalObservers();
+            destroy();
+        }      
     }
 
     public void notifyGoalObservers() {
-        for (GoalObserverChild g: goalObservers) {
-            g.update(this);
+        for (GoalObserver g: goalObservers) {
+            GoalObserverChild gChild = (GoalObserverChild) g;
+            gChild.update(this);
         }
     }
     

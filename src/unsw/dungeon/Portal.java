@@ -7,7 +7,7 @@ public class Portal extends Entity {
     private int id;
 
     public Portal(int x, int y, int id) {
-        super(x, y);
+        super(x, y, ZLayer.FLOOR);
         this.teleportCollision = null;
         this.deactivatedCollision = new NoCollision();
         // A portal with no link is 'deactivated'

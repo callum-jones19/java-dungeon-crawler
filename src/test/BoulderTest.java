@@ -61,7 +61,8 @@ public class BoulderTest {
         Boulder boulder3 = new Boulder(dungeon, 5, 6);
         Wall wall1 = new Wall(3, 5);
         FloorSwitch fs1 = new FloorSwitch(7, 7);
-        Sword sword = new Sword(7, 8, player);
+        Sword sword = new Sword(7, 8);
+        sword.setUser(player);
 
         dungeon.addEntity(boulder1);
         dungeon.addEntity(boulder2);
@@ -155,7 +156,8 @@ public class BoulderTest {
         Dungeon dungeon = new Dungeon(10, 10);
         Player player = new Player(dungeon, 1, 1);
         Boulder boulder1 = new Boulder(dungeon, 5, 5);
-        Sword sword = new Sword(1, 2, player);
+        Sword sword = new Sword(1, 2);
+        sword.setUser(player);
         PlayerOrientation right = new RightOrientation(player, dungeon);
 
         dungeon.setPlayer(player);
@@ -183,7 +185,8 @@ public class BoulderTest {
         Dungeon dungeon = new Dungeon(10, 10);
         Player player = new Player(dungeon, 1, 1);
         Boulder boulder1 = new Boulder(dungeon, 5, 5);
-        Sword sword = new Sword(1, 2, player);
+        Sword sword = new Sword(1, 2);
+        sword.setUser(player);
         PlayerOrientation right = new RightOrientation(player, dungeon);
 
         dungeon.setPlayer(player);
