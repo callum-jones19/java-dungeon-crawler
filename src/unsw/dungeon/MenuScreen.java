@@ -32,15 +32,19 @@ public class MenuScreen implements GameScreen {
 
         // Create a scene with the controller class as a root.
         Parent root = loader.load();
-        scene = new Scene(root, 600, 600);
+        scene = new Scene(root, DungeonApplication.APP_HEIGHT, DungeonApplication.APP_WIDTH);
     }
 
+    // TODO maybe load this to the same root? Shouldn't be too hard thanks OOP.
     @Override
     public void loadScreen() {
         stage.setScene(scene);
         stage.setTitle(title);
         scene.getRoot().requestFocus();
         stage.show();
+        // Need to write this twice to overcome JavaFX Bug, love that
+        stage.setMaximized(false);
+        stage.setMaximized(true);
     }
 
     public void returnToDungeonScreen() {
