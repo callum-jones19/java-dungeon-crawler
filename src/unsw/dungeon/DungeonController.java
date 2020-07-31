@@ -8,16 +8,32 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 
 /**
  * Class to manage a dungeon instance being run by the JavaFX frontend.
@@ -27,6 +43,12 @@ public class DungeonController {
     // JavaFX Data
     @FXML
     private StackPane gamePane;
+    @FXML
+    private GridPane inventoryGrid;
+    @FXML
+    private Rectangle invBack;
+    @FXML
+    private VBox appPane;
 
     private DungeonScreen screen;
 
@@ -136,6 +158,14 @@ public class DungeonController {
         gameLoop.play();
     }
 
+    public double getPaneWidth() {
+        return this.gamePane.getWidth();
+    }
+
+    public double getPaneHeight() {
+        return this.gamePane.getHeight();
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     //
     //                      Rendering Functions
@@ -149,6 +179,9 @@ public class DungeonController {
      */
     public void initialRender() {
         renderBG();
+        // Set the stackPane to be as big as the gridpanes it holds - this allows
+        // all other SceneBuilder elements to be placed where they should go.
+        gamePane.setPrefSize(tileSize * dungeon.getWidth(), tileSize * dungeon.getHeight());
         for (ZLayer z : ZLayer.values()) {
             //System.out.println("Rendering layer " + z.toString());
             renderEntityLayer(z);
@@ -163,6 +196,7 @@ public class DungeonController {
                 renderEntityLayer(z);
             }
         }
+        renderUI();
     }
 
     private GridPane getRenderLayer(int zIndex) {
@@ -177,6 +211,7 @@ public class DungeonController {
     private void createGridPaneLayers() {
         for (ZLayer z : ZLayer.values()) {
             GridPane g = new GridPane();
+            g.setAlignment(Pos.CENTER);
 
             // Now force the grid constraints.
             int numRows = dungeon.getWidth();
@@ -191,7 +226,7 @@ public class DungeonController {
                 g.getRowConstraints().add(rowConst);
             }
 
-            System.out.println("Created layer for " + z.toString());
+            //System.out.println("Created layer for " + z.toString());
             gamePane.getChildren().add(z.getZIndex(), g);
         }
     }
@@ -213,11 +248,46 @@ public class DungeonController {
             }
     }
 
+    private void renderUI() {
+        renderInventory();
+
+    }
+
+    private void renderInventory() {
+        inventoryGrid.getChildren().clear();
+        inventoryGrid.setMaxHeight(invBack.getHeight());
+        int counter = 0;
+        for (Item i: p.getInventory()) {
+            ImageView tex = entityImages.get((Entity) i);
+
+            if (i instanceof Weapon) {
+                // If a weapon, draw the number of uses left.
+                Weapon w = (Weapon) i;
+
+                Label uses = new Label("" + w.getUsesLeft());
+                uses.setTextFill(Color.WHITE);
+                uses.setStyle("-fx-font-weight: bold");
+                
+                inventoryGrid.add(uses, counter, 2);
+                GridPane.setHalignment(uses, HPos.CENTER);
+            }
+
+            //Add the texture
+            inventoryGrid.add(tex, counter, 1);
+
+            GridPane.setValignment(tex, VPos.CENTER);
+            GridPane.setHalignment(tex, HPos.CENTER);
+            counter++;
+        }
+        inventoryGrid.setMaxHeight(invBack.getHeight());
+    }
+
     /**
      * Render the background of the dungeon.
      */
     private void renderBG() {
-        Image ground = new Image((new File("images/dirt_0_new.png")).toURI().toString());
+        Image ground = loader.getGroundTexture();
+
         GridPane targetLayer = getRenderLayer(ZLayer.BACKGROUND.getZIndex());
 
         // Add the ground first so it is below all other entities
@@ -226,8 +296,11 @@ public class DungeonController {
                 targetLayer.add(new ImageView(ground), x, y);
             }
         }
+
+        appPane.setBackground(new Background(new BackgroundFill(new Color(0.384, 0.255, 0.306, 1), null, null)));
     }
 
+    
     
     ////////////////////////////////////////////////////////////////////////////
     //

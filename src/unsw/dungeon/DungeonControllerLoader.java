@@ -1,16 +1,10 @@
 package unsw.dungeon;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 
 import java.io.File;
 
@@ -25,10 +19,12 @@ public class DungeonControllerLoader extends DungeonLoader {
     private HashMap<Entity, ImageView> entities;
 
     //Images
+    private Image groundImage;
     private Image playerImage;
     private Image wallImage;
     private Image exitImage;
     private Image doorImage;
+    private Image doorOpenImage;
     private Image keyImage;
     private Image enemyImage;
     private Image swordImage;
@@ -42,18 +38,25 @@ public class DungeonControllerLoader extends DungeonLoader {
             throws FileNotFoundException {
         super(filename);
         entities = new HashMap<Entity, ImageView>();
-        playerImage = new Image((new File("images/human_new.png")).toURI().toString());
-        wallImage = new Image((new File("images/brick_brown_0.png")).toURI().toString());
+        
+        loadTextures();
+    }
+
+    public void loadTextures() {
+        groundImage = new Image((new File("images/ground.png")).toURI().toString());
+        playerImage = new Image((new File("images/human.png")).toURI().toString());
+        wallImage = new Image((new File("images/wall.png")).toURI().toString());
         exitImage = new Image((new File("images/exit.png")).toURI().toString());
         doorImage = new Image((new File("images/closed_door.png")).toURI().toString());
+        doorOpenImage = new Image((new File("images/open_door.png")).toURI().toString());
         keyImage = new Image((new File("images/key.png")).toURI().toString());
-        enemyImage = new Image((new File("images/hound.png")).toURI().toString());
-        swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
+        enemyImage = new Image((new File("images/enemy.png")).toURI().toString());
+        swordImage = new Image((new File("images/sword.png")).toURI().toString());
         boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
         switchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         portalImage = new Image((new File("images/portal.png")).toURI().toString());
-        potionImage = new Image((new File("images/bubbly.png")).toURI().toString());
-        treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
+        potionImage = new Image((new File("images/potion.png")).toURI().toString());
+        treasureImage = new Image((new File("images/treasure.png")).toURI().toString());
     }
 
     @Override
@@ -155,16 +158,18 @@ public class DungeonControllerLoader extends DungeonLoader {
         return this.entities;
     }
 
+
     /**
      * Gets the size of each each tile in the dungeon. Bases this off the background tile.
      * @return
      */
     public int getTileSize() {
-        Image ground = new Image((new File("images/dirt_0_new.png")).toURI().toString());
-
-        return (int) ground.getWidth();
+        return (int) groundImage.getWidth();
     }
 
-    // TODO load dungeon goals.
+
+    public Image getGroundTexture() {
+        return this.groundImage;
+    }
 
 }
