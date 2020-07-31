@@ -281,9 +281,10 @@ public class Dungeon implements DestroyObserver {
         if (y < 0 || x < 0) {
             return false;
         }
-        if (y >= getWidth() || x >= getHeight()) {
+        if (x >= getWidth() || y >= getHeight()) {
             return false;
         }
+        System.out.println(x + "/" + getWidth() + " " + y + "/" +  getHeight());
         return true;
     }
 
