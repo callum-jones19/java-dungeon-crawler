@@ -95,7 +95,17 @@ public abstract class DungeonLoader {
             onLoad(treasure);
             entity = treasure;
             break;
-
+        case "portal":
+            int id = json.getInt("id");
+            Portal p = new Portal(x, y, id);
+            Portal link = dungeon.findPortal(id);
+            if (link != null) {
+                p.linkPortal(link);
+                link.linkPortal(p);
+            }
+            onLoad(p);
+            entity = p;
+            break;
         // TODO Handle other possible entities
         }
         dungeon.addEntity(entity);
