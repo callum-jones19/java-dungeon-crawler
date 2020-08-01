@@ -6,7 +6,7 @@ public class DamageCollision implements CollisionBehaviour{
     private Entity parent;
 
     public DamageCollision(Entity parent) {
-        this.isEnterable = true;
+        this.isEnterable = false;
         this.parent = parent;
     }
 
