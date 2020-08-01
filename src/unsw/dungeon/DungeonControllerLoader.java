@@ -38,6 +38,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image portalImage;
     private Image potionImage;
     private Image treasureImage;
+    private Image entryImage;
 
     public DungeonControllerLoader(String filename) throws FileNotFoundException {
         super(filename);
@@ -63,6 +64,7 @@ public class DungeonControllerLoader extends DungeonLoader {
         portalImage = new Image((new File("images/portal.png")).toURI().toString());
         potionImage = new Image((new File("images/potion.png")).toURI().toString());
         treasureImage = new Image((new File("images/treasure.png")).toURI().toString());
+        entryImage = new Image((new File("images/dungeon_entry.png")).toURI().toString());
     }
 
     @Override
@@ -144,7 +146,15 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Treasure treasure) {
         ImageView view = new ImageView(treasureImage);
         addEntity(treasure, view);
+    }
 
+    @Override
+    public void onLoad(DungeonEntry entry) {
+        ImageView view = new ImageView(entryImage);
+        addEntity(entry, view);
+
+        // TODO link observer
+        
     }
 
     private void trackPlayerInvincState(Player p) {
