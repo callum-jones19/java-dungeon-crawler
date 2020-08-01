@@ -50,5 +50,15 @@ public class EnemyGoal implements GoalObserver, GoalObserverChild {
 
     }
 
+    @Override
+    public List<Entity> getGoalEntities() {
+        List<Entity> retList = new ArrayList<Entity>();
+        for (Enemy e: enemies) {
+            retList.add((Entity) e);
+        }
+
+        return retList;
+    }
+
     
 }

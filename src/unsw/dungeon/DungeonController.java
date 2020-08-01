@@ -2,6 +2,7 @@ package unsw.dungeon;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import javafx.event.EventHandler;
 import javafx.animation.KeyFrame;
@@ -31,6 +32,7 @@ import javafx.util.Duration;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
@@ -45,6 +47,8 @@ public class DungeonController {
     private StackPane gamePane;
     @FXML
     private GridPane inventoryGrid;
+    @FXML 
+    private GridPane goalsGrid;
     @FXML
     private Rectangle invBack;
     @FXML
@@ -53,6 +57,7 @@ public class DungeonController {
     private DungeonScreen screen;
 
     private HashMap<Entity, ImageView> entityImages;
+    private HashMap<Entity, Image> entityTextures;
     private int tileSize;
 
     // Input data
@@ -87,6 +92,7 @@ public class DungeonController {
 
         this.dungeon = loader.load();
         this.entityImages = loader.loadDungeonImages();
+        this.entityTextures = loader.loadTextureMap();
         this.p = dungeon.getPlayer();
 
         // Initialise JavaFX-related variables.
@@ -132,7 +138,7 @@ public class DungeonController {
                 double deltaTime = (double)(newTime - prevTime)/1000000000;
                 prevTime = newTime;
                 
-                System.out.println("DeltaTime = " + deltaTime);
+                //System.out.println("DeltaTime = " + deltaTime);
                 update(deltaTime);
             }
         };
@@ -251,6 +257,7 @@ public class DungeonController {
 
     private void renderUI() {
         renderInventory();
+        renderGoals();
 
     }
 
@@ -281,6 +288,40 @@ public class DungeonController {
             counter++;
         }
         inventoryGrid.setMaxHeight(invBack.getHeight());
+    }
+
+    private void renderGoals() {
+        goalsGrid.getChildren().clear();
+        int placementCounter = 0;
+
+        HashMap<GoalObserver, Integer> goalInfo = dungeon.getGoalInfo();
+
+        for (GoalObserver g: goalInfo.keySet()) {
+            ImageView goalImage;
+            if (g instanceof TreasureGoal) {
+                goalImage = new ImageView(loader.getTreasureTexture());
+            } else if (g instanceof ExitGoal) {
+                goalImage = new ImageView(loader.getExitTexture());
+            } else if (g instanceof EnemyGoal) {
+                goalImage = new ImageView(loader.getEnemyTexture());
+            } else {
+                goalImage = new ImageView(loader.getSwitchesTexture());
+            }
+
+            Label completionLabel = new Label("" + (goalInfo.get(g) - g.getGoalEntities().size()) + "/" + goalInfo.get(g));
+            completionLabel.setTextFill(Color.WHITE);
+            completionLabel.setStyle("-fx-font-weight: bold");
+
+            goalsGrid.add(completionLabel, placementCounter, 1);
+            GridPane.setHalignment(completionLabel, HPos.CENTER);
+
+            goalsGrid.add(goalImage, placementCounter, 2);
+
+            GridPane.setValignment(goalImage, VPos.CENTER);
+            GridPane.setHalignment(goalImage, HPos.CENTER);
+            placementCounter++;            
+
+        }
     }
 
     /**

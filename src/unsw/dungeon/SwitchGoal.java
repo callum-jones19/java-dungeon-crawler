@@ -58,5 +58,14 @@ public class SwitchGoal implements GoalObserver, GoalObserverChild {
         this.parent = parent;
 
     }
-    
+
+    @Override
+    public List<Entity> getGoalEntities() {
+        List<Entity> retList = new ArrayList<Entity>();
+        for (FloorSwitch f: switches) {
+            retList.add((Entity) f);
+        }
+
+        return retList;
+    }
 }

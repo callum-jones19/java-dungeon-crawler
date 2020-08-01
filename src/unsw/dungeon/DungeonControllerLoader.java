@@ -17,6 +17,7 @@ import java.io.File;
 public class DungeonControllerLoader extends DungeonLoader {
 
     private HashMap<Entity, ImageView> entities;
+    private HashMap<Entity, Image> entityTextures;
 
     //Images
     private Image groundImage;
@@ -38,6 +39,7 @@ public class DungeonControllerLoader extends DungeonLoader {
             throws FileNotFoundException {
         super(filename);
         entities = new HashMap<Entity, ImageView>();
+        entityTextures = new HashMap<Entity, Image>();
         
         loadTextures();
     }
@@ -63,24 +65,28 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Entity player) {
         ImageView view = new ImageView(playerImage);
         addEntity(player, view);
+        addEntityTexture(player, playerImage);
     }
 
     @Override
     public void onLoad(Wall wall) {
         ImageView view = new ImageView(wallImage);
         addEntity(wall, view);
+        addEntityTexture(wall, wallImage);
     }
 
     @Override
     public void onLoad(Exit exit) {
         ImageView view = new ImageView(exitImage);
         addEntity(exit, view);
+        addEntityTexture(exit, exitImage);
     }
 
     @Override
     public void onLoad(Door door) {
         ImageView view = new ImageView(doorImage);
         addEntity(door, view);
+        addEntityTexture(door, doorImage);
 
     }
 
@@ -88,6 +94,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Key key) {
         ImageView view = new ImageView(keyImage);
         addEntity(key, view);
+        addEntityTexture(key, keyImage);
 
     }
 
@@ -95,6 +102,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Enemy enemy) {
         ImageView view = new ImageView(enemyImage);
         addEntity(enemy, view);
+        addEntityTexture(enemy, enemyImage);
 
     }
 
@@ -102,6 +110,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Sword sword) {
         ImageView view = new ImageView(swordImage);
         addEntity(sword, view);
+        addEntityTexture(sword, swordImage);
 
     }
 
@@ -109,6 +118,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Boulder boulder) {
         ImageView view = new ImageView(boulderImage);
         addEntity(boulder, view);
+        addEntityTexture(boulder, boulderImage);
 
     }
 
@@ -116,6 +126,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Potion potion) {
         ImageView view = new ImageView(potionImage);
         addEntity(potion, view);
+        addEntityTexture(potion, potionImage);
 
     }
 
@@ -123,6 +134,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(FloorSwitch floorSwitch) {
         ImageView view = new ImageView(switchImage);
         addEntity(floorSwitch, view);
+        addEntityTexture(floorSwitch, switchImage);
 
     }
 
@@ -130,6 +142,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Portal portal) {
         ImageView view = new ImageView(portalImage);
         addEntity(portal, view);
+        addEntityTexture(portal, portalImage);
 
     }
 
@@ -137,6 +150,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Treasure treasure) {
         ImageView view = new ImageView(treasureImage);
         addEntity(treasure, view);
+        addEntityTexture(treasure, treasureImage);
 
     }
 
@@ -152,10 +166,17 @@ public class DungeonControllerLoader extends DungeonLoader {
         entities.put(entity, view);
     }
 
+    private void addEntityTexture(Entity entity, Image image) {
+        entityTextures.put(entity, image);
+    }
 
 
     public HashMap<Entity, ImageView> loadDungeonImages() {
         return this.entities;
+    }
+
+    public HashMap<Entity, Image> loadTextureMap() {
+        return this.entityTextures;
     }
 
 
@@ -171,5 +192,22 @@ public class DungeonControllerLoader extends DungeonLoader {
     public Image getGroundTexture() {
         return this.groundImage;
     }
+
+	public Image getTreasureTexture() {
+		return this.treasureImage;
+	}
+
+	public Image getExitTexture() {
+		return this.exitImage;
+	}
+
+	public Image getEnemyTexture() {
+		return this.enemyImage;
+	}
+
+	public Image getSwitchesTexture() {
+		return this.switchImage;
+	}
+
 
 }

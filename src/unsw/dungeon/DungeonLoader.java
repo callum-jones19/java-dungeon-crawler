@@ -37,11 +37,14 @@ public abstract class DungeonLoader {
         JSONArray jsonEntities = json.getJSONArray("entities");
         JSONObject goals = json.getJSONObject("goal-condition");
 
+        loadGoals(dungeon, goals);
+
         for (int i = 0; i < jsonEntities.length(); i++) {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
 
-        loadGoals(dungeon, goals);
+        dungeon.initialiseGoalInfo();
+
         return dungeon;
     }
 
@@ -67,7 +70,7 @@ public abstract class DungeonLoader {
                     }
                     System.out.println("Added Enemy Goal (singleton)");
                     break;
-                case "switches":
+                case "boulders":
                     if (currGoal != null) {
                         currGoal.addChildGoal(new SwitchGoal());
                     } else {

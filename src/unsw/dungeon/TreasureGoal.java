@@ -47,5 +47,15 @@ public class TreasureGoal implements GoalObserver, GoalObserverChild {
     public void setParent(GoalObserverParent parent) {
         this.parent = parent;
     }
+
+    @Override
+    public List<Entity> getGoalEntities() {
+        List<Entity> retList = new ArrayList<Entity>();
+        for (Treasure t: treasure) {
+            retList.add((Entity) t);
+        }
+
+        return retList;
+    }
     
 }

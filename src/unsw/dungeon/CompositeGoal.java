@@ -84,5 +84,29 @@ public class CompositeGoal implements GoalObserver, GoalObserverParent {
         return isCompulsoryConjunction;
     }
 
+    @Override
+    public List<Entity> getGoalEntities() {
+        List<Entity> retList = new ArrayList<Entity>();
+
+        for (GoalObserver child: childGoals) {
+            for (Entity e: child.getGoalEntities()) {
+                retList.add(e);
+            }
+        }
+
+        System.out.println(retList.size());
+        return retList;
+    }
+
+    @Override
+    public List<GoalObserver> getGoal() {
+        List<GoalObserver> retList = new ArrayList<GoalObserver>();
+        for (GoalObserver child: childGoals) {
+            retList.addAll(child.getGoal());
+        }
+
+        return retList;
+    }
+
 
 }
