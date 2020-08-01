@@ -51,6 +51,11 @@ public class MenuScreen implements GameScreen {
         gm.setActiveScreen(gm.getDungeonState());
     }
 
+    public void restartLevel() {
+        gm.loadNewDungeon(gm.getCurrentDungeon());
+        gm.setActiveScreen(gm.getDungeonState());
+    }
+
     public void closeApplication() {
         stage.close();
     }

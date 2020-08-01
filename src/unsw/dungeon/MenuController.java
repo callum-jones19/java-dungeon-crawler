@@ -15,6 +15,8 @@ public class MenuController {
 
     @FXML
     private Label resume;
+    @FXML 
+    private Label restart;
     @FXML
     private Label controls;
     @FXML
@@ -66,6 +68,21 @@ public class MenuController {
     @FXML
     public void unHoverResume() {
         unHighlightElement(resume);
+    }
+
+    @FXML
+    public void clickRestart() {
+        screen.restartLevel();
+    }
+
+    @FXML
+    public void hoverRestart() {
+        highlightElement(restart);
+    }
+
+    @FXML
+    public void unHoverRestart() {
+        unHighlightElement(restart);
     }
 
     @FXML
