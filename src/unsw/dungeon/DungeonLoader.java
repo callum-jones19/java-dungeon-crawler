@@ -106,12 +106,33 @@ public abstract class DungeonLoader {
             onLoad(p);
             entity = p;
             break;
-        // TODO Handle other possible entities
+        case "door":
+            int doorID = json.getInt("id");
+            Door d = new Door(x, y, doorID);
+            onLoad(d);
+            Key linkedKey = dungeon.findKey(doorID);
+            if (linkedKey != null) {
+                d.linkKey(linkedKey);
+                linkedKey.linkDoor(d);
+            }
+            entity = d;
+            break;
+        case "key":
+            int keyID = json.getInt("id");
+            Key k = new Key(x, y, keyID);
+            onLoad(k);
+            Door linkedDoor = dungeon.findDoor(keyID);
+            if (linkedDoor != null) {
+                k.linkDoor(linkedDoor);
+                linkedDoor.linkKey(k);
+            }
+            entity = k;
+            break;
         }
         dungeon.addEntity(entity);
     }
 
-    public abstract void onLoad(Entity player);
+    public abstract void onLoad(Player player);
 
     public abstract void onLoad(Wall wall);
 
@@ -135,6 +156,5 @@ public abstract class DungeonLoader {
 
     public abstract void onLoad(Treasure treasure);
 
-    // TODO Create additional abstract methods for the other entities
 
 }
