@@ -32,7 +32,7 @@ public class DungeonScreen implements GameScreen {
 
         // Create a scene with the controller class as a root.
         Parent root = loader.load();
-        scene = new Scene(root, 600, 600);
+        scene = new Scene(root, DungeonApplication.APP_HEIGHT, DungeonApplication.APP_WIDTH);
     }
 
     @Override
@@ -41,6 +41,9 @@ public class DungeonScreen implements GameScreen {
         stage.setTitle(title);
         scene.getRoot().requestFocus();
         stage.show();
+        // Need to write this twice to overcome JavaFX Bug
+        stage.setMaximized(false);
+        stage.setMaximized(true);
 
         // Need to enforce the gameloop to run, as it will not run *initialize*
         // if comign back from a pause.
