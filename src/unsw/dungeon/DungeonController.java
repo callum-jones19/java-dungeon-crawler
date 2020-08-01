@@ -132,7 +132,7 @@ public class DungeonController {
                 double deltaTime = (double)(newTime - prevTime)/1000000000;
                 prevTime = newTime;
                 
-                System.out.println("DeltaTime = " + deltaTime);
+                //System.out.println("DeltaTime = " + deltaTime);
                 update(deltaTime);
             }
         };
