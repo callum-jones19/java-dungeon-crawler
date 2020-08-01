@@ -3,6 +3,9 @@ package unsw.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 /**
  * The player entity
  * @author Robert Clifton-Everest
@@ -23,7 +26,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
 
     private VulnerableCollision vulnerableStrategy;
     private DamageCollision invincibleStrategy;
-    private boolean isInvincible;
+    private BooleanProperty isInvincible;
     private double invincTimeLeft;
 
     /**
@@ -48,7 +51,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         
         setCollisionBehaviour(vulnerableStrategy);
         
-        this.isInvincible = false;
+        this.isInvincible = new SimpleBooleanProperty(false);
 
         this.dungeon = dungeon;
         this.inventory = new ArrayList<Item>();
@@ -57,7 +60,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
     }
 
     public void update(double deltaTime) {
-        if (isInvincible) {
+        if (isInvincible()) {
             if (invincTimeLeft >= 0) {
                 invincTimeLeft -= deltaTime;
             } else {
@@ -66,21 +69,26 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         }
     }
 
+    public BooleanProperty invincibilityProperty() {
+        return this.isInvincible;
+    }
+
+    // TODO maybe make observer for player invinc.
     public void makeInvincible() {
         setCollisionBehaviour(invincibleStrategy);
-        this.isInvincible = true;
+        this.isInvincible.setValue(true);
         this.invincTimeLeft = 10.0;
         dungeon.scareEnemies();
     }
 
     public void makeVulnerable() {
         setCollisionBehaviour(vulnerableStrategy);
-        this.isInvincible = false;
+        this.isInvincible.setValue(false);;
         dungeon.unScareEnemies();
     }
 
     public boolean isInvincible() {
-        return isInvincible;
+        return isInvincible.getValue();
     }
 
     public double getInvincTimeLeft() {
@@ -143,13 +151,11 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
     }
 
     public boolean contains(Item i) {
-        for (Item item: inventory) {
-            if (item.checkItemType(i)) {
-                return true;
-            }
+        if (inventory.contains(i)) {
+            return true;
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     public void attack() {
@@ -158,7 +164,6 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
             orientation.attack(s);
         }
 
-        System.out.println(orientation);
     }
 
     public boolean hasWeapon() {
