@@ -1,34 +1,35 @@
 package unsw.dungeon;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
 
 import java.io.File;
 
 /**
  * A DungeonLoader that also creates the necessary ImageViews for the UI,
- * connects them via listeners to the model, and creates a controller.
- * @author Robert Clifton-Everest
+ * stores the loaded textures and establishes any front-end listeners to the
+ * backend model.
  *
  */
 public class DungeonControllerLoader extends DungeonLoader {
 
-    private HashMap<Entity, ImageView> entities;
+    // This is the list of textures loaded into a dungeon.
+    private HashMap<Entity, ImageView> entityTextures;
 
-    //Images
+    // Images
+    private Image groundImage;
     private Image playerImage;
+    private Image playerInvincibleImage;
     private Image wallImage;
     private Image exitImage;
     private Image doorImage;
+    private Image doorOpenImage;
+    private Image doorAvailableImage;
     private Image keyImage;
     private Image enemyImage;
     private Image swordImage;
@@ -38,28 +39,37 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image potionImage;
     private Image treasureImage;
 
-    public DungeonControllerLoader(String filename)
-            throws FileNotFoundException {
+    public DungeonControllerLoader(String filename) throws FileNotFoundException {
         super(filename);
-        entities = new HashMap<Entity, ImageView>();
-        playerImage = new Image((new File("images/human_new.png")).toURI().toString());
-        wallImage = new Image((new File("images/brick_brown_0.png")).toURI().toString());
+        entityTextures = new HashMap<Entity, ImageView>();
+
+        loadTextures();
+    }
+
+    public void loadTextures() {
+        groundImage = new Image((new File("images/ground.png")).toURI().toString());
+        playerImage = new Image((new File("images/player.png")).toURI().toString());
+        playerInvincibleImage = new Image((new File("images/player_invinc.png")).toURI().toString());
+        wallImage = new Image((new File("images/wall.png")).toURI().toString());
         exitImage = new Image((new File("images/exit.png")).toURI().toString());
         doorImage = new Image((new File("images/closed_door.png")).toURI().toString());
+        doorOpenImage = new Image((new File("images/open_door.png")).toURI().toString());
+        doorAvailableImage = new Image((new File("images/avaiable_door.png")).toURI().toString());
         keyImage = new Image((new File("images/key.png")).toURI().toString());
-        enemyImage = new Image((new File("images/hound.png")).toURI().toString());
-        swordImage = new Image((new File("images/greatsword_1_new.png")).toURI().toString());
+        enemyImage = new Image((new File("images/enemy.png")).toURI().toString());
+        swordImage = new Image((new File("images/sword.png")).toURI().toString());
         boulderImage = new Image((new File("images/boulder.png")).toURI().toString());
         switchImage = new Image((new File("images/pressure_plate.png")).toURI().toString());
         portalImage = new Image((new File("images/portal.png")).toURI().toString());
-        potionImage = new Image((new File("images/bubbly.png")).toURI().toString());
-        treasureImage = new Image((new File("images/gold_pile.png")).toURI().toString());
+        potionImage = new Image((new File("images/potion.png")).toURI().toString());
+        treasureImage = new Image((new File("images/treasure.png")).toURI().toString());
     }
 
     @Override
-    public void onLoad(Entity player) {
+    public void onLoad(Player player) {
         ImageView view = new ImageView(playerImage);
         addEntity(player, view);
+        trackPlayerInvincState(player);
     }
 
     @Override
@@ -78,7 +88,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Door door) {
         ImageView view = new ImageView(doorImage);
         addEntity(door, view);
-
+        trackDoorState(door);
     }
 
     @Override
@@ -137,6 +147,51 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     }
 
+    private void trackPlayerInvincState(Player p) {
+        p.invincibilityProperty().addListener(new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                // This will run when the player is made invincible.
+                if (newValue == true) {
+                    setEntityTexture(p, playerInvincibleImage);
+                } else {
+                    setEntityTexture(p, playerImage);
+                }
+            }
+        });
+    }
+
+    private void trackDoorState(Door d) {
+        d.isOpenProperty().addListener(new ChangeListener<Boolean>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                // This will run whenever a door is opened.
+                if (newValue == true) {
+                    setEntityTexture(d, doorOpenImage);
+                } else {
+                    setEntityTexture(d, doorImage);
+                }
+            }
+            
+        });
+
+        d.isAvaialableProperty().addListener(new ChangeListener<Boolean>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                // This will run when the door is marked as available.
+                if (newValue == true) {
+                    setEntityTexture(d, doorAvailableImage);
+                } else {
+                    setEntityTexture(d, doorImage);
+                }
+            }
+            
+        });
+    }
+
 
     /**
      * Link the entityImage and the entity's location together
@@ -146,25 +201,32 @@ public class DungeonControllerLoader extends DungeonLoader {
      */
     private void addEntity(Entity entity, ImageView view) {
         // trackPosition(entity, view);
-        entities.put(entity, view);
+        entityTextures.put(entity, view);
     }
 
-
+    public void setEntityTexture(Entity e, Image newTexture) {
+        ImageView newT = new ImageView(newTexture);
+        if (entityTextures.containsKey(e)) {
+            entityTextures.put(e, newT);
+        }
+    }
 
     public HashMap<Entity, ImageView> loadDungeonImages() {
-        return this.entities;
+        return this.entityTextures;
     }
+
 
     /**
      * Gets the size of each each tile in the dungeon. Bases this off the background tile.
      * @return
      */
     public int getTileSize() {
-        Image ground = new Image((new File("images/dirt_0_new.png")).toURI().toString());
-
-        return (int) ground.getWidth();
+        return (int) groundImage.getWidth();
     }
 
-    // TODO load dungeon goals.
+
+    public Image getGroundTexture() {
+        return this.groundImage;
+    }
 
 }

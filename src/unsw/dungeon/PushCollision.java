@@ -28,9 +28,9 @@ public class PushCollision implements CollisionBehaviour {
                 int originalY = this.parent.getY();
 
                 m.move(this.parent.getX() + targetX, this.parent.getY() + targetY);
-                if (this.parent.getX() != originalX || this.parent.getY() != originalY) {
-                    p.move(p.getX() + (this.parent.getX() - originalX), p.getY() + (this.parent.getY() - originalY));
-                }
+                // if (this.parent.getX() != originalX || this.parent.getY() != originalY) {
+                //     p.move(p.getX() + (this.parent.getX() - originalX), p.getY() + (this.parent.getY() - originalY));
+                // }
             }
         }
     }

@@ -41,13 +41,16 @@ public class Sword extends Entity implements Item, Weapon {
         return true;
     }
 
-    // FIXME maybe change entity e to player?
     public void pickup(Player p) {
         setUser(p);
         p.addToInventory(this);
         if (p.isHoldingInstance(this)) {
             destroy();
         }
+    }
+
+    public int getUsesLeft() {
+        return this.uses;
     }
 
 }
