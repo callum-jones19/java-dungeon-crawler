@@ -17,8 +17,9 @@ public class GameScreenManager {
     
     private GameScreen pausedState;
     private GameScreen dungeonState;
+    private GameScreen deathState;
 
-
+    private String currentDungeon = null;
 
     public GameScreenManager(Stage stage) {
         this.primaryStage = stage;
@@ -31,9 +32,13 @@ public class GameScreenManager {
      */
     public void loadNewDungeon(String filename) {
         try {
+            if (this.currentDungeon == null) {
+                this.currentDungeon = filename;
+            }
             DungeonControllerLoader loader = new DungeonControllerLoader(filename);
             dungeonState = new DungeonScreen(primaryStage, this, loader);
             pausedState = new MenuScreen(primaryStage, this);
+            deathState = new DeathScreen(primaryStage, this);
             
             // Load into the dungeon by default
             setActiveScreen(getDungeonState());
@@ -53,6 +58,14 @@ public class GameScreenManager {
 
     public GameScreen getDungeonState() {
         return dungeonState;
+    }
+
+    public GameScreen getDeathState() {
+        return deathState;
+    }
+
+    public String getCurrentDungeon() {
+        return currentDungeon;
     }
 
 }

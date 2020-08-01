@@ -52,5 +52,9 @@ public class DungeonScreen implements GameScreen {
         gm.setActiveScreen(gm.getPausedState());
     }
 
+    public void openDeathScreen() {
+        gm.setActiveScreen(gm.getDeathState());
+    }
+
 
 }

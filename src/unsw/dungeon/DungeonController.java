@@ -123,6 +123,7 @@ public class DungeonController {
         processInput();
         updateRender();
         if(dungeon.getPlayer() == null) {
+            screen.openDeathScreen();
             running = false;
         }
     }
