@@ -6,8 +6,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 
 public class MenuController {
  
@@ -31,7 +29,7 @@ public class MenuController {
 
     @FXML
     public void initialize() {
-        // TODO
+        
     }
 
  
@@ -89,8 +87,7 @@ public class MenuController {
 
     @FXML
     public void clickLobby() {
-        // TODO
-        System.out.println("Need to implement Lobby/Menu");
+        screen.returnToLobbyScreen();;
     }
 
     @FXML
