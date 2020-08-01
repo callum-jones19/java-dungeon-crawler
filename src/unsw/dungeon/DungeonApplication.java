@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 
 public class DungeonApplication extends Application {
 
+
     @Override
     public void start(Stage primaryStage) throws IOException {
         GameScreenManager gm = new GameScreenManager(primaryStage);

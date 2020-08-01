@@ -611,6 +611,17 @@
       },
       {
         "goal": "treasure"
+      },
+      {
+        "goal": "OR",
+        "subgoals": [
+          {
+            "goal": "switches"
+          },
+          {
+            "goal": "exit"
+          }
+        ]
       }
     ]
   }
