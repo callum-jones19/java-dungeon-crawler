@@ -88,9 +88,7 @@ public class MenuController {
     @FXML
     public void clickChange() {
         // TODO
-        System.out.println("Need to implement change screen.");
-        // maybe store these screens in gameScreenManager and have the states
-        //manage it
+        screen.getControlsScreen();
     }
 
     @FXML

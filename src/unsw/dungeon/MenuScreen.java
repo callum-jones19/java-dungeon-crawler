@@ -56,6 +56,10 @@ public class MenuScreen implements GameScreen {
         gm.setActiveScreen(gm.getDungeonState());
     }
 
+    public void getControlsScreen() {
+        gm.setActiveScreen(gm.getControlsState());
+    }
+
     public void closeApplication() {
         stage.close();
     }
