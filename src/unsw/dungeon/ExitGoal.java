@@ -8,10 +8,12 @@ public class ExitGoal implements GoalObserver, GoalObserverChild {
     private List<Exit> exits = new ArrayList<Exit>();
     private GoalObserverParent parent;
     private boolean isComplete;
+    private boolean isVoid;
 
     public ExitGoal() {
         super();
         this.isComplete = false;
+        this.isVoid = false;
     }
 
     @Override
@@ -25,10 +27,16 @@ public class ExitGoal implements GoalObserver, GoalObserverChild {
             } else {
                 exits.remove((Exit) g);
                 isComplete = true;
+                if (hasParent()) {
+                    voidNonEssentialGoals();
+                }
             }
         } else {
             exits.remove((Exit) g);
             isComplete = true;
+            if (hasParent()) {
+                voidNonEssentialGoals();
+            }
         }
 
     }
@@ -61,6 +69,31 @@ public class ExitGoal implements GoalObserver, GoalObserverChild {
         }
 
         return retList;
+    }
+
+    @Override
+    public void voidNonEssentialGoals() {
+        if (this.parent == null) return;
+
+        if (!(this.parent.isCompulsoryConjunction())) {
+            this.parent.voidOtherGoals(this);
+        }
+
+    }
+
+    @Override
+    public Boolean hasParent() {
+        return this.parent == null;
+    }
+
+    @Override
+    public boolean isVoid() {
+        return this.isVoid;
+    }
+
+    @Override 
+    public void markVoid() {
+        this.isVoid = true;
     }
 
     
