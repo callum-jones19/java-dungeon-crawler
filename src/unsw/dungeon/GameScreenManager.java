@@ -18,6 +18,8 @@ public class GameScreenManager {
     private GameScreen pausedState;
     private GameScreen dungeonState;
     private GameScreen deathState;
+    private GameScreen controlsState;
+    private GameScreen completedState;
 
     private String currentDungeon = null;
 
@@ -39,6 +41,8 @@ public class GameScreenManager {
             dungeonState = new DungeonScreen(primaryStage, this, loader);
             pausedState = new MenuScreen(primaryStage, this);
             deathState = new DeathScreen(primaryStage, this);
+            controlsState = new ControlsScreen(primaryStage, this);
+            completedState = new CompletionScreen(primaryStage, this);
             
             // Load into the dungeon by default
             setActiveScreen(getDungeonState());
@@ -64,8 +68,21 @@ public class GameScreenManager {
         return deathState;
     }
 
+    public GameScreen getControlsState() {
+        return controlsState;
+    }
+
+    public GameScreen getCompletedState() {
+        return completedState;
+    }
+
     public String getCurrentDungeon() {
         return currentDungeon;
+    }
+
+    public void refreshKeys() {
+        DungeonScreen dScreen = (DungeonScreen) dungeonState;
+        dScreen.refreshKeys();
     }
 
 }
