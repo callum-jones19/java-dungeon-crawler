@@ -1,8 +1,10 @@
 package unsw.dungeon;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 
 import javafx.event.EventHandler;
 import javafx.animation.KeyFrame;
@@ -16,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Tooltip;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -62,6 +65,7 @@ public class DungeonController {
 
     // Input data
     KeyCode lastInput;
+    private HashMap<String, String> keybindings = new HashMap<String, String>();
 
     // Dungeon data
     private DungeonControllerLoader loader;
@@ -98,6 +102,7 @@ public class DungeonController {
         // Initialise JavaFX-related variables.
         this.tileSize = loader.getTileSize();
         this.lastInput = null;
+        refreshKeys();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -294,6 +299,10 @@ public class DungeonController {
         goalsGrid.getChildren().clear();
         int placementCounter = 0;
 
+        if (dungeon.isComplete()) {
+            screen.openCompletionScreen();
+        }
+
         HashMap<GoalObserver, Integer> goalInfo = dungeon.getGoalInfo();
 
         for (GoalObserver g: goalInfo.keySet()) {
@@ -308,8 +317,23 @@ public class DungeonController {
                 goalImage = new ImageView(loader.getSwitchesTexture());
             }
 
+            if (g.isVoid()) {
+                ColorAdjust dimmer = new ColorAdjust();
+                dimmer.setSaturation(-0.2);
+                dimmer.setBrightness(0.3);
+                goalImage.setEffect(dimmer);
+            }
+
             Label completionLabel = new Label("" + (goalInfo.get(g) - g.getGoalEntities().size()) + "/" + goalInfo.get(g));
             completionLabel.setTextFill(Color.WHITE);
+            if (g.isComplete()) {
+                completionLabel.setText("Goal Completed!");
+            }
+
+            if (g.isVoid()) {
+                completionLabel.setText("Goal voided");
+                completionLabel.setTextFill(Color.LIGHTGREY);
+            }
             completionLabel.setStyle("-fx-font-weight: bold");
 
             goalsGrid.add(completionLabel, placementCounter, 1);
@@ -369,30 +393,71 @@ public class DungeonController {
             // FIXME doesnt work the other way around??? No idea what i was doing
             // but its 1:30AM so fix it later.
         } else {
-            switch(lastInput) {
-                case UP:
+            if (lastInput.toString().equals(keybindings.get("UP"))) {
+                p.moveUp();
+            } else if (lastInput.toString().equals(keybindings.get("DOWN"))) {
+                p.moveDown();
+            } else if (lastInput.toString().equals(keybindings.get("LEFT"))) {
+                p.moveLeft();
+            } else if (lastInput.toString().equals(keybindings.get("RIGHT"))) {
+                p.moveRight();
+            } else if (lastInput.toString().equals("ESCAPE")) {
+                screen.openPauseScreen();
+            } else if (lastInput.toString().equals(keybindings.get("ATTACK"))) {
+                p.attack();
+            } else {
+
+            }
+            /*switch(lastInput.toString()) {
+                case keybindings.get("UP"):
                     p.moveUp();
                     break;
-                case DOWN:
+                case keybindings.get("DOWN"):
                     p.moveDown();
                     break;
-                case LEFT:
+                case keybindings.get("LEFT"):
                     p.moveLeft();
                     break;
-                case RIGHT:
+                case keybindings.get("RIGHT"):
                     p.moveRight();
                     break;
-                case SPACE:
+                case "SPACE":
                     p.attack();
                     break;
-                case ESCAPE:
+                case "ESCAPE":
                     screen.openPauseScreen();
                     break;
                 default:
                     break;
-            }
+            }*/
             lastInput = null;
         }
+    }
+
+    public void refreshKeys() {
+        String keyMap = "";
+        try {
+            File keys = new File("keybindings.txt");
+            Scanner fileReader = new Scanner(keys);
+            while (fileReader.hasNextLine()) {
+                keyMap += fileReader.nextLine();
+            }
+            fileReader.close();
+        } catch (FileNotFoundException e) {
+            keybindings.put("UP", "W");
+            keybindings.put("DOWN", "S");
+            keybindings.put("LEFT", "A");
+            keybindings.put("RIGHT", "D");
+            keybindings.put("ATTACK", "SPACE");
+            return;
+        }
+        keyMap = keyMap.substring(1, keyMap.length() - 1);
+        String[] pairs = keyMap.split(",");
+        for (String pair: pairs) {
+            pair = pair.strip();
+            keybindings.put(pair.split("=")[0], pair.split("=")[1]);
+        }
+
     }
 
 }
