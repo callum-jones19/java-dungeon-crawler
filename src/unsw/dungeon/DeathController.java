@@ -6,6 +6,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 
+
 public class DeathController implements IHighlighter {
 
     @FXML 
@@ -25,7 +26,7 @@ public class DeathController implements IHighlighter {
 
     @FXML
     public void initialize() {
-        // TODO 
+
     }
 
     @FXML 
@@ -56,6 +57,12 @@ public class DeathController implements IHighlighter {
     @FXML 
     public void clickQuit() {
         deathScreen.closeApplication();
+    }
+
+    @Override
+    public void unhighlightElement(Label target) {
+        target.setTextFill(Color.WHITE);
+        target.setStyle("-fx-font-weight: regular");
     }
     
 }

@@ -88,4 +88,14 @@ public class MenuScreen implements GameScreen {
             e.printStackTrace();
         }
 	}
+
+	public void loadNewLevel(String filePath) {
+        try {
+            gm.loadNewDungeonState(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        gm.setScreenState(gm.getLoadedDungeonState());
+	}
 }

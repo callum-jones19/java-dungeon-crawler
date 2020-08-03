@@ -317,7 +317,7 @@ public class Dungeon implements DestroyObserver {
             return;
         }
         for (GoalObserver g: goals) {
-            this.startingGoalInformation.put(g, g.getGoalEntities().size());
+            this.startingGoalInformation.put(g, g.getGoalEntitySize());
         }
     }
 

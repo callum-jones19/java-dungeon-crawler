@@ -93,5 +93,10 @@ public class EnemyGoal implements GoalObserver, GoalObserverChild {
     public String getGoalString() {
         return "Slay all enemies";
     }
+
+    @Override
+    public int getGoalEntitySize() {
+        return getGoalEntities().size();
+    }
     
 }

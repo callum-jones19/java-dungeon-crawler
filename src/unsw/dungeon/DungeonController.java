@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 
 import javafx.event.EventHandler;
@@ -12,15 +11,12 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Tooltip;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -35,12 +31,10 @@ import javafx.util.Duration;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
 /**
@@ -416,7 +410,12 @@ public class DungeonController implements EntryObserver {
                 goalImage.setEffect(dimmer);
             }
 
-            Label completionLabel = new Label("" + (goalInfo.get(g) - g.getGoalEntities().size()) + "/" + goalInfo.get(g));
+            Label completionLabel;
+            if (g instanceof ExitGoal) {
+                completionLabel = new Label("Goal incomplete!");
+            } else {
+                completionLabel = new Label("" + (goalInfo.get(g) - g.getGoalEntitySize() + "/" + goalInfo.get(g)));
+            }
             completionLabel.setTextFill(Color.WHITE);
             if (g.isComplete()) {
                 completionLabel.setText("Goal Completed!");
@@ -502,7 +501,7 @@ public class DungeonController implements EntryObserver {
                 p.moveLeft();
             } else if (lastInput.toString().equals(keybindings.get("RIGHT"))) {
                 p.moveRight();
-            } else if (lastInput.toString().equals("ESCAPE")) {
+            } else if (lastInput.toString().equals(keybindings.get("PAUSE"))) {
                 screen.openPauseScreen();
             } else if (lastInput.toString().equals(keybindings.get("ATTACK"))) {
                 p.attack();
@@ -527,6 +526,7 @@ public class DungeonController implements EntryObserver {
             keybindings.put("LEFT", "A");
             keybindings.put("RIGHT", "D");
             keybindings.put("ATTACK", "SPACE");
+            keybindings.put("PAUSE", "ESC");
             return;
         }
         keyMap = keyMap.substring(1, keyMap.length() - 1);

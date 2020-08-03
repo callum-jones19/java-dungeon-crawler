@@ -6,16 +6,13 @@ import java.util.Scanner;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,7 +24,7 @@ public class ControlsController implements IHighlighter {
     @FXML
     private GridPane movementGrid;
     @FXML
-    private GridPane rotationGrid;
+    private GridPane optionsGrid;
     @FXML
     private Button saveBtn;
 
@@ -41,6 +38,8 @@ public class ControlsController implements IHighlighter {
     private Label moveLeftLabel;
     @FXML 
     private Label attackLabel;
+    @FXML 
+    private Label pauseLabel;
 
     private ControlsScreen screen;
 
@@ -49,6 +48,7 @@ public class ControlsController implements IHighlighter {
     private BooleanProperty moveLeft = new SimpleBooleanProperty();
     private BooleanProperty moveRight = new SimpleBooleanProperty();
     private BooleanProperty attack = new SimpleBooleanProperty();
+    private BooleanProperty pause = new SimpleBooleanProperty();
 
     private HashMap<String, String> keybindings;
 
@@ -70,6 +70,9 @@ public class ControlsController implements IHighlighter {
 
         attack.bind(attackLabel.hoverProperty());
         attackLabel.setText("Attack: " + keybindings.getOrDefault("ATTACK", "SPACE"));
+
+        pause.bind(pauseLabel.hoverProperty());
+        pauseLabel.setText("Pause: " + keybindings.getOrDefault("PAUSE", "ESC"));
 
         Image playerImage = new Image((new File("images/human.png")).toURI().toString());
         ImageView playerView = new ImageView(playerImage);
@@ -109,6 +112,9 @@ public class ControlsController implements IHighlighter {
         } else if (attack.get()) {
             keybindings.put("ATTACK", event.getCode().toString());
             attackLabel.setText("Attack: " + event.getCode().toString());
+        } else if (pause.get()) {
+            keybindings.put("PAUSE", event.getCode().toString());
+            pauseLabel.setText("Pause: " + event.getCode().toString());
         }
 
         System.out.println(keybindings);
@@ -141,6 +147,11 @@ public class ControlsController implements IHighlighter {
     }
 
     @FXML 
+    public void hoverPause() {
+        highlightElement(pauseLabel);
+    }
+
+    @FXML 
     public void unHoverUp() {
         unhighlightElement(moveUpLabel);
     }
@@ -163,6 +174,11 @@ public class ControlsController implements IHighlighter {
     @FXML 
     public void unHoverAttack() {
         unhighlightElement(attackLabel);
+    }
+
+    @FXML 
+    public void unhoverPause() {
+        unhighlightElement(pauseLabel);
     }
 
     public HashMap<String, String> getCurrentKeys() {

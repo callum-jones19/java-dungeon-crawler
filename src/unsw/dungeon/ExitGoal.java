@@ -101,5 +101,10 @@ public class ExitGoal implements GoalObserver, GoalObserverChild {
         return "Reach an exit";
     }
 
+    @Override
+    public int getGoalEntitySize() {
+        return getGoalEntities().size();
+    }
+
     
 }

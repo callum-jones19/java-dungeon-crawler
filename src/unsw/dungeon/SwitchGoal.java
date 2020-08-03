@@ -101,4 +101,9 @@ public class SwitchGoal implements GoalObserver, GoalObserverChild {
     public String getGoalString() {
         return "Place boulders on switches";
     }
+
+    @Override
+    public int getGoalEntitySize() {
+        return getGoalEntities().size();
+    }
 }

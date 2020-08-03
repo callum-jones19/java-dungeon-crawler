@@ -4,7 +4,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.Map.Entry;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -346,7 +345,7 @@ public class DungeonControllerLoader extends DungeonLoader {
     private void applyPlayerInvincEffect() {
         for (ImageView i : playerTexCache.values()) {
             Glow g = new Glow();
-            g.setLevel(5);
+            g.setLevel(50);
             i.setEffect(g);
         }
     }

@@ -1,11 +1,13 @@
 package unsw.dungeon;
 
+import javax.swing.JFileChooser;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
+
 
 public class MenuController implements IHighlighter {
  
@@ -26,6 +28,8 @@ public class MenuController implements IHighlighter {
     private Label texturePack;
     @FXML
     private Label howTo;
+    @FXML 
+    private Label loadLevel;
 
     private MenuScreen screen;
 
@@ -149,6 +153,31 @@ public class MenuController implements IHighlighter {
     @FXML
     public void unHoverHow() {
         unhighlightElement(howTo);
+    }
+
+    @FXML 
+    public void clickLevelLoad() {
+        JFileChooser fileBrowser = new JFileChooser();
+        int response = fileBrowser.showOpenDialog(null);
+
+        String filePath = "";
+        if (response == JFileChooser.APPROVE_OPTION) {
+            filePath = fileBrowser.getSelectedFile().getAbsolutePath();
+        } else {
+            return;
+        }
+
+        screen.loadNewLevel(filePath);
+    }
+
+    @FXML 
+    public void hoverLevelLoad() {
+        highlightElement(loadLevel);
+    }
+
+    @FXML 
+    public void unhoverLevelLoad() {
+        unhighlightElement(loadLevel);
     }
 
 }

@@ -149,5 +149,10 @@ public class CompositeGoal implements GoalObserver, GoalObserverParent {
         return retString;
     }
 
+    @Override
+    public int getGoalEntitySize() {
+        return getGoalEntities().size();
+    }
+
 
 }

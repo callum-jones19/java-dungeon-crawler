@@ -91,5 +91,10 @@ public class TreasureGoal implements GoalObserver, GoalObserverChild {
     public String getGoalString() {
         return "Collect all treasure";
     }
+
+    @Override
+    public int getGoalEntitySize() {
+        return getGoalEntities().size();
+    }
     
 }

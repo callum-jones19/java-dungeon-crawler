@@ -2,9 +2,9 @@ package unsw.dungeon;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.paint.Color;
 
-public class TutorialController {
+
+public class TutorialController implements IHighlighter {
 
     @FXML
     private Label back;
@@ -20,16 +20,6 @@ public class TutorialController {
         
     }
 
-    private void highlightElement(Label target) {
-        target.setTextFill(Color.HOTPINK);
-        target.setStyle("-fx-font-weight: bold");
-    }
-
-    private void unHighlightElement(Label target) {
-        target.setTextFill(Color.BLACK);
-        target.setStyle("-fx-font-weight: regular");
-    }
-
     @FXML
     public void backClick() {
         screen.openMenu();
@@ -42,7 +32,7 @@ public class TutorialController {
 
     @FXML
     public void backUnHover() {
-        unHighlightElement(back);
+        unhighlightElement(back);
     }
 
 }

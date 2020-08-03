@@ -41,6 +41,9 @@ public class DeathScreen implements GameScreen {
         stage.setTitle(title);
         scene.getRoot().requestFocus();
         stage.show();
+        // Need to write this twice to overcome JavaFX Bug, love that
+        stage.setMaximized(false);
+        stage.setMaximized(true);
     }
 
     public void resetDungeon() {

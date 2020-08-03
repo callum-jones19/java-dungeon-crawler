@@ -2,13 +2,11 @@ package unsw.dungeon;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
+
 
 import javax.swing.JFileChooser;
 
 
-import java.io.File;
 
 public class CompletionController implements IHighlighter {
 

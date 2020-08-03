@@ -73,7 +73,7 @@ public class DungeonScreen implements GameScreen {
             gm.loadNewDungeonState(fileName);
             gm.setScreenState(gm.getLoadedDungeonState());
         } catch (IOException e) {
-            e.printStackTrace();
+            // do nothing
         }
     }
 
