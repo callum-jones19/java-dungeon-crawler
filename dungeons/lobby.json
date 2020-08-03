@@ -101,31 +101,31 @@
       "x": 2,
       "y": 3,
       "type": "dungeonEntry",
-      "dungeonFile": "boulders.json"
+      "dungeonFile": "zone1.json"
     },
     {
       "x": 4,
       "y": 3,
       "type": "dungeonEntry",
-      "dungeonFile": "advanced.json"
+      "dungeonFile": "zone2.json"
     },
     {
       "x": 6,
       "y": 3,
       "type": "dungeonEntry",
-      "dungeonFile": "maze.json"
+      "dungeonFile": "zone3.json"
     },
     {
       "x": 8,
       "y": 3,
       "type": "dungeonEntry",
-      "dungeonFile": "portalDungeon.json"
+      "dungeonFile": "zone4.json"
     },
     {
       "x": 10,
       "y": 3,
       "type": "dungeonEntry",
-      "dungeonFile": ""
+      "dungeonFile": "zone5.json"
     },
     {
       "x": 12,
@@ -269,8 +269,5 @@
       "y": 10,
       "type": "wall"
     }
-  ],
-  "goal-condition": {
-    "goal": "exit"
-  }
+  ]
 }
