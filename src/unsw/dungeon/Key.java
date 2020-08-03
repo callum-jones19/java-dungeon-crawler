@@ -46,10 +46,6 @@ public class Key extends Entity implements Item {
     //     return true;
     // }
 
-    public void setDoor(Door door) {
-        this.door = door;
-    }
-
     public boolean isUnique() {
         return true;
     }

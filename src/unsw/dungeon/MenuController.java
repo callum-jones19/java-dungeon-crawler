@@ -102,7 +102,7 @@ public class MenuController {
 
     @FXML
     public void clickLobby() {
-        screen.returnToLobbyScreen();;
+        screen.returnToLobbyScreen();
     }
 
     @FXML
