@@ -125,7 +125,6 @@ public class DungeonControllerLoader extends DungeonLoader {
     public Image getEntityImage(Entity e) {
         Image i = null;
         if (e instanceof Player) {
-            // TODO maybe fix?
             i = getPlayerDownImage();
         } else if (e instanceof Wall) {
             i = getWallImage();
@@ -168,14 +167,12 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Wall wall) {
         ImageView view = new ImageView(wallImage);
         addEntity(wall, view);
-        addEntityTexture(wall, wallImage);
     }
 
     @Override
     public void onLoad(Exit exit) {
         ImageView view = new ImageView(exitImage);
         addEntity(exit, view);
-        addEntityTexture(exit, exitImage);
     }
 
     @Override
@@ -189,7 +186,6 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Key key) {
         ImageView view = new ImageView(keyImage);
         addEntity(key, view);
-        addEntityTexture(key, keyImage);
 
     }
 
@@ -197,7 +193,6 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Enemy enemy) {
         ImageView view = new ImageView(enemyImage);
         addEntity(enemy, view);
-        addEntityTexture(enemy, enemyImage);
 
     }
 
@@ -205,7 +200,6 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Sword sword) {
         ImageView view = new ImageView(swordImage);
         addEntity(sword, view);
-        addEntityTexture(sword, swordImage);
 
     }
 
@@ -213,7 +207,6 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Boulder boulder) {
         ImageView view = new ImageView(boulderImage);
         addEntity(boulder, view);
-        addEntityTexture(boulder, boulderImage);
 
     }
 
@@ -221,7 +214,6 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Potion potion) {
         ImageView view = new ImageView(potionImage);
         addEntity(potion, view);
-        addEntityTexture(potion, potionImage);
 
     }
 
@@ -229,7 +221,6 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(FloorSwitch floorSwitch) {
         ImageView view = new ImageView(switchImage);
         addEntity(floorSwitch, view);
-        addEntityTexture(floorSwitch, switchImage);
 
     }
 
@@ -237,7 +228,6 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(Portal portal) {
         ImageView view = new ImageView(portalImage);
         addEntity(portal, view);
-        addEntityTexture(portal, portalImage);
 
     }
 
@@ -339,9 +329,6 @@ public class DungeonControllerLoader extends DungeonLoader {
         entityTextures.put(entity, view);
     }
 
-    private void addEntityTexture(Entity entity, Image image) {
-        // TODO - delete
-    }
 
     public void setEntityTexture(Entity e, Image newTexture) {
         ImageView newT = new ImageView(newTexture);
@@ -372,11 +359,6 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     public HashMap<Entity, ImageView> loadDungeonImages() {
         return this.entityTextures;
-    }
-
-    public HashMap<Entity, Image> loadTextureMap() {
-        // TODO - delete
-        return null;
     }
 
 

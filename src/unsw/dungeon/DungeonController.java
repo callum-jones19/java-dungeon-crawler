@@ -487,8 +487,7 @@ public class DungeonController implements EntryObserver {
     
     private void processInput() {
         if (lastInput == null) {
-            // FIXME doesnt work the other way around??? No idea what i was doing
-            // but its 1:30AM so fix it later.
+            // tmp
         } else {
             if (lastInput.toString().equals(keybindings.get("UP"))) {
                 p.moveUp();
