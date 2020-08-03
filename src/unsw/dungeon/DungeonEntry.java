@@ -45,4 +45,10 @@ public class DungeonEntry extends Entity implements Triggerable, EntrySubject {
     public String getTargetFile() {
         return this.targetDungeonFile;
     }
+
+    public String getTitleUpper() {
+        String tmp = this.targetDungeonFile;
+        tmp.replace('_', ' ');
+        return tmp.split("\\.")[0].toUpperCase();
+    }
 }
