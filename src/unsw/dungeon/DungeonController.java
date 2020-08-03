@@ -66,7 +66,6 @@ public class DungeonController implements EntryObserver {
     private DungeonScreen screen;
 
     private HashMap<Entity, ImageView> entityImages;
-    private HashMap<Entity, Image> entityTextures;
     private int tileSize;
 
     // Input data
@@ -103,7 +102,6 @@ public class DungeonController implements EntryObserver {
 
         this.dungeon = loader.load();
         this.entityImages = loader.loadDungeonImages();
-        this.entityTextures = loader.loadTextureMap();
         this.p = dungeon.getPlayer();
 
         // Now make this observe the dungeon entrances.
@@ -177,7 +175,9 @@ public class DungeonController implements EntryObserver {
     }
 
     public void startGameLoop() {
+        loader.refreshTextures();
         gameLoop.play();
+        initialRender();
     }
 
     public double getPaneWidth() {
@@ -200,6 +200,12 @@ public class DungeonController implements EntryObserver {
      * @param parent
      */
     public void initialRender() {
+        
+        for (ZLayer z : ZLayer.values()) {
+            GridPane g = getRenderLayer(z.getZIndex());
+            g.getChildren().clear();
+        }
+        
         renderBG();
         // Set the stackPane to be as big as the gridpanes it holds - this allows
         // all other SceneBuilder elements to be placed where they should go.
@@ -394,13 +400,13 @@ public class DungeonController implements EntryObserver {
         for (GoalObserver g: goalInfo.keySet()) {
             ImageView goalImage;
             if (g instanceof TreasureGoal) {
-                goalImage = new ImageView(loader.getTreasureTexture());
+                goalImage = new ImageView(loader.getTreasureImage());
             } else if (g instanceof ExitGoal) {
-                goalImage = new ImageView(loader.getExitTexture());
+                goalImage = new ImageView(loader.getExitImage());
             } else if (g instanceof EnemyGoal) {
-                goalImage = new ImageView(loader.getEnemyTexture());
+                goalImage = new ImageView(loader.getEnemyImage());
             } else {
-                goalImage = new ImageView(loader.getSwitchesTexture());
+                goalImage = new ImageView(loader.getSwitchImage());
             }
 
             if (g.isVoid()) {
@@ -448,7 +454,7 @@ public class DungeonController implements EntryObserver {
      * Render the background of the dungeon.
      */
     private void renderBG() {
-        Image ground = loader.getGroundTexture();
+        Image ground = loader.getGroundImage();
 
         GridPane targetLayer = getRenderLayer(ZLayer.BACKGROUND.getZIndex());
 
@@ -486,8 +492,7 @@ public class DungeonController implements EntryObserver {
     
     private void processInput() {
         if (lastInput == null) {
-            // FIXME doesnt work the other way around??? No idea what i was doing
-            // but its 1:30AM so fix it later.
+            // tmp
         } else {
             if (lastInput.toString().equals(keybindings.get("UP"))) {
                 p.moveUp();
@@ -501,31 +506,8 @@ public class DungeonController implements EntryObserver {
                 screen.openPauseScreen();
             } else if (lastInput.toString().equals(keybindings.get("ATTACK"))) {
                 p.attack();
-            } else {
-
             }
-            /*switch(lastInput.toString()) {
-                case keybindings.get("UP"):
-                    p.moveUp();
-                    break;
-                case keybindings.get("DOWN"):
-                    p.moveDown();
-                    break;
-                case keybindings.get("LEFT"):
-                    p.moveLeft();
-                    break;
-                case keybindings.get("RIGHT"):
-                    p.moveRight();
-                    break;
-                case "SPACE":
-                    p.attack();
-                    break;
-                case "ESCAPE":
-                    screen.openPauseScreen();
-                    break;
-                default:
-                    break;
-            }*/
+            
             lastInput = null;
         }
     }

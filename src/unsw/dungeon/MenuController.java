@@ -22,6 +22,10 @@ public class MenuController implements IHighlighter {
     private Label lobby;
     @FXML
     private Label quit;
+    @FXML
+    private Label texturePack;
+    @FXML
+    private Label howTo;
 
     private MenuScreen screen;
 
@@ -74,7 +78,6 @@ public class MenuController implements IHighlighter {
 
     @FXML
     public void clickChange() {
-        // TODO
         screen.getControlsScreen();
     }
 
@@ -118,5 +121,34 @@ public class MenuController implements IHighlighter {
         unhighlightElement(quit);
     }
 
+    @FXML
+    public void clickTexture() {
+        screen.openTextureScreen();
+    }
+    
+    @FXML
+    public void hoverTexture() {
+        highlightElement(texturePack);
+    }
+
+    @FXML
+    public void unHoverTexture() {
+        unHighlightElement(texturePack);
+    }
+    
+    @FXML
+    public void clickHow() {
+        screen.openHowToScreen();
+    }
+
+    @FXML
+    public void hoverHow() {
+        highlightElement(howTo);
+    }
+
+    @FXML
+    public void unHoverHow() {
+        unHighlightElement(howTo);
+    }
 
 }

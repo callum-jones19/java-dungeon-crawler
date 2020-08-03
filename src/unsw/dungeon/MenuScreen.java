@@ -72,4 +72,20 @@ public class MenuScreen implements GameScreen {
         gm.loadLobbyState();
         gm.setScreenState(gm.getLoadedDungeonState());
     }
+
+    public void openTextureScreen() {
+        try {
+            gm.setScreenState(new TexturePackScreen(stage, gm));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+	public void openHowToScreen() {
+        try {
+            gm.setScreenState(new TutorialScreen(stage, gm));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 }
