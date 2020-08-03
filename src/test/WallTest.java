@@ -14,7 +14,7 @@ import unsw.dungeon.Boulder;
 import unsw.dungeon.Sword; 
 
 public class WallTest {
-    
+     
     @Test
     public void testWallCreation() {
         // test singular wall creation
