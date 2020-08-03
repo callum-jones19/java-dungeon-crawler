@@ -2,6 +2,7 @@ package unsw.dungeon;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -11,7 +12,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
@@ -19,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -32,8 +36,12 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 
 /**
  * Class to manage a dungeon instance being run by the JavaFX frontend.
@@ -53,6 +61,7 @@ public class DungeonController implements EntryObserver {
     private Rectangle invBack;
     @FXML
     private VBox appPane;
+    private Label potionTimer;
 
     private DungeonScreen screen;
 
@@ -78,7 +87,8 @@ public class DungeonController implements EntryObserver {
 
     public DungeonController(DungeonControllerLoader l, DungeonScreen d) {
 
-        screen = d;
+        this.potionTimer = null;
+        this.screen = d;
 
         // Create the game loop.
         gameLoop = new Timeline();
@@ -198,6 +208,8 @@ public class DungeonController implements EntryObserver {
             //System.out.println("Rendering layer " + z.toString());
             renderEntityLayer(z);
         }
+
+        renderTextOverlay();
     }
 
     public void updateRender() {
@@ -264,8 +276,80 @@ public class DungeonController implements EntryObserver {
         renderInventory();
         renderGoals();
         renderGoalString();
-
+        renderTextOverlay();
     }
+
+
+    private void renderPotionTimer() {
+        // Node n = appPane.lookup("potion_timer");
+        // if (dungeon.playerIsInvincible()) {
+        //     String text = "Potion Duration Left: " + dungeon.getPlayerInvincLeft();
+        //     if(n == null) {
+        //         Label timer = new Label(text);
+        //         timer.setId("potion_timer");
+        //         appPane.getChildren().add(timer);
+        //     } else {
+        //         Label timer = (Label) n;
+        //         timer.setText(text);
+        //     }
+        // } else {
+        //     if(n != null) {
+        //         appPane.getChildren().remove(n);
+        //     }
+        // }
+        if (p.isInvincible()) {
+            double timeLeft = p.getInvincTimeLeft();
+            DecimalFormat df = new DecimalFormat("#.##");
+            String text = "Potion Duration Left: " + df.format(timeLeft);
+            if (potionTimer == null) {
+                // Need to instantiate it.
+                potionTimer = new Label(text);
+                potionTimer.setTextFill(Color.WHITE);
+                potionTimer.setStyle("-fx-font-weight: bold;");
+                potionTimer.setPadding(new Insets(10));
+                potionTimer.setPrefWidth(300);
+                potionTimer.setTextAlignment(TextAlignment.CENTER);
+                DropShadow d = new DropShadow();
+            
+                potionTimer.setEffect(d);
+                potionTimer.setBackground(new Background(new BackgroundFill(Color.ORANGE, null, null)));
+                appPane.getChildren().add(potionTimer);
+            } else {
+                // Need to update it
+                potionTimer.setText(text);
+            }
+        } else {
+            if (potionTimer != null) {
+                // Remove display.
+                appPane.getChildren().remove(potionTimer);
+                potionTimer = null;
+            }
+        }
+    }
+
+    private void renderTextOverlay() {
+        // Render this to the same layer as the items.
+        GridPane targetLayer = getRenderLayer(ZLayer.ITEM.getZIndex());
+        for (DungeonEntry e : dungeon.getEntries()) {
+            int x = e.getX();
+            int y = e.getY();
+            String text = e.getTitleUpper();
+            Label title = new Label(text);
+
+            title.setFont(new Font("Calibri", 8));
+            title.setStyle("-fx-font-weight: bold;");
+            title.setStyle("-fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 )");
+            title.setTextFill(Color.WHITE);
+            title.setAlignment(Pos.BOTTOM_CENTER);
+            title.setMinWidth(Region.USE_PREF_SIZE);
+
+            targetLayer.add(title, x, y);
+            GridPane.setHalignment(title, HPos.CENTER);
+        }
+
+        renderPotionTimer();
+    }
+
 
     private void renderInventory() {
         inventoryGrid.getChildren().clear();
