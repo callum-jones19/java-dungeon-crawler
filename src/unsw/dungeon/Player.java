@@ -47,7 +47,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         rightOrientation = new RightOrientation(this, dungeon);
         
         vulnerableStrategy = new VulnerableCollision(this);
-        invincibleStrategy = new DamageCollision();
+        invincibleStrategy = new DamageCollision(this);
         
         setCollisionBehaviour(vulnerableStrategy);
         

@@ -35,11 +35,115 @@ public abstract class DungeonLoader {
         Dungeon dungeon = new Dungeon(width, height);
 
         JSONArray jsonEntities = json.getJSONArray("entities");
+        JSONObject goals = json.getJSONObject("goal-condition");
+
+        loadGoals(dungeon, goals);
 
         for (int i = 0; i < jsonEntities.length(); i++) {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
+
+        dungeon.initialiseGoalInfo();
+
         return dungeon;
+    }
+
+    private void loadGoals(Dungeon dungeon, JSONObject goals) {
+        
+        String goal = goals.getString("goal");
+        GoalObserverParent currGoal = (GoalObserverParent) dungeon.getCompositeGoal();
+        if (!goal.equals("AND") && !goal.equals("OR")) {
+            switch (goal) {
+                case "treasure":
+                    if (currGoal != null) {
+                        currGoal.addChildGoal(new TreasureGoal());
+                    } else {
+                        dungeon.setGoal(new TreasureGoal());
+                    }
+                    System.out.println("Added Treasure Goal (singleton)");
+                    break;
+                case "enemies":
+                    if (currGoal != null) {
+                        currGoal.addChildGoal(new EnemyGoal());
+                    } else {
+                        dungeon.setGoal(new EnemyGoal());
+                    }
+                    System.out.println("Added Enemy Goal (singleton)");
+                    break;
+                case "boulders":
+                    if (currGoal != null) {
+                        currGoal.addChildGoal(new SwitchGoal());
+                    } else {
+                        dungeon.setGoal(new SwitchGoal());
+                    }
+                    System.out.println("Added Switch Goal (singleton)");
+                    break;
+                case "exit":
+                    if (currGoal != null) {
+                        currGoal.addChildGoal(new ExitGoal());
+                    } else {
+                        dungeon.setGoal(new ExitGoal());
+                    }
+                    System.out.println("Added Exit Goal (singleton)");
+                    break;
+            }
+        } else {
+            if (currGoal != null) {
+                GoalObserverParent newCompGoal = new CompositeGoal(goal.equals("AND"));
+                currGoal.addChildGoal((GoalObserver) newCompGoal);
+                System.out.println("Added new child composite goal!");
+                JSONArray subgoals = goals.getJSONArray("subgoals");
+                for (int i = 0; i < subgoals.length(); i++) {
+                    loadGoals(newCompGoal, subgoals.getJSONObject(i));
+                }
+            } else {
+                dungeon.setGoal(new CompositeGoal(goal.equals("AND")));
+                System.out.println("Set composite goal");
+                JSONArray subgoals = goals.getJSONArray("subgoals");
+                for (int i = 0; i < subgoals.length(); i++) {
+                    loadGoals(dungeon, subgoals.getJSONObject(i));
+                }
+            }
+
+        }
+
+    }
+
+    private void loadGoals(GoalObserverParent newCompGoal, JSONObject goalJSON) {
+
+        String goal = goalJSON.getString("goal");
+        switch (goal) {
+            case "treasure":
+                newCompGoal.addChildGoal(new TreasureGoal());
+                break;
+            case "enemies":
+                newCompGoal.addChildGoal(new EnemyGoal());
+                break;
+            case "switches":
+                newCompGoal.addChildGoal(new SwitchGoal());
+                break;
+            case "exit":
+                newCompGoal.addChildGoal(new ExitGoal());
+                break;
+            case "AND":
+                GoalObserverParent compGoalAnd = new CompositeGoal(true);
+                newCompGoal.addChildGoal((GoalObserver) compGoalAnd);
+                System.out.println("Set composite goal");
+                JSONArray subgoalsAnd = goalJSON.getJSONArray("subgoals");
+                for (int i = 0; i < subgoalsAnd.length(); i++) {
+                    loadGoals(compGoalAnd, subgoalsAnd.getJSONObject(i));
+                }
+                break;
+            case "OR":
+                GoalObserverParent compGoalOr = new CompositeGoal(false);
+                newCompGoal.addChildGoal((GoalObserver) compGoalOr);
+                System.out.println("Set composite goal");
+                JSONArray subgoalsOr = goalJSON.getJSONArray("subgoals");
+                for (int i = 0; i < subgoalsOr.length(); i++) {
+                    loadGoals(compGoalOr, subgoalsOr.getJSONObject(i));
+                }
+                break;
+        }
     }
 
     private void loadEntity(Dungeon dungeon, JSONObject json) {

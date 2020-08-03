@@ -17,14 +17,21 @@ public class GameScreenManager {
     private GameScreen currentScreenState;
     
     private GameScreen pausedState;
+    private GameScreen dungeonState;
+    private GameScreen deathState;
+    private GameScreen controlsState;
+    private GameScreen completedState;
     private GameScreen loadedDungeonState;
 
-
+    private String currentDungeon = null;
 
     public GameScreenManager(Stage stage) {
         this.primaryStage = stage;
         try {
             this.pausedState = new MenuScreen(primaryStage, this);
+            this.deathState = new DeathScreen(primaryStage, this);
+            this.controlsState = new ControlsScreen(primaryStage, this);
+            this.completedState = new CompletionScreen(primaryStage, this);
             loadNewDungeonState("lobby.json");
             currentScreenState = loadedDungeonState;
         } catch (IOException e) {
@@ -63,6 +70,8 @@ public class GameScreenManager {
     // Load the lobby level 
     public void loadLobbyState() {
         try {
+            // Load into the dungeon by default
+            setScreenState(getLoadedDungeonState());
             loadNewDungeonState("lobby.json");
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,6 +91,27 @@ public class GameScreenManager {
 
     public GameScreen getPauseState() {
         return this.pausedState;
+    }
+
+    public GameScreen getDeathState() {
+        return deathState;
+    }
+
+    public GameScreen getControlsState() {
+        return controlsState;
+    }
+
+    public GameScreen getCompletedState() {
+        return completedState;
+    }
+
+    public String getCurrentDungeon() {
+        return currentDungeon;
+    }
+
+    public void refreshKeys() {
+        DungeonScreen dScreen = (DungeonScreen) loadedDungeonState;
+        dScreen.refreshKeys();
     }
 
     public GameScreen getLoadedDungeonState() {

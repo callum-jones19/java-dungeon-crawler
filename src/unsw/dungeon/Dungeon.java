@@ -5,6 +5,7 @@ package unsw.dungeon;
 
 import java.security.KeyStore.Entry;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -24,11 +25,13 @@ public class Dungeon implements DestroyObserver {
     private Player player;
 
     private GoalObserver goal;
+    private HashMap<GoalObserver, Integer> startingGoalInformation;
 
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
         this.entities = new ArrayList<Entity>();
+        this.startingGoalInformation = new HashMap<GoalObserver, Integer>();
         this.player = null;
     }
 
@@ -303,6 +306,17 @@ public class Dungeon implements DestroyObserver {
         this.goal = g;
     }
 
+    public List<GoalObserver> getGoals() {
+        return this.goal.getGoal();
+    }
+
+    public void initialiseGoalInfo() {
+        List<GoalObserver> goals = getGoals();
+        for (GoalObserver g: goals) {
+            this.startingGoalInformation.put(g, g.getGoalEntities().size());
+        }
+    }
+
     public boolean isComplete() {
         return this.goal.isComplete();
     }
@@ -329,6 +343,21 @@ public class Dungeon implements DestroyObserver {
         return answer;
     }
     
+    public GoalObserver getCompositeGoal() {
+        if (this.goal instanceof CompositeGoal) {
+            return this.goal;
+        }
+        return null;
+    }
+
+	public HashMap<GoalObserver, Integer> getGoalInfo() {
+		return this.startingGoalInformation;
+    }
+    
+    public String getGoalString() {
+        return this.goal.getGoalString();
+    }
+
     public void linkEntrances(EntryObserver o) {
         for (Entity e : entities) {
             if(e instanceof DungeonEntry) {

@@ -24,7 +24,7 @@ public class DungeonScreen implements GameScreen {
         // Initialise the dungeon controller for the particular dungeon file
         // entered.
         controller = new DungeonController(l, this);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView2.fxml"));
         loader.setController(controller);
 
         // Set the scene title.
@@ -55,6 +55,18 @@ public class DungeonScreen implements GameScreen {
         gm.setScreenState(gm.getPauseState());
     }
 
+    public void openDeathScreen() {
+        gm.setScreenState(gm.getDeathState());
+    }
+
+    public void openCompletionScreen() {
+        controller.stopGameLoop();
+        gm.setScreenState(gm.getCompletedState());
+    }
+
+    public void refreshKeys() {
+        controller.refreshKeys();
+    }
     public void openNewDungeon(String fileName) {
         try {
             gm.loadNewDungeonState(fileName);

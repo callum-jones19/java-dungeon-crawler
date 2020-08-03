@@ -7,28 +7,28 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class MenuScreen implements GameScreen {
+public class ControlsScreen implements GameScreen {
 
     private Stage stage;
     private String title;
-    private MenuController controller;
+    private ControlsController controller;
     private Scene scene;
 
-    private GameScreenManager gm;
+    GameScreenManager gm;
 
-    public MenuScreen (Stage stage, GameScreenManager gm) throws IOException {
+    public ControlsScreen (Stage stage, GameScreenManager gm) throws IOException {
         // Set a reference to the primary window to draw to.
         this.stage = stage;
         
         this.gm = gm;
 
         // Set the controller for the menu
-        controller = new MenuController(this);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("MenuScreen.fxml"));
+        controller = new ControlsController(this);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("ControllerScreen.fxml"));
         loader.setController(controller);
 
         // Set the scene title
-        this.title = "[PAUSED] Dungeon";
+        this.title = "[Controls] Dungeon";
 
         // Create a scene with the controller class as a root.
         Parent root = loader.load();
@@ -51,25 +51,8 @@ public class MenuScreen implements GameScreen {
         gm.setScreenState(gm.getLoadedDungeonState());
     }
 
-    public void restartLevel() {
-        try {
-            gm.loadNewDungeonState(gm.getCurrentDungeon());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        gm.setScreenState(gm.getLoadedDungeonState());
+    public void refreshKeys() {
+        gm.refreshKeys();
     }
-
-    public void getControlsScreen() {
-        gm.setScreenState(gm.getControlsState());
-    }
-
-    public void closeApplication() {
-        stage.close();
-    }
-
-    public void returnToLobbyScreen() {
-        gm.loadLobbyState();
-        gm.setScreenState(gm.getLoadedDungeonState());
-    }
+    
 }

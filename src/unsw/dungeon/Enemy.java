@@ -21,7 +21,7 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
         this.dungeon = d;
 
         vulnState = new VulnerableCollision(this);
-        attackState = new DamageCollision();
+        attackState = new DamageCollision(this);
 
         currentSearchStrat = new DirectSearch();
 

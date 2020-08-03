@@ -98,4 +98,5 @@ public abstract class Entity implements DestroySubject{
     public void destroy() {
         notifyObservers();
     }
+
 }

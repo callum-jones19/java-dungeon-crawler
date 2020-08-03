@@ -14,6 +14,8 @@ public class MenuController {
 
     @FXML
     private Label resume;
+    @FXML 
+    private Label restart;
     @FXML
     private Label controls;
     @FXML
@@ -68,11 +70,24 @@ public class MenuController {
     }
 
     @FXML
+    public void clickRestart() {
+        screen.restartLevel();
+    }
+
+    @FXML
+    public void hoverRestart() {
+        highlightElement(restart);
+    }
+
+    @FXML
+    public void unHoverRestart() {
+        unHighlightElement(restart);
+    }
+
+    @FXML
     public void clickChange() {
         // TODO
-        System.out.println("Need to implement change screen.");
-        // maybe store these screens in gameScreenManager and have the states
-        //manage it
+        screen.getControlsScreen();
     }
 
     @FXML
