@@ -4,10 +4,20 @@ public class Key extends Entity implements Item {
 
     private CollectCollision c = new CollectCollision(this);
     private Door door;
+    private int id;
     
-    public Key(int x, int y) {
+    public Key(int x, int y, int id) {
         super(x, y, ZLayer.ITEM);
         super.setCollisionBehaviour(c);
+        this.id = id;
+    }
+
+    public int getID() {
+        return this.id;
+    }
+
+    public void linkDoor(Door d) {
+        this.door = d;
     }
 
     public boolean checkItemType(Item i) {

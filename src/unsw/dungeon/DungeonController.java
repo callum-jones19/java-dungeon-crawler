@@ -25,10 +25,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
@@ -38,12 +34,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
 
 /**
  * Class to manage a dungeon instance being run by the JavaFX frontend.
  */
-public class DungeonController {
+public class DungeonController implements EntryObserver {
 
     // JavaFX Data
     @FXML
@@ -100,6 +95,9 @@ public class DungeonController {
         this.entityImages = loader.loadDungeonImages();
         this.entityTextures = loader.loadTextureMap();
         this.p = dungeon.getPlayer();
+
+        // Now make this observe the dungeon entrances.
+        this.dungeon.linkEntrances(this);
 
         // Initialise JavaFX-related variables.
         this.tileSize = loader.getTileSize();
@@ -467,6 +465,15 @@ public class DungeonController {
             keybindings.put(pair.split("=")[0], pair.split("=")[1]);
         }
 
+    }
+    /**
+     * Function is called whenever a dungeon entry tile is triggered.
+     * @param sub
+     */
+    @Override
+    public void updateEntry(EntrySubject sub) {
+        String fileName = sub.getTargetFile();
+        screen.openNewDungeon(fileName);
     }
 
 }

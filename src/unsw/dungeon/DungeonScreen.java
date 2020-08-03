@@ -52,21 +52,30 @@ public class DungeonScreen implements GameScreen {
 
     public void openPauseScreen() {
         controller.stopGameLoop();
-        gm.setActiveScreen(gm.getPausedState());
+        gm.setScreenState(gm.getPauseState());
     }
 
     public void openDeathScreen() {
-        gm.setActiveScreen(gm.getDeathState());
+        gm.setScreenState(gm.getDeathState());
     }
 
     public void openCompletionScreen() {
         controller.stopGameLoop();
-        gm.setActiveScreen(gm.getCompletedState());
+        gm.setScreenState(gm.getCompletedState());
     }
 
     public void refreshKeys() {
         controller.refreshKeys();
     }
+    public void openNewDungeon(String fileName) {
+        try {
+            gm.loadNewDungeonState(fileName);
+            gm.setScreenState(gm.getLoadedDungeonState());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

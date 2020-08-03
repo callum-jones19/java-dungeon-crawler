@@ -3,6 +3,7 @@
  */
 package unsw.dungeon;
 
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,7 @@ public class Dungeon implements DestroyObserver {
         if (sub instanceof Player) {
             removePlayer((Player) sub);
         } 
-            this.entities.remove(sub);
+        this.entities.remove(sub);
     }
 
 
@@ -106,12 +107,42 @@ public class Dungeon implements DestroyObserver {
         Portal p = null;
         for (Entity e : entities) {
             if (e instanceof Portal) {
-                p = (Portal) e;
+                Portal tmp = (Portal) e;
+                if (tmp.getID() == id) {
+                   p = tmp;
+                }
             }
         }
         return p;
     }
 
+    public Door findDoor(int id) {
+        Door d = null;
+        for (Entity e : entities) {
+            if (e instanceof Door) {
+                Door tmp = (Door) e;
+                if (tmp.getID() == id) {
+                    d = tmp;
+                }
+            }
+        }
+        System.out.println(d);
+        return d;
+    }
+
+    public Key findKey(int id) {
+        Key d = null;
+        for (Entity e : entities) {
+            if (e instanceof Key) {
+                Key tmp = (Key) e;
+                if (tmp.getID() == id) {
+                    d = tmp;
+                }
+            }
+        }
+        System.out.println(d);
+        return d;
+    }
 
     public List<Entity> getEntities(int x, int y) {
         List<Entity> result = new ArrayList<Entity>();
@@ -182,7 +213,6 @@ public class Dungeon implements DestroyObserver {
         }
     }
 
-    // TODO - remove
     public void printDungeon() {
         System.out.println("<========= Dungeon =========>");
         for (int i = 0; i  < getHeight(); i++) {
@@ -298,7 +328,6 @@ public class Dungeon implements DestroyObserver {
         if (x >= getWidth() || y >= getHeight()) {
             return false;
         }
-        System.out.println(x + "/" + getWidth() + " " + y + "/" +  getHeight());
         return true;
     }
 
@@ -329,5 +358,13 @@ public class Dungeon implements DestroyObserver {
         return this.goal.getGoalString();
     }
 
+    public void linkEntrances(EntryObserver o) {
+        for (Entity e : entities) {
+            if(e instanceof DungeonEntry) {
+                EntrySubject s = (EntrySubject) e;
+                s.addEntryObserver(o);
+            }
+        }
+    }
 
 }

@@ -48,7 +48,7 @@ public class ControlsScreen implements GameScreen {
     }
 
     public void returnToDungeonScreen() {
-        gm.setActiveScreen(gm.getDungeonState());
+        gm.setScreenState(gm.getLoadedDungeonState());
     }
 
     public void refreshKeys() {

@@ -44,8 +44,12 @@ public class DeathScreen implements GameScreen {
     }
 
     public void resetDungeon() {
-        gm.loadNewDungeon(gm.getCurrentDungeon());
-        gm.setActiveScreen(gm.getDungeonState());
+        try {
+            gm.loadNewDungeonState(gm.getCurrentDungeon());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        gm.setScreenState(gm.getLoadedDungeonState());
     }
 
     public void closeApplication() {
