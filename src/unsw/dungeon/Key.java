@@ -33,15 +33,18 @@ public class Key extends Entity implements Item {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null) return false;
-        if (this.getClass() != o.getClass()) {
-            return false;
-        }
-        Key s = (Key) o;
-        return (door.equals(s.door));
-    }
+    // @Override
+    // public boolean equals(Object o) {
+    //     if (o == null) return false;
+    //     if (this.getClass() != o.getClass()) {
+    //         return false;
+    //     }
+    //     Key s = (Key) o;
+    //     System.out.println("This key is " + id);
+    //     System.out.println("The other key is " + s.getID());
+
+    //     return true;
+    // }
 
     public void setDoor(Door door) {
         this.door = door;
@@ -57,9 +60,10 @@ public class Key extends Entity implements Item {
 
     @Override
     public void pickup(Player p) {
-        p.addToInventory(this);
-        activate();
+        p.attemptAddToInventory(this);
         if (p.isHoldingInstance(this)) {
+            // If they did actually pick it up.
+            activate();
             destroy();
         }
 

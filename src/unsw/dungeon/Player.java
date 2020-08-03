@@ -131,12 +131,13 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         setOrientation(rightOrientation);
     }
 
-    public void addToInventory(Item i) {
+    public void attemptAddToInventory(Item i) {
         if (!(i.isUnique())) {
             this.inventory.add(i);
         } else {
-            // check if we already have an instance of this type
-            if (!(contains(i))) {
+            // check if we already have an instance of this type, given it
+            // should be unique.
+            if (!(hasItemOfType(i))) {
                 this.inventory.add(i);
             }
         }
@@ -148,14 +149,6 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
 
     public void setOrientation(PlayerOrientation o) {
         this.orientation = o;
-    }
-
-    public boolean contains(Item i) {
-        if (inventory.contains(i)) {
-            return true;
-        } else {
-            return false;
-        }
     }
 
     public void attack() {
@@ -202,9 +195,17 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         this.inventory = newInventory;
     }
 
-    public Boolean isHoldingInstance(Item i) {
-        for (Item item: inventory) {
-            if (item.equals(i)) {
+    public boolean isHoldingInstance(Item i) {
+        if (inventory.contains(i)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean hasItemOfType(Item i) {
+        for (Item it : inventory) {
+            if (it.getClass() == i.getClass()) {
                 return true;
             }
         }

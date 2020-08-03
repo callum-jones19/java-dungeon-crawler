@@ -32,12 +32,11 @@ public class Potion extends Entity implements Item {
     }
 
     public void pickup(Player p) {
-        p.addToInventory(this);
-        activate(p);
+        p.attemptAddToInventory(this);
         if (p.isHoldingInstance(this)) {
             destroy();
+            activate(p);
         }
-               
     }
 
     

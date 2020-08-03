@@ -161,7 +161,7 @@
       "x": 4,
       "y": 6,
       "type": "dungeonEntry",
-      "dungeonFile": ""
+      "dungeonFile": "complete.json"
     },
     {
       "x": 8,
