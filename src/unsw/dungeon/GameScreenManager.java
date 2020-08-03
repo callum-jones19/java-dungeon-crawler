@@ -21,6 +21,7 @@ public class GameScreenManager {
     private GameScreen controlsState;
     private GameScreen completedState;
     private GameScreen loadedDungeonState;
+    private GameScreen texturePackState;
 
     private String currentDungeonFile = null;
 
@@ -32,6 +33,7 @@ public class GameScreenManager {
             this.deathState = new DeathScreen(primaryStage, this);
             this.controlsState = new ControlsScreen(primaryStage, this);
             this.completedState = new CompletionScreen(primaryStage, this);
+            this.texturePackState = new TexturePackScreen(stage, this);
             loadNewDungeonState("lobby.json");
             currentScreenState = loadedDungeonState;
         } catch (IOException e) {

@@ -22,6 +22,8 @@ public class MenuController {
     private Label lobby;
     @FXML
     private Label quit;
+    @FXML
+    private Label texturePack;
 
     private MenuScreen screen;
 
@@ -86,7 +88,6 @@ public class MenuController {
 
     @FXML
     public void clickChange() {
-        // TODO
         screen.getControlsScreen();
     }
 
@@ -130,5 +131,19 @@ public class MenuController {
         unHighlightElement(quit);
     }
 
+    @FXML
+    public void clickTexture() {
+        screen.openTextureScreen();
+    }
+    
+    @FXML
+    public void hoverTexture() {
+        highlightElement(texturePack);
+    }
+
+    @FXML
+    public void unHoverTexture() {
+        unHighlightElement(texturePack);
+    }
 
 }
