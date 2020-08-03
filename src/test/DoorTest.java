@@ -19,11 +19,12 @@ public class DoorTest {
 
         // Test Setup
         Dungeon d = new Dungeon (5, 5);
-        Key key1 = new Key(4, 3);
+        Key key1 = new Key(4, 3, 1);
         d.addEntity(key1);
-        Door door1 = new Door(2, 3, key1);
+        Door door1 = new Door(2, 3, 1);
         d.addEntity(door1);
-        key1.setDoor(door1);
+        key1.linkDoor(door1);
+        door1.linkKey(key1);
         Player p1 = new Player(d, 1, 1);
         d.setPlayer(p1);
         Enemy enemy1 = new Enemy(2, 2, d);
@@ -62,18 +63,15 @@ public class DoorTest {
         assertEquals(door1, d.getTopmostEntity(2, 3));
 
         // Player strikes locked door with sword
-        p1.addToInventory(sword);
+        sword.pickup(p1);
 
-        assertEquals(true, p1.contains(sword));
+        assertEquals(true, p1.isHoldingInstance(sword));
         boulder1.destroy();
         p1.moveLeft();
         p1.attack();
         
         assertEquals(p1, d.getTopmostEntity(3, 3));
         assertEquals(door1, d.getTopmostEntity(2, 3));
-        
-        // Player collides with locked door while invincible
-        // TODO
 
     }
     @Test
@@ -81,11 +79,12 @@ public class DoorTest {
         //TODO remove prints
         // Test Setup 
         Dungeon d = new Dungeon (5, 5);
-        Key key1 = new Key(4, 3);
+        Key key1 = new Key(4, 3, 1);
         d.addEntity(key1);
-        Door door1 = new Door(2, 3, key1);
+        Door door1 = new Door(2, 3, 1);
         d.addEntity(door1);
-        key1.setDoor(door1);
+        key1.linkDoor(door1);
+        door1.linkKey(key1);
         Player p1 = new Player(d, 1, 1);
         d.setPlayer(p1);
         Enemy enemy1 = new Enemy(2, 2, d);
@@ -111,6 +110,7 @@ public class DoorTest {
         assertEquals(3, door1.getY());
 
         // Player pushes boulder through unlocked door
+        d.printDungeon();
         p1.moveRight();
         p1.moveRight();
         boulder1.move(3, 3);
@@ -126,27 +126,26 @@ public class DoorTest {
         p1.moveLeft();
         d.printDungeon();
 
-        assertEquals(p1, d.getTopmostEntity(2, 3));
+        assertEquals(p1, d.getTopmostEntity(3, 3));
 
         p1.moveDown();
         enemy1.chasePlayer();
         d.printDungeon();
 
-        assertEquals(enemy1, d.getTopmostEntity(2, 3));
+        assertEquals(enemy1, d.getTopmostEntity(2, 2));
 
+        p1.move(3, 2);
         enemy1.chasePlayer();
         d.printDungeon();
         assertEquals(null, d.getPlayer());
-        assertEquals(enemy1, d.getTopmostEntity(2, 4));
+        assertEquals(enemy1, d.getTopmostEntity(3, 2));
     }
 
     @Test
     public void testEquals() {
-        Key k = new Key(3, 3);
-        Door d = new Door(1, 1, k);
+        Door d = new Door(1, 1, 1);
         assertEquals(false, d.equals(null));
-        Key k1 = new Key(4,4);
-        Door d2 = new Door(1,1,k1);
+        Door d2 = new Door(1,1, 1);
         assertEquals(true, d.equals(d2));
     }
 

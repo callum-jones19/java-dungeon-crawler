@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import unsw.dungeon.Dungeon;
-import unsw.dungeon.DungeonState;
 import unsw.dungeon.Enemy;
 import unsw.dungeon.Player;
 
@@ -20,16 +19,33 @@ public class EnemyTest {
         Player p = new Player(d, 6, 1);
         d.setPlayer(p);
 
-        DungeonState ds = new DungeonState(d);
+        d.printDungeon();
         // Run the actual game logic loop for 1 second.
-        ds.run(1);
+        e.update(1);
+        d.printDungeon();
 
         // Check it moves at least once due to the update() function.
-        assertEquals(2, e.getX());
+        assertEquals(1, e.getX());
         assertEquals(1, e.getY());
 
         // Now check it moves repeatedly.
-        ds.run(10);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        e.update(100);
+        d.printDungeon();
 
         assertEquals(null, d.getPlayer());
 

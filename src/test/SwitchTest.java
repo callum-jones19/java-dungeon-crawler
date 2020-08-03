@@ -64,6 +64,8 @@ public class SwitchTest {
 
         // Player does NOT activate switch by moving onto it
         player.moveDown();
+        player.moveDown();
+        player.moveDown();
         assertEquals(player, dungeon.getTopmostEntity(4, 5));
         assertEquals(false, f1.isActive());
 
