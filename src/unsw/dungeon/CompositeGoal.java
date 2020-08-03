@@ -137,5 +137,17 @@ public class CompositeGoal implements GoalObserver, GoalObserverParent {
         }
     }
 
+    @Override
+    public String getGoalString() {
+        String retString = "";
+        for (int i = 0; i < childGoals.size(); i++) {
+            retString += childGoals.get(i).getGoalString();
+            if (i + 1 == childGoals.size()) break;
+            retString += (isCompulsoryConjunction() ? " AND " : " OR ");
+        }
+
+        return retString;
+    }
+
 
 }

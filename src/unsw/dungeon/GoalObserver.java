@@ -8,6 +8,7 @@ public interface GoalObserver {
     boolean isComplete();
     void setParent(GoalObserverParent parent);
     List<Entity> getGoalEntities();
+    String getGoalString();
     Boolean hasParent();
     void markVoid();
     boolean isVoid();

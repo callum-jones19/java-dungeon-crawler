@@ -86,5 +86,10 @@ public class TreasureGoal implements GoalObserver, GoalObserverChild {
     public void markVoid() {
         this.isVoid = true;
     }
+
+    @Override
+    public String getGoalString() {
+        return "Collect all treasure";
+    }
     
 }

@@ -88,5 +88,10 @@ public class EnemyGoal implements GoalObserver, GoalObserverChild {
     public void markVoid() {
         this.isVoid = true;
     }
+
+    @Override
+    public String getGoalString() {
+        return "Slay all enemies";
+    }
     
 }

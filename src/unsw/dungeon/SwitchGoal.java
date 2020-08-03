@@ -96,4 +96,9 @@ public class SwitchGoal implements GoalObserver, GoalObserverChild {
     public void markVoid() {
         this.isVoid = true;
     }
+
+    @Override
+    public String getGoalString() {
+        return "Place boulders on switches";
+    }
 }

@@ -52,6 +52,8 @@ public class DungeonController {
     private GridPane inventoryGrid;
     @FXML 
     private GridPane goalsGrid;
+    @FXML 
+    private Label goalString;
     @FXML
     private Rectangle invBack;
     @FXML
@@ -263,6 +265,7 @@ public class DungeonController {
     private void renderUI() {
         renderInventory();
         renderGoals();
+        renderGoalString();
 
     }
 
@@ -346,6 +349,12 @@ public class DungeonController {
             placementCounter++;            
 
         }
+    }
+
+    private void renderGoalString() {
+        String goalString = dungeon.getGoalString();
+        this.goalString.setText(goalString + "!");
+        this.goalString.setStyle("-fx-font-weight: bold");
     }
 
     /**

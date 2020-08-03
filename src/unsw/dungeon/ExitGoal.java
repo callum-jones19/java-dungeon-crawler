@@ -96,5 +96,10 @@ public class ExitGoal implements GoalObserver, GoalObserverChild {
         this.isVoid = true;
     }
 
+    @Override
+    public String getGoalString() {
+        return "Reach an exit";
+    }
+
     
 }

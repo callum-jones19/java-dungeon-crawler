@@ -323,7 +323,11 @@ public class Dungeon implements DestroyObserver {
 
 	public HashMap<GoalObserver, Integer> getGoalInfo() {
 		return this.startingGoalInformation;
-	}
+    }
+    
+    public String getGoalString() {
+        return this.goal.getGoalString();
+    }
 
 
 }

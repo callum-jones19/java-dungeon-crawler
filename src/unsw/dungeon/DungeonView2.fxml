@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -11,14 +12,15 @@
 
 <VBox fx:id="appPane" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyPress" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.4" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <StackPane layoutX="110.0" layoutY="473.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="400.0">
+      <Label fx:id="goalString" text="GOAL: Kill all enemies AND collect all treasure AND place boulders on switches OR reach an exit" textFill="#f5f5f5" />
+      <StackPane layoutX="110.0" layoutY="473.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="400.0">
          <children>
-            <Rectangle fx:id="goalBack" fill="#bf8037" height="75.0" smooth="false" stroke="BLACK" width="600.0">
+            <Rectangle fx:id="goalBack" fill="#bf8037" height="96.0" smooth="false" stroke="BLACK" width="601.0">
                <effect>
                   <DropShadow height="13.59" radius="6.665" width="15.07" />
                </effect>
             </Rectangle>
-            <GridPane fx:id="goalsGrid" alignment="CENTER" minWidth="-Infinity" prefWidth="600.0" StackPane.alignment="CENTER">
+            <GridPane fx:id="goalsGrid" alignment="CENTER" minWidth="-Infinity" prefHeight="86.0" prefWidth="601.0" StackPane.alignment="CENTER">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
