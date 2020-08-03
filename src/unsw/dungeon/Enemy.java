@@ -31,6 +31,8 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
     }
 
     public void update(double deltaTime) {
+        if (dungeon.getPlayer() == null) return;
+
         if (timeUntilNextMove <= 0) {
             chasePlayer();
             timeUntilNextMove = 1.0;
