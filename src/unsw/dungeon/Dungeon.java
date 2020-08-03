@@ -358,12 +358,20 @@ public class Dungeon implements DestroyObserver {
     }
 
     public void linkEntrances(EntryObserver o) {
+        for (DungeonEntry e : getEntries()) {
+            EntrySubject s = (EntrySubject) e;
+            s.addEntryObserver(o);
+        }
+    }
+
+    public List<DungeonEntry> getEntries() {
+        List<DungeonEntry> tmp = new ArrayList<DungeonEntry>();
         for (Entity e : entities) {
-            if(e instanceof DungeonEntry) {
-                EntrySubject s = (EntrySubject) e;
-                s.addEntryObserver(o);
+            if (e instanceof DungeonEntry) {
+                tmp.add((DungeonEntry) e);
             }
         }
+        return tmp;
     }
 
 }
