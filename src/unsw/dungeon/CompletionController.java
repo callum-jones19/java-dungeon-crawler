@@ -1,10 +1,14 @@
 package unsw.dungeon;
 
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+
+import javax.swing.JFileChooser;
+
+import java.awt.Component;
+import java.io.File;
 
 public class CompletionController {
 
@@ -63,12 +67,21 @@ public class CompletionController {
 
     @FXML 
     public void returnToLobby() {
-        // TODO
+        screen.returnToLobbyScreen();
     }
 
     @FXML
     public void loadLevel() {
-        // TODO
+        JFileChooser fileBrowser = new JFileChooser();
+        int response = fileBrowser.showOpenDialog(null);
+
+        String filePath = "";
+        if (response == JFileChooser.APPROVE_OPTION) {
+            filePath = fileBrowser.getSelectedFile().getAbsolutePath();
+        }
+
+        screen.loadNewLevel(filePath);
+
     }
 
     @FXML

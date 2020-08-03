@@ -7,6 +7,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Loads a dungeon from a .json file.
  *
@@ -21,7 +24,15 @@ public abstract class DungeonLoader {
     private JSONObject json;
 
     public DungeonLoader(String filename) throws FileNotFoundException {
-        json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
+        String pathPattern = "/";
+        Pattern pathPatternCompiled = Pattern.compile(pathPattern);
+
+        Matcher m = pathPatternCompiled.matcher(filename);
+        if (m.find()) {
+            json = new JSONObject(new JSONTokener(new FileReader(filename)));
+        } else {
+            json = new JSONObject(new JSONTokener(new FileReader("dungeons/" + filename)));
+        }
     }
 
     /**

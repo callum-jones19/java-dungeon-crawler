@@ -43,12 +43,25 @@ public class CompletionScreen implements GameScreen {
         stage.show();
     }
 
-    public void returnToLobby() {
-        // TODO
+    public void loadNewLevel(String filePath) {
+        try {
+            gm.loadNewDungeonState(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        gm.setScreenState(gm.getLoadedDungeonState());
+
+    }
+
+    public void returnToLobbyScreen() {
+        gm.loadLobbyState();
+        gm.setScreenState(gm.getLoadedDungeonState());
     }
 
     public void closeApplication() {
         stage.close();
     }
+
     
 }

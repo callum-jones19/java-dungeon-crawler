@@ -24,7 +24,7 @@ public class DungeonScreen implements GameScreen {
         // Initialise the dungeon controller for the particular dungeon file
         // entered.
         controller = new DungeonController(l, this);
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView2.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("DungeonView3.fxml"));
         loader.setController(controller);
 
         // Set the scene title.
