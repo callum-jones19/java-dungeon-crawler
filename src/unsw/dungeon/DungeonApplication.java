@@ -9,6 +9,7 @@ public class DungeonApplication extends Application {
 
     public static final int APP_HEIGHT = 600;
     public static final int APP_WIDTH = 600;
+    public static final String CONFIG = "config.txt";
 
     @Override
     public void start(Stage primaryStage) throws IOException {
