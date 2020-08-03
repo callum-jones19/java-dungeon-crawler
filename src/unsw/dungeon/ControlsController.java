@@ -22,7 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class ControlsController {
+public class ControlsController implements IHighlighter {
 
     @FXML
     private GridPane movementGrid;
@@ -163,16 +163,6 @@ public class ControlsController {
     @FXML 
     public void unHoverAttack() {
         unhighlightElement(attackLabel);
-    }
-
-    private void highlightElement(Label target) {
-        target.setTextFill(Color.HOTPINK);
-        target.setStyle("-fx-font-weight: bold");
-    }
-
-    private void unhighlightElement(Label target) {
-        target.setTextFill(Color.BLACK);
-        target.setStyle("-fx-font-weight: regular");
     }
 
     public HashMap<String, String> getCurrentKeys() {

@@ -389,6 +389,7 @@ public class DungeonController implements EntryObserver {
         }
 
         HashMap<GoalObserver, Integer> goalInfo = dungeon.getGoalInfo();
+        if (goalInfo == null) return;
 
         for (GoalObserver g: goalInfo.keySet()) {
             ImageView goalImage;
@@ -435,7 +436,11 @@ public class DungeonController implements EntryObserver {
 
     private void renderGoalString() {
         String goalString = dungeon.getGoalString();
-        this.goalString.setText(goalString + "!");
+        if (goalString == null) {
+            this.goalString.setText("No goals for this level");
+        } else {
+            this.goalString.setText(goalString + "!");
+        }
         this.goalString.setStyle("-fx-font-weight: bold");
     }
 

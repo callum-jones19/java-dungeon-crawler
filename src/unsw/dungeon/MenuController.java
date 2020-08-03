@@ -7,7 +7,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class MenuController {
+public class MenuController implements IHighlighter {
  
     @FXML
     private VBox menuBox;
@@ -34,18 +34,6 @@ public class MenuController {
         
     }
 
- 
-
-    private void highlightElement(Label target) {
-        target.setTextFill(Color.HOTPINK);
-        target.setStyle("-fx-font-weight: bold");
-    }
-
-    private void unHighlightElement(Label target) {
-        target.setTextFill(Color.BLACK);
-        target.setStyle("-fx-font-weight: regular");
-    }
-
     // Use this to escape out of the menu with ESC
     @FXML
     public void handleKeyPress(KeyEvent event) {
@@ -66,7 +54,7 @@ public class MenuController {
 
     @FXML
     public void unHoverResume() {
-        unHighlightElement(resume);
+        unhighlightElement(resume);
     }
 
     @FXML
@@ -81,7 +69,7 @@ public class MenuController {
 
     @FXML
     public void unHoverRestart() {
-        unHighlightElement(restart);
+        unhighlightElement(restart);
     }
 
     @FXML
@@ -97,7 +85,7 @@ public class MenuController {
     
     @FXML
     public void unHoverChange() {
-        unHighlightElement(controls);
+        unhighlightElement(controls);
     }
 
     @FXML
@@ -112,7 +100,7 @@ public class MenuController {
 
     @FXML
     public void unHoverLobby() {
-        unHighlightElement(lobby);
+        unhighlightElement(lobby);
     }
 
     @FXML
@@ -127,7 +115,7 @@ public class MenuController {
 
     @FXML
     public void unHoverQuit() {
-        unHighlightElement(quit);
+        unhighlightElement(quit);
     }
 
 

@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 
-public class DeathController {
+public class DeathController implements IHighlighter {
 
     @FXML 
     private VBox optionBox;
@@ -35,7 +35,7 @@ public class DeathController {
 
     @FXML 
     public void unhoverPlay() {
-        unHighlightElement(playAgainBtn);
+        unhighlightElement(playAgainBtn);
     }
 
     @FXML 
@@ -45,7 +45,7 @@ public class DeathController {
 
     @FXML 
     public void unhoverQuit() {
-        unHighlightElement(quitGameBtn);
+        unhighlightElement(quitGameBtn);
     }
 
     @FXML 
@@ -56,16 +56,6 @@ public class DeathController {
     @FXML 
     public void clickQuit() {
         deathScreen.closeApplication();
-    }
-
-    private void highlightElement(Label target) {
-        target.setTextFill(Color.HOTPINK);
-        target.setStyle("-fx-font-weight: bold");
-    }
-
-    private void unHighlightElement(Label target) {
-        target.setTextFill(Color.BLACK);
-        target.setStyle("-fx-font-weight: regular");
     }
     
 }

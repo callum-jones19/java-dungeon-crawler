@@ -7,10 +7,10 @@ import javafx.scene.paint.Color;
 
 import javax.swing.JFileChooser;
 
-import java.awt.Component;
+
 import java.io.File;
 
-public class CompletionController {
+public class CompletionController implements IHighlighter {
 
     @FXML 
     private Label lobbyBtn;
@@ -23,16 +23,6 @@ public class CompletionController {
 
     public CompletionController(CompletionScreen screen) {
         this.screen = screen;
-    }
-
-    private void highlightElement(Label target) {
-        target.setTextFill(Color.HOTPINK);
-        target.setStyle("-fx-font-weight: bold");
-    }
-
-    private void unHighlightElement(Label target) {
-        target.setTextFill(Color.BLACK);
-        target.setStyle("-fx-font-weight: regular");
     }
 
     @FXML 
@@ -52,17 +42,17 @@ public class CompletionController {
 
     @FXML 
     public void unHoverLobby() {
-        unHighlightElement(lobbyBtn);
+        unhighlightElement(lobbyBtn);
     }
 
     @FXML
     public void unHoverLevel() {
-        unHighlightElement(loadLevelBtn);
+        unhighlightElement(loadLevelBtn);
     }
 
     @FXML 
     public void unHoverQuit() {
-        unHighlightElement(quitGameBtn);
+        unhighlightElement(quitGameBtn);
     }
 
     @FXML 
@@ -78,6 +68,8 @@ public class CompletionController {
         String filePath = "";
         if (response == JFileChooser.APPROVE_OPTION) {
             filePath = fileBrowser.getSelectedFile().getAbsolutePath();
+        } else {
+            return;
         }
 
         screen.loadNewLevel(filePath);

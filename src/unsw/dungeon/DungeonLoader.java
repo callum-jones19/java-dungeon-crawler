@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -46,21 +47,27 @@ public abstract class DungeonLoader {
         Dungeon dungeon = new Dungeon(width, height);
 
         JSONArray jsonEntities = json.getJSONArray("entities");
-        JSONObject goals = json.getJSONObject("goal-condition");
-
-        loadGoals(dungeon, goals);
+        try {
+            JSONObject goals = json.getJSONObject("goal-condition");
+            loadGoals(dungeon, goals);
+        } catch (JSONException e) {
+            // do nothing
+        }
 
         for (int i = 0; i < jsonEntities.length(); i++) {
             loadEntity(dungeon, jsonEntities.getJSONObject(i));
         }
 
         dungeon.initialiseGoalInfo();
+        dungeon.activateSwitches();
 
         return dungeon;
     }
 
     private void loadGoals(Dungeon dungeon, JSONObject goals) {
         
+        if (goals == null) return;
+
         String goal = goals.getString("goal");
         GoalObserverParent currGoal = (GoalObserverParent) dungeon.getCompositeGoal();
         if (!goal.equals("AND") && !goal.equals("OR")) {

@@ -41,6 +41,8 @@ public class CompletionScreen implements GameScreen {
         stage.setTitle(title);
         scene.getRoot().requestFocus();
         stage.show();
+        stage.setMaximized(false);
+        stage.setMaximized(true);
     }
 
     public void loadNewLevel(String filePath) {

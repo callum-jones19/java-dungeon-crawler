@@ -306,17 +306,23 @@ public class Dungeon implements DestroyObserver {
     }
 
     public List<GoalObserver> getGoals() {
+        if (this.goal == null) return null;
         return this.goal.getGoal();
     }
 
     public void initialiseGoalInfo() {
         List<GoalObserver> goals = getGoals();
+        if (goals == null) {
+            this.startingGoalInformation = null;
+            return;
+        }
         for (GoalObserver g: goals) {
             this.startingGoalInformation.put(g, g.getGoalEntities().size());
         }
     }
 
     public boolean isComplete() {
+        if (this.goal == null) return false;
         return this.goal.isComplete();
     }
 
@@ -354,6 +360,7 @@ public class Dungeon implements DestroyObserver {
     }
     
     public String getGoalString() {
+        if (this.goal == null) return null;
         return this.goal.getGoalString();
     }
 
@@ -372,6 +379,15 @@ public class Dungeon implements DestroyObserver {
             }
         }
         return tmp;
+    }
+
+    public void activateSwitches() {
+        for (Entity e: entities) {
+            if (e instanceof Boulder) {
+                Boulder b = (Boulder) e;
+                b.notifyBoulderObservers();
+            }
+        }
     }
 
 }
