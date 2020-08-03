@@ -3,6 +3,7 @@
  */
 package unsw.dungeon;
 
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -326,6 +327,15 @@ public class Dungeon implements DestroyObserver {
         }
         
         return answer;
-	}
+    }
+    
+    public void linkEntrances(EntryObserver o) {
+        for (Entity e : entities) {
+            if(e instanceof DungeonEntry) {
+                EntrySubject s = (EntrySubject) e;
+                s.addEntryObserver(o);
+            }
+        }
+    }
 
 }

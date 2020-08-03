@@ -128,6 +128,11 @@ public abstract class DungeonLoader {
             }
             entity = k;
             break;
+        case "dungeonEntry":
+            String dungeonFile = json.getString("dungeonFile");
+            DungeonEntry de = new DungeonEntry(x, y, dungeonFile);
+            onLoad(de);
+            entity = de;
         }
         dungeon.addEntity(entity);
     }
@@ -155,6 +160,8 @@ public abstract class DungeonLoader {
     public abstract void onLoad(Portal portal);
 
     public abstract void onLoad(Treasure treasure);
+
+    public abstract void onLoad(DungeonEntry entry);
 
 
 }

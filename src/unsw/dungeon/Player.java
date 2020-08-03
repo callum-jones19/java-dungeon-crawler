@@ -21,7 +21,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
     private PlayerOrientation leftOrientation;
     private PlayerOrientation rightOrientation;
 
-    private PlayerOrientation orientation = rightOrientation;
+    private PlayerOrientation orientation = downwardsOrientation;
 
 
     private VulnerableCollision vulnerableStrategy;

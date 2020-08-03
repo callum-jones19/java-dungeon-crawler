@@ -14,7 +14,7 @@ public class MenuScreen implements GameScreen {
     private MenuController controller;
     private Scene scene;
 
-    GameScreenManager gm;
+    private GameScreenManager gm;
 
     public MenuScreen (Stage stage, GameScreenManager gm) throws IOException {
         // Set a reference to the primary window to draw to.
@@ -48,10 +48,15 @@ public class MenuScreen implements GameScreen {
     }
 
     public void returnToDungeonScreen() {
-        gm.setActiveScreen(gm.getDungeonState());
+        gm.setScreenState(gm.getLoadedDungeonState());
     }
 
     public void closeApplication() {
         stage.close();
+    }
+
+    public void returnToLobbyScreen() {
+        gm.loadLobbyState();
+        gm.setScreenState(gm.getLoadedDungeonState());
     }
 }

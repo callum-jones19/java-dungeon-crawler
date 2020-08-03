@@ -13,7 +13,7 @@ public class DungeonApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         GameScreenManager gm = new GameScreenManager(primaryStage);
-        gm.loadNewDungeon("advanced.json");
+        gm.loadGame();
     }
 
     public static void main(String[] args) {

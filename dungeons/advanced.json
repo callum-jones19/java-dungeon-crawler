@@ -383,9 +383,64 @@
       "type": "treasure"
     },
     {
+      "x": 8,
+      "y": 10,
+      "type": "treasure"
+    },
+    {
+      "x": 9,
+      "y": 10,
+      "type": "treasure"
+    },
+    {
+      "x": 10,
+      "y": 10,
+      "type": "treasure"
+    },
+    {
       "x": 11,
       "y": 10,
       "type": "invincibility"
+    },
+    {
+      "x": 12,
+      "y": 10,
+      "type": "treasure"
+    },
+    {
+      "x": 13,
+      "y": 10,
+      "type": "treasure"
+    },
+    {
+      "x": 14,
+      "y": 10,
+      "type": "treasure"
+    },
+    {
+      "x": 15,
+      "y": 10,
+      "type": "treasure"
+    },
+    {
+      "x": 16,
+      "y": 10,
+      "type": "treasure"
+    },
+    {
+      "x": 16,
+      "y": 11,
+      "type": "treasure"
+    },
+    {
+      "x": 16,
+      "y": 12,
+      "type": "treasure"
+    },
+    {
+      "x": 16,
+      "y": 13,
+      "type": "treasure"
     },
     {
       "x": 17,
