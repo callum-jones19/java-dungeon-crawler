@@ -17,13 +17,13 @@ public class GameScreenManager {
     private GameScreen currentScreenState;
     
     private GameScreen pausedState;
-    private GameScreen dungeonState;
     private GameScreen deathState;
     private GameScreen controlsState;
     private GameScreen completedState;
     private GameScreen loadedDungeonState;
 
-    private String currentDungeon = null;
+    private String currentDungeonFile = null;
+
 
     public GameScreenManager(Stage stage) {
         this.primaryStage = stage;
@@ -65,6 +65,7 @@ public class GameScreenManager {
         DungeonControllerLoader loader = new DungeonControllerLoader(fileName);
         DungeonScreen tmp = new DungeonScreen(primaryStage, this, loader);
         loadedDungeonState = tmp;
+        currentDungeonFile = fileName;
     }
     
     // Load the lobby level 
@@ -105,8 +106,8 @@ public class GameScreenManager {
         return completedState;
     }
 
-    public String getCurrentDungeon() {
-        return currentDungeon;
+    public String getCurrentDungeonFile() {
+        return currentDungeonFile;
     }
 
     public void refreshKeys() {

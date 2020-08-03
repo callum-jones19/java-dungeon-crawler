@@ -53,7 +53,7 @@ public class MenuScreen implements GameScreen {
 
     public void restartLevel() {
         try {
-            gm.loadNewDungeonState(gm.getCurrentDungeon());
+            gm.loadNewDungeonState(gm.getCurrentDungeonFile());
         } catch (IOException e) {
             e.printStackTrace();
         }

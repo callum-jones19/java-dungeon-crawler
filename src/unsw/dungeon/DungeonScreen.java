@@ -67,6 +67,7 @@ public class DungeonScreen implements GameScreen {
     public void refreshKeys() {
         controller.refreshKeys();
     }
+    
     public void openNewDungeon(String fileName) {
         try {
             gm.loadNewDungeonState(fileName);
