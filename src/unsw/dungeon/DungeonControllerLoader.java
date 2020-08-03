@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -23,8 +24,10 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     // Images
     private Image groundImage;
-    private Image playerImage;
-    private Image playerInvincibleImage;
+    private Image playerUpImage;
+    private Image playerDownImage;
+    private Image playerRightImage;
+    private Image playerLeftImage;
     private Image wallImage;
     private Image exitImage;
     private Image doorImage;
@@ -40,17 +43,23 @@ public class DungeonControllerLoader extends DungeonLoader {
     private Image treasureImage;
     private Image entryImage;
 
+    // This stops us loading in a new imageView each time the player moves.
+    private HashMap<String, ImageView> playerTexCache;
+
     public DungeonControllerLoader(String filename) throws FileNotFoundException {
         super(filename);
         entityTextures = new HashMap<Entity, ImageView>();
+        this.playerTexCache = new HashMap<String, ImageView>();
 
         loadTextures();
     }
 
     public void loadTextures() {
         groundImage = new Image((new File("images/ground.png")).toURI().toString());
-        playerImage = new Image((new File("images/player.png")).toURI().toString());
-        playerInvincibleImage = new Image((new File("images/player_invinc.png")).toURI().toString());
+        playerUpImage = new Image((new File("images/player_up.png")).toURI().toString());
+        playerRightImage = new Image((new File("images/player_right.png")).toURI().toString());
+        playerDownImage = new Image((new File("images/player_down.png")).toURI().toString());
+        playerLeftImage = new Image((new File("images/player_left.png")).toURI().toString());
         wallImage = new Image((new File("images/wall.png")).toURI().toString());
         exitImage = new Image((new File("images/exit.png")).toURI().toString());
         doorImage = new Image((new File("images/closed_door.png")).toURI().toString());
@@ -69,9 +78,34 @@ public class DungeonControllerLoader extends DungeonLoader {
 
     @Override
     public void onLoad(Player player) {
-        ImageView view = new ImageView(playerImage);
+        loadPlayerTextureCache();
+        ImageView view = getPlayerDownView();
         addEntity(player, view);
         trackPlayerInvincState(player);
+        trackPlayerOrientation(player);
+    }
+
+    private ImageView getPlayerDownView() {
+        return this.playerTexCache.get("down");
+    }
+
+    private ImageView getPlayerUpView() {
+        return this.playerTexCache.get("up");
+    }
+    
+    private ImageView getPlayerRightView() {
+        return this.playerTexCache.get("right");
+    }
+
+    private ImageView getPlayerLeftView() {
+        return this.playerTexCache.get("left");
+    }
+    
+    private void loadPlayerTextureCache() {
+        playerTexCache.put("up", new ImageView(playerUpImage));
+        playerTexCache.put("down", new ImageView(playerDownImage));
+        playerTexCache.put("right",  new ImageView(playerRightImage));
+        playerTexCache.put("left", new ImageView(playerLeftImage));
     }
 
     @Override
@@ -152,9 +186,6 @@ public class DungeonControllerLoader extends DungeonLoader {
     public void onLoad(DungeonEntry entry) {
         ImageView view = new ImageView(entryImage);
         addEntity(entry, view);
-
-        // TODO link observer
-        
     }
 
     private void trackPlayerInvincState(Player p) {
@@ -163,10 +194,10 @@ public class DungeonControllerLoader extends DungeonLoader {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 // This will run when the player is made invincible.
-                if (newValue == true) {
-                    setEntityTexture(p, playerInvincibleImage);
+                if (newValue == false) {
+                    removePlayerInvincEffect();
                 } else {
-                    setEntityTexture(p, playerImage);
+                    applyPlayerInvincEffect();
                 }
             }
         });
@@ -202,6 +233,36 @@ public class DungeonControllerLoader extends DungeonLoader {
         });
     }
 
+    public void trackPlayerOrientation(Player p) {
+        p.x().addListener(new ChangeListener<Number>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Moved right, update sprite.
+                    setEntityTexture(p, getPlayerRightView());
+                } else {
+                    // Moved left
+                    setEntityTexture(p, getPlayerLeftView());
+                }
+            }    
+        });
+
+        p.y().addListener(new ChangeListener<Number>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number newValue, Number oldValue) {
+                if (newValue.intValue() > oldValue.intValue()) {
+                    // Moved up
+                    setEntityTexture(p, getPlayerUpView());
+                } else {
+                    setEntityTexture(p, getPlayerDownView());
+                }
+
+            }
+            
+        });
+    }
 
     /**
      * Link the entityImage and the entity's location together
@@ -218,6 +279,26 @@ public class DungeonControllerLoader extends DungeonLoader {
         ImageView newT = new ImageView(newTexture);
         if (entityTextures.containsKey(e)) {
             entityTextures.put(e, newT);
+        }
+    }
+
+    public void setEntityTexture(Entity e, ImageView newView) {
+        if (entityTextures.containsKey(e)) {
+            entityTextures.put(e, newView);
+        }
+    }
+
+    private void applyPlayerInvincEffect() {
+        for (ImageView i : playerTexCache.values()) {
+            Glow g = new Glow();
+            g.setLevel(5);
+            i.setEffect(g);
+        }
+    }
+
+    private void removePlayerInvincEffect() {
+        for (ImageView i : playerTexCache.values()) {
+            i.setEffect(null);
         }
     }
 
