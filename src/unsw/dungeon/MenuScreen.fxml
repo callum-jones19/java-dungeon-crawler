@@ -10,6 +10,11 @@
          <font>
             <Font size="17.0" />
          </font></Label>
+      <Label fx:id="howTo" onMouseClicked="#clickHow" onMouseEntered="#hoverHow" onMouseExited="#unHoverHow" text="How to Play">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
       <Label fx:id="controls" onMouseClicked="#clickChange" onMouseEntered="#hoverChange" onMouseExited="#unHoverChange" text="Change Controls">
          <font>
             <Font size="17.0" />

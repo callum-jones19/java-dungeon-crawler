@@ -80,4 +80,12 @@ public class MenuScreen implements GameScreen {
             e.printStackTrace();
         }
     }
+
+	public void openHowToScreen() {
+        try {
+            gm.setScreenState(new TutorialScreen(stage, gm));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 }

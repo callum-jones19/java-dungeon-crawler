@@ -24,6 +24,8 @@ public class MenuController {
     private Label quit;
     @FXML
     private Label texturePack;
+    @FXML
+    private Label howTo;
 
     private MenuScreen screen;
 
@@ -144,6 +146,21 @@ public class MenuController {
     @FXML
     public void unHoverTexture() {
         unHighlightElement(texturePack);
+    }
+    
+    @FXML
+    public void clickHow() {
+        screen.openHowToScreen();
+    }
+
+    @FXML
+    public void hoverHow() {
+        highlightElement(howTo);
+    }
+
+    @FXML
+    public void unHoverHow() {
+        unHighlightElement(howTo);
     }
 
 }
