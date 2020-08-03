@@ -133,7 +133,7 @@ public class MenuController implements IHighlighter {
 
     @FXML
     public void unHoverTexture() {
-        unHighlightElement(texturePack);
+        unhighlightElement(texturePack);
     }
     
     @FXML
@@ -148,7 +148,7 @@ public class MenuController implements IHighlighter {
 
     @FXML
     public void unHoverHow() {
-        unHighlightElement(howTo);
+        unhighlightElement(howTo);
     }
 
 }
