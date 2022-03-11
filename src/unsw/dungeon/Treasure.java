@@ -9,7 +9,7 @@ public class Treasure extends Entity implements Item, Goal {
     private List<GoalObserver> goalObservers = new ArrayList<GoalObserver>();
 
     public Treasure(int x, int y) {
-        super(x, y);
+        super(x, y, ZLayer.ITEM);
         this.collectionStrategy = new CollectCollision(this);
         super.setCollisionBehaviour(collectionStrategy);
     }
@@ -42,16 +42,12 @@ public class Treasure extends Entity implements Item, Goal {
 
     }
 
-    public void pickup(Entity e) {
-        if (e instanceof Player) {
-            Player p = (Player) e;
-            p.addToInventory(this);
-            if (p.isHoldingInstance(this)) {
-                notifyGoalObservers();
-                destroy();
-            }
-               
-        }
+    public void pickup(Player p) {
+        p.attemptAddToInventory(this);
+        if (p.isHoldingInstance(this)) {
+            notifyGoalObservers();
+            destroy();
+        }      
     }
 
     public void notifyGoalObservers() {

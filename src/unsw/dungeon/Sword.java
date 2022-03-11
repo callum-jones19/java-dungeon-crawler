@@ -7,7 +7,7 @@ public class Sword extends Entity implements Item, Weapon {
     private Player user;
 
     public Sword(int x, int y) {
-        super(x, y);
+        super(x, y, ZLayer.ITEM);
         super.setCollisionBehaviour(c);
         this.uses = 5;
     }
@@ -41,15 +41,16 @@ public class Sword extends Entity implements Item, Weapon {
         return true;
     }
 
-    public void pickup(Entity e) {
-        if (e instanceof Player) {
-            Player p = (Player) e;
-            p.addToInventory(this);
-            if (p.isHoldingInstance(this)) {
-                destroy();
-            }
-               
+    public void pickup(Player p) {
+        p.attemptAddToInventory(this);
+        if (p.isHoldingInstance(this)) {
+            setUser(p);
+            destroy();
         }
+    }
+
+    public int getUsesLeft() {
+        return this.uses;
     }
 
 }

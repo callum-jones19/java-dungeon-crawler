@@ -17,11 +17,11 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
     private double timeUntilNextMove;
 
     public Enemy (int x, int y, Dungeon d) {
-        super(x,y);
+        super(x, y, ZLayer.MOVEABLE);
         this.dungeon = d;
 
         vulnState = new VulnerableCollision(this);
-        attackState = new DamageCollision();
+        attackState = new DamageCollision(this);
 
         currentSearchStrat = new DirectSearch();
 
@@ -31,6 +31,8 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
     }
 
     public void update(double deltaTime) {
+        if (dungeon.getPlayer() == null) return;
+
         if (timeUntilNextMove <= 0) {
             chasePlayer();
             timeUntilNextMove = 1.0;
@@ -52,7 +54,7 @@ public class Enemy extends Entity implements IMoveable, IDamagable, IUpdateable,
     public void chasePlayer() {
         Coordinates targetLoc = currentSearchStrat.pathSearch(dungeon.getPlayerX(), dungeon.getPlayerY(), getX(), getY());
         move(targetLoc.getX(), targetLoc.getY());
-        dungeon.printDungeon();
+        //dungeon.printDungeon();
     }
 
     public void move(int x, int y) {

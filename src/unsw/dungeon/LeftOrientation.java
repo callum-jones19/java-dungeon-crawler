@@ -14,5 +14,6 @@ public class LeftOrientation implements PlayerOrientation {
         int attackY = parent.getY();
         int attackX = parent.getX() - 1;
         weapon.use(dungeon.getTopmostEntity(attackX, attackY));
+        System.out.println(dungeon.getTopmostEntity(attackX, attackY));
     }
 }

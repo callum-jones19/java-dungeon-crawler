@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="optionBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" spacing="5.0" style="-fx-background-color: #660000;" xmlns="http://javafx.com/javafx/11.0.4" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="You suffered a cruel and painful death! Would you like to try again?" textFill="WHITE">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="playAgainBtn" layoutX="10.0" layoutY="10.0" onMouseClicked="#playAgain" onMouseEntered="#hoverPlay" onMouseExited="#unhoverPlay" text="Play Again" textFill="WHITE" />
+      <Label fx:id="quitGameBtn" layoutX="10.0" layoutY="26.0" onMouseClicked="#clickQuit" onMouseEntered="#hoverQuit" onMouseExited="#unhoverQuit" text="Quit Game" textFill="WHITE" />
+   </children>
+</VBox>

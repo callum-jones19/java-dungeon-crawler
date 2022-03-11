@@ -4,10 +4,20 @@ public class Key extends Entity implements Item {
 
     private CollectCollision c = new CollectCollision(this);
     private Door door;
+    private int id;
     
-    public Key(int x, int y) {
-        super(x, y);
+    public Key(int x, int y, int id) {
+        super(x, y, ZLayer.ITEM);
         super.setCollisionBehaviour(c);
+        this.id = id;
+    }
+
+    public int getID() {
+        return this.id;
+    }
+
+    public void linkDoor(Door d) {
+        this.door = d;
     }
 
     public boolean checkItemType(Item i) {
@@ -23,19 +33,18 @@ public class Key extends Entity implements Item {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == null) return false;
-        if (this.getClass() != o.getClass()) {
-            return false;
-        }
-        Key s = (Key) o;
-        return (door.equals(s.door));
-    }
+    // @Override
+    // public boolean equals(Object o) {
+    //     if (o == null) return false;
+    //     if (this.getClass() != o.getClass()) {
+    //         return false;
+    //     }
+    //     Key s = (Key) o;
+    //     System.out.println("This key is " + id);
+    //     System.out.println("The other key is " + s.getID());
 
-    public void setDoor(Door door) {
-        this.door = door;
-    }
+    //     return true;
+    // }
 
     public boolean isUnique() {
         return true;
@@ -46,14 +55,12 @@ public class Key extends Entity implements Item {
     }
 
     @Override
-    public void pickup(Entity e) {
-        if (e instanceof Player) {
-            Player p = (Player) e;
-            p.addToInventory(this);
+    public void pickup(Player p) {
+        p.attemptAddToInventory(this);
+        if (p.isHoldingInstance(this)) {
+            // If they did actually pick it up.
             activate();
-            if (p.isHoldingInstance(this)) {
-                destroy();
-            }
+            destroy();
         }
 
     }

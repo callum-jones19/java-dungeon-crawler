@@ -17,6 +17,8 @@ public abstract class Entity implements DestroySubject{
     private Coordinates coords;
     private CollisionBehaviour collisionBehaviour;
 
+    private ZLayer layer;
+
     private List<DestroyObserver> observers;
 
     /**
@@ -24,10 +26,16 @@ public abstract class Entity implements DestroySubject{
      * @param x
      * @param y
      */
-    public Entity(int x, int y) {
+    public Entity(int x, int y, ZLayer layer) {
         coords = new Coordinates(x, y);
 
+        this.layer = layer;
+
         observers = new ArrayList<DestroyObserver>();
+    }
+
+    public ZLayer getLayer() {
+        return this.layer;
     }
 
     public void registerObserver(DestroyObserver o) {
@@ -90,4 +98,5 @@ public abstract class Entity implements DestroySubject{
     public void destroy() {
         notifyObservers();
     }
+
 }

@@ -28,5 +28,5 @@ public interface Item {
      * Function to run when an item is picked up.
      * @param e Entity that picks up the item.
      */
-    void pickup(Entity e);
+    void pickup(Player p);
 }

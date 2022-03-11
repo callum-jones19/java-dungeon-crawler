@@ -12,7 +12,7 @@ public class Boulder extends Entity implements IMoveable, BoulderSubject {
     private int lastY;
 
     public Boulder(Dungeon dungeon, int x, int y) {
-        super(x,y);
+        super(x,y, ZLayer.MOVEABLE);
         this.dungeon = dungeon;
         super.setCollisionBehaviour(collisionBehaviour);
     }

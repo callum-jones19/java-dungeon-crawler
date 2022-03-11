@@ -3,6 +3,9 @@ package unsw.dungeon;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 /**
  * The player entity
  * @author Robert Clifton-Everest
@@ -18,12 +21,12 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
     private PlayerOrientation leftOrientation;
     private PlayerOrientation rightOrientation;
 
-    private PlayerOrientation orientation = rightOrientation;
+    private PlayerOrientation orientation = downwardsOrientation;
 
 
     private VulnerableCollision vulnerableStrategy;
     private DamageCollision invincibleStrategy;
-    private boolean isInvincible;
+    private BooleanProperty isInvincible;
     private double invincTimeLeft;
 
     /**
@@ -32,7 +35,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
      * @param y
      */
     public Player(Dungeon dungeon, int x, int y) {
-        super(x, y);
+        super(x, y, ZLayer.MOVEABLE);
         super.setCollisionBehaviour(new StopCollision());
 
         this.dungeon = dungeon;
@@ -44,11 +47,11 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         rightOrientation = new RightOrientation(this, dungeon);
         
         vulnerableStrategy = new VulnerableCollision(this);
-        invincibleStrategy = new DamageCollision();
+        invincibleStrategy = new DamageCollision(this);
         
         setCollisionBehaviour(vulnerableStrategy);
         
-        this.isInvincible = false;
+        this.isInvincible = new SimpleBooleanProperty(false);
 
         this.dungeon = dungeon;
         this.inventory = new ArrayList<Item>();
@@ -57,7 +60,7 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
     }
 
     public void update(double deltaTime) {
-        if (isInvincible) {
+        if (isInvincible()) {
             if (invincTimeLeft >= 0) {
                 invincTimeLeft -= deltaTime;
             } else {
@@ -66,21 +69,26 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         }
     }
 
+    public BooleanProperty invincibilityProperty() {
+        return this.isInvincible;
+    }
+
+    // TODO maybe make observer for player invinc.
     public void makeInvincible() {
         setCollisionBehaviour(invincibleStrategy);
-        this.isInvincible = true;
+        this.isInvincible.setValue(true);
         this.invincTimeLeft = 10.0;
         dungeon.scareEnemies();
     }
 
     public void makeVulnerable() {
         setCollisionBehaviour(vulnerableStrategy);
-        this.isInvincible = false;
+        this.isInvincible.setValue(false);;
         dungeon.unScareEnemies();
     }
 
     public boolean isInvincible() {
-        return isInvincible;
+        return isInvincible.getValue();
     }
 
     public double getInvincTimeLeft() {
@@ -123,12 +131,13 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         setOrientation(rightOrientation);
     }
 
-    public void addToInventory(Item i) {
+    public void attemptAddToInventory(Item i) {
         if (!(i.isUnique())) {
             this.inventory.add(i);
         } else {
-            // check if we already have an instance of this type
-            if (!(contains(i))) {
+            // check if we already have an instance of this type, given it
+            // should be unique.
+            if (!(hasItemOfType(i))) {
                 this.inventory.add(i);
             }
         }
@@ -142,21 +151,12 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         this.orientation = o;
     }
 
-    public boolean contains(Item i) {
-        for (Item item: inventory) {
-            if (item.checkItemType(i)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
     public void attack() {
         if (hasWeapon()) {
             Weapon s = getWeapon();
             orientation.attack(s);
         }
+
     }
 
     public boolean hasWeapon() {
@@ -195,9 +195,17 @@ public class Player extends Entity implements IMoveable, IDamagable, IUpdateable
         this.inventory = newInventory;
     }
 
-    public Boolean isHoldingInstance(Item i) {
-        for (Item item: inventory) {
-            if (item.equals(i)) {
+    public boolean isHoldingInstance(Item i) {
+        if (inventory.contains(i)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean hasItemOfType(Item i) {
+        for (Item it : inventory) {
+            if (it.getClass() == i.getClass()) {
                 return true;
             }
         }

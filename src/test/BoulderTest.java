@@ -75,35 +75,46 @@ public class BoulderTest {
         player.move(3, 2);
         player.moveDown();
 
-        assertEquals(player, dungeon.getTopmostEntity(3, 3));
+        dungeon.printDungeon();
+
+        assertEquals(player, dungeon.getTopmostEntity(3, 2));
         assertEquals(boulder1, dungeon.getTopmostEntity(3, 4));
 
         // Test player pushing boulder into wall
         player.moveDown();
+        player.moveDown();
+
+        dungeon.printDungeon();
 
         assertEquals(player, dungeon.getTopmostEntity(3, 3));
         assertEquals(boulder1, dungeon.getTopmostEntity(3, 4));
 
         // Test player pushing boulder into boulder
-        player.move(2, 4);
+
         player.moveRight();
-        player.moveRight();
-        player.moveUp();
         player.moveRight();
         player.moveDown();
+        player.moveDown();
 
-        assertEquals(player, dungeon.getTopmostEntity(5, 3));
-        assertEquals(boulder1, dungeon.getTopmostEntity(5, 4));
+        dungeon.printDungeon();
+
+        assertEquals(player, dungeon.getTopmostEntity(5, 4));
         assertEquals(boulder2, dungeon.getTopmostEntity(5, 5));
         assertEquals(boulder3, dungeon.getTopmostEntity(5, 6));
 
         // Test player pushing boulder onto floor switch
         player.move(4, 6);
+        dungeon.printDungeon();
         player.moveRight();
         player.moveRight();
+        player.moveRight();
+        player.moveRight();
+        dungeon.printDungeon();
         player.moveUp();
         player.moveRight();
         player.moveDown();
+
+        dungeon.printDungeon();
 
         assertEquals(boulder3, dungeon.getTopmostEntity(7, 7));
         assertEquals(7, fs1.getX());
@@ -113,11 +124,11 @@ public class BoulderTest {
         player.moveDown();
         player.moveDown();
         player.moveDown();
+        player.moveDown();
+        player.moveDown();
+        player.moveDown();
 
-        assertEquals(true, player.contains(sword));
-
-        // Test player pushing boulder onto exit
-        // TODO
+        assertEquals(true, player.isHoldingInstance(sword));
 
     }
 
@@ -167,7 +178,7 @@ public class BoulderTest {
         // Test player striking boulder with sword
         player.moveDown();
 
-        assertEquals(true, player.contains(sword));
+        assertEquals(true, player.isHoldingInstance(sword));
 
         player.move(4, 5);
         player.setOrientation(right);
@@ -175,41 +186,7 @@ public class BoulderTest {
 
         assertEquals(boulder1, dungeon.getTopmostEntity(5, 5));
 
-
-        // Test player hitting boulder while invincible
-        // TODO
-
     }
 
-    public static void main(String[] args) {
-        Dungeon dungeon = new Dungeon(10, 10);
-        Player player = new Player(dungeon, 1, 1);
-        Boulder boulder1 = new Boulder(dungeon, 5, 5);
-        Sword sword = new Sword(1, 2);
-        sword.setUser(player);
-        PlayerOrientation right = new RightOrientation(player, dungeon);
-
-        dungeon.setPlayer(player);
-        dungeon.addEntity(boulder1);
-        dungeon.addEntity(sword);
-        
-        // Test player striking boulder with sword
-
-        dungeon.printDungeon();
-
-        player.moveDown();
-
-        dungeon.printDungeon();
-
-        System.out.println(player.getX());
-        System.out.println(player.getY());
-
-        player.move(4, 5);
-        player.setOrientation(right);
-        player.attack();
-        
-        // Test player pushing boulder onto exit
-        // TODO
-    }
 
 }

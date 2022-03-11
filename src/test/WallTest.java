@@ -14,7 +14,7 @@ import unsw.dungeon.Boulder;
 import unsw.dungeon.Sword; 
 
 public class WallTest {
-    
+     
     @Test
     public void testWallCreation() {
         // test singular wall creation
@@ -84,7 +84,7 @@ public class WallTest {
         d.addEntity(wall1);
         Sword sword = new Sword(3, 3);
         sword.setUser(p1);
-        p1.addToInventory(sword);
+        sword.pickup(p1);
         PlayerOrientation left = new LeftOrientation(p1, d);
         p1.setOrientation(left);
         p1.attack();

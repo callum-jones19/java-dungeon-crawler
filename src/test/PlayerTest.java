@@ -70,8 +70,8 @@ public class PlayerTest {
         Player player = new Player(dungeon, 5, 5);
         Sword sword = new Sword(5, 6);
         sword.setUser(player);
-        Key key = new Key(5, 7);
-        Door door = new Door(6, 6, key);
+        Key key = new Key(5, 7, 1);
+        Door door = new Door(6, 6, 1);
         Potion potion = new Potion(5, 8);
         Treasure treasure = new Treasure(5, 9);
 
@@ -80,7 +80,8 @@ public class PlayerTest {
         dungeon.addEntity(key);
         dungeon.addEntity(potion);
         dungeon.addEntity(treasure);
-        key.setDoor(door);
+        key.linkDoor(door);
+        door.linkKey(key);
 
         // Test Player picking up Sword
         player.moveDown();
@@ -127,7 +128,7 @@ public class PlayerTest {
         dungeon.addEntity(enemy4);
         dungeon.addEntity(sword);
 
-        player.addToInventory(sword);
+        sword.pickup(player);
         
         // Test upwards
 

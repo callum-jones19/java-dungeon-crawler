@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/11.0.4" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label layoutX="46.0" layoutY="79.0" text="Congratulations! You've finished the level :)" textFill="#289e22">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <VBox alignment="TOP_CENTER" layoutX="46.0" layoutY="155.0" prefHeight="200.0" prefWidth="528.0" spacing="20.0">
+         <children>
+            <Label fx:id="lobbyBtn" onMouseClicked="#returnToLobby" onMouseEntered="#hoverLobby" onMouseExited="#unHoverLobby" text="Return to Lobby Level" />
+            <Label fx:id="loadLevelBtn" layoutX="202.0" layoutY="10.0" onMouseClicked="#loadLevel" onMouseEntered="#hoverLevel" onMouseExited="#unHoverLevel" text="Load Level from File" />
+            <Label fx:id="quitGameBtn" layoutX="202.0" layoutY="10.0" onMouseClicked="#quitGame" onMouseEntered="#hoverQuit" onMouseExited="#unHoverQuit" text="Quit Game" />
+         </children>
+         <opaqueInsets>
+            <Insets top="10.0" />
+         </opaqueInsets>
+      </VBox>
+   </children>
+</AnchorPane>

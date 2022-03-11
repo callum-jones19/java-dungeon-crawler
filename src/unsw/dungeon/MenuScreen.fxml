@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox fx:id="menuBox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#handleKeyPress" prefHeight="400.0" prefWidth="600.0" spacing="5.0" xmlns="http://javafx.com/javafx/11.0.4" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="resume" alignment="CENTER" contentDisplay="CENTER" onMouseClicked="#clickResume" onMouseEntered="#hoverResume" onMouseExited="#unHoverResume" text="Resume Game" textAlignment="CENTER">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+      <Label fx:id="howTo" onMouseClicked="#clickHow" onMouseEntered="#hoverHow" onMouseExited="#unHoverHow" text="How to Play">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="controls" onMouseClicked="#clickChange" onMouseEntered="#hoverChange" onMouseExited="#unHoverChange" text="Change Controls">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+      <Label fx:id="texturePack" onMouseClicked="#clickTexture" onMouseEntered="#hoverTexture" onMouseExited="#unHoverTexture" text="Texture Packs">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="loadLevel" layoutX="239.0" layoutY="174.0" onMouseClicked="#clickLevelLoad" onMouseEntered="#hoverLevelLoad" onMouseExited="#unhoverLevelLoad" text="Load Level from File">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="restart" alignment="CENTER" contentDisplay="CENTER" layoutX="248.0" layoutY="161.0" onMouseClicked="#clickRestart" onMouseEntered="#hoverRestart" onMouseExited="#unHoverRestart" text="Restart Level" textAlignment="CENTER">
+         <font>
+            <Font size="17.0" />
+         </font>
+      </Label>
+      <Label fx:id="lobby" onMouseClicked="#clickLobby" onMouseEntered="#hoverLobby" onMouseExited="#unHoverLobby" text="Return to Lobby">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+      <Label fx:id="quit" onMouseClicked="#clickQuit" onMouseEntered="#hoverQuit" onMouseExited="#unHoverQuit" text="Quit Game">
+         <font>
+            <Font size="17.0" />
+         </font></Label>
+   </children>
+</VBox>

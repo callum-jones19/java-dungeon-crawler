@@ -4,6 +4,7 @@
 package unsw.dungeon;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,11 +24,13 @@ public class Dungeon implements DestroyObserver {
     private Player player;
 
     private GoalObserver goal;
+    private HashMap<GoalObserver, Integer> startingGoalInformation;
 
     public Dungeon(int width, int height) {
         this.width = width;
         this.height = height;
         this.entities = new ArrayList<Entity>();
+        this.startingGoalInformation = new HashMap<GoalObserver, Integer>();
         this.player = null;
     }
 
@@ -35,7 +38,7 @@ public class Dungeon implements DestroyObserver {
         if (sub instanceof Player) {
             removePlayer((Player) sub);
         } 
-            this.entities.remove(sub);
+        this.entities.remove(sub);
     }
 
 
@@ -103,12 +106,42 @@ public class Dungeon implements DestroyObserver {
         Portal p = null;
         for (Entity e : entities) {
             if (e instanceof Portal) {
-                p = (Portal) e;
+                Portal tmp = (Portal) e;
+                if (tmp.getID() == id) {
+                   p = tmp;
+                }
             }
         }
         return p;
     }
 
+    public Door findDoor(int id) {
+        Door d = null;
+        for (Entity e : entities) {
+            if (e instanceof Door) {
+                Door tmp = (Door) e;
+                if (tmp.getID() == id) {
+                    d = tmp;
+                }
+            }
+        }
+        System.out.println(d);
+        return d;
+    }
+
+    public Key findKey(int id) {
+        Key d = null;
+        for (Entity e : entities) {
+            if (e instanceof Key) {
+                Key tmp = (Key) e;
+                if (tmp.getID() == id) {
+                    d = tmp;
+                }
+            }
+        }
+        System.out.println(d);
+        return d;
+    }
 
     public List<Entity> getEntities(int x, int y) {
         List<Entity> result = new ArrayList<Entity>();
@@ -179,7 +212,6 @@ public class Dungeon implements DestroyObserver {
         }
     }
 
-    // TODO - remove
     public void printDungeon() {
         System.out.println("<========= Dungeon =========>");
         for (int i = 0; i  < getHeight(); i++) {
@@ -273,14 +305,89 @@ public class Dungeon implements DestroyObserver {
         this.goal = g;
     }
 
+    public List<GoalObserver> getGoals() {
+        if (this.goal == null) return null;
+        return this.goal.getGoal();
+    }
+
+    public void initialiseGoalInfo() {
+        List<GoalObserver> goals = getGoals();
+        if (goals == null) {
+            this.startingGoalInformation = null;
+            return;
+        }
+        for (GoalObserver g: goals) {
+            this.startingGoalInformation.put(g, g.getGoalEntitySize());
+        }
+    }
+
+    public boolean isComplete() {
+        if (this.goal == null) return false;
+        return this.goal.isComplete();
+    }
+
     public boolean areCoordinatesValid(int x, int y) {
         if (y < 0 || x < 0) {
             return false;
         }
-        if (y >= getWidth() || x >= getHeight()) {
+        if (x >= getWidth() || y >= getHeight()) {
             return false;
         }
         return true;
+    }
+
+	public List<Entity> getEntities(ZLayer layer) {
+        List<Entity> answer = new ArrayList<Entity>();
+
+        for (Entity e : entities) {
+            if (e.getLayer() == layer) {
+                answer.add(e);
+            }
+        }
+        
+        return answer;
+    }
+    
+    public GoalObserver getCompositeGoal() {
+        if (this.goal instanceof CompositeGoal) {
+            return this.goal;
+        }
+        return null;
+    }
+
+	public HashMap<GoalObserver, Integer> getGoalInfo() {
+		return this.startingGoalInformation;
+    }
+    
+    public String getGoalString() {
+        if (this.goal == null) return null;
+        return this.goal.getGoalString();
+    }
+
+    public void linkEntrances(EntryObserver o) {
+        for (DungeonEntry e : getEntries()) {
+            EntrySubject s = (EntrySubject) e;
+            s.addEntryObserver(o);
+        }
+    }
+
+    public List<DungeonEntry> getEntries() {
+        List<DungeonEntry> tmp = new ArrayList<DungeonEntry>();
+        for (Entity e : entities) {
+            if (e instanceof DungeonEntry) {
+                tmp.add((DungeonEntry) e);
+            }
+        }
+        return tmp;
+    }
+
+    public void activateSwitches() {
+        for (Entity e: entities) {
+            if (e instanceof Boulder) {
+                Boulder b = (Boulder) e;
+                b.notifyBoulderObservers();
+            }
+        }
     }
 
 }

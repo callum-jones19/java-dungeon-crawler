@@ -12,7 +12,7 @@ public class TriggerTypePlayerInventory implements TriggerType {
     public boolean performTriggerCheck(Entity e) {
         if (e instanceof Player) {
             Player p = (Player) e;
-            if (p.contains(item)) {
+            if (p.isHoldingInstance(item)) {
                 if (!(item.canUseAgain())) {
                     p.removeItem(item);
                 }
